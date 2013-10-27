@@ -23,7 +23,7 @@ namespace GlobalPhone
             return Load(File.ReadAllText(filename));
         }
 
-        private static Database Load(string text)
+        public static Database Load(string text)
         {
             return new Database(Newtonsoft.Json.JsonConvert.DeserializeObject<object[]>(text).Map(r1 => JsonConvert.Deserialize((JToken)r1)).ToArray());
         }
