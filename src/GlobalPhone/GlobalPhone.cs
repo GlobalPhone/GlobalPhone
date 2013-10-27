@@ -21,5 +21,23 @@
         {
             return Context.Normalize(number, territoryName);
         }
+        
+        public static string DbPath
+        {
+            get { return Context.DbPath; }
+            set { Context.DbPath = value; }
+        }
+
+        public static string DbText
+        {
+            get { return Context.DbText; }
+            set { Context.DbText = value; }
+        }
+
+        public string DefaultTerritoryName
+        {
+            get { return Context.DefaultTerritoryName; }
+            set { Context.DefaultTerritoryName = value; }
+        }
     }
 }

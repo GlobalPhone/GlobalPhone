@@ -4,10 +4,15 @@ namespace GlobalPhone
     {
         private Database _db;
         public string DbPath { get; set; }
-
+        public string DbText { get; set; }
         public virtual Database Db
         {
-            get { return _db ?? (_db = Database.LoadFile(DbPath.Unless(new NoDatabaseException("set `db_path=' first")))); }
+            get
+            {
+                return _db ?? (_db = !string.IsNullOrEmpty(DbText)
+                                                        ? Database.Load(DbText)
+                                                        : Database.LoadFile(DbPath.Unless(new NoDatabaseException("set `DbPath=' first"))));
+            }
         }
 
         public Context()
@@ -23,7 +28,7 @@ namespace GlobalPhone
         public string Normalize(string str, string territoryName = null)
         {
             var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
-            return number!=null?number.InternationalString:null;
+            return number != null ? number.InternationalString : null;
         }
 
         public bool Validate(string str, string territoryName = null)

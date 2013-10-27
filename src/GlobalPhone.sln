@@ -12,8 +12,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F62470
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone.Tests", "GlobalPhone.Tests\GlobalPhone.Tests.csproj", "{80733888-5582-4584-8339-D3B886D4B46D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone.exe", "GlobalPhone.DbGen\GlobalPhone.exe.csproj", "{A8999C65-2EEE-4066-8A9A-18FF91B2E996}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C262BF2-3B14-406A-83B9-5EC214DD39B0}"
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
@@ -49,16 +47,6 @@ Global
 		{80733888-5582-4584-8339-D3B886D4B46D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{80733888-5582-4584-8339-D3B886D4B46D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{80733888-5582-4584-8339-D3B886D4B46D}.Release|x86.ActiveCfg = Release|Any CPU
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Debug|x86.ActiveCfg = Debug|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Debug|x86.Build.0 = Debug|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Release|Any CPU.ActiveCfg = Release|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Release|Mixed Platforms.Build.0 = Release|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Release|x86.ActiveCfg = Release|x86
-		{A8999C65-2EEE-4066-8A9A-18FF91B2E996}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
