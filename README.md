@@ -52,7 +52,7 @@ number.InternationalFormat
 # => "+1 312-555-1212"
 ```
 
-Is the number valid? (Note: this is not definitive. For example, the number here is "valid" by format, but there are no US numbers that start with 555. The `valid?` method may return false positives, but *should not* return false negatives unless the database is out of date.)
+Is the number valid? (Note: this is not definitive. For example, the number here is "IsValid" by format, but there are no US numbers that start with 555. The `IsValid` method may return false positives, but *should not* return false negatives unless the database is out of date.)
 
 ```
 number.IsValid
