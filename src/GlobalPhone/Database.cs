@@ -25,7 +25,7 @@ namespace GlobalPhone
 
         public static Database Load(string text)
         {
-            return new Database(Newtonsoft.Json.JsonConvert.DeserializeObject<object[]>(text).Map(r1 => JsonConvert.Deserialize((JToken)r1)).ToArray());
+            return new Database(JArray.Parse(text).Map(r1 => JsonConvert.Deserialize(r1)).ToArray());
         }
 
         public Region TryGetRegion(int countryCode)
