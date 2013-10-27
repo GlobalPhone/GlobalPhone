@@ -18,7 +18,7 @@ namespace GlobalPhone
                 str = StripInternationalPrefix(territory, str);
                 return ParseInternationalString(str);
             }
-            return territory.parse_national_string(str);
+            return territory.ParseNationalString(str);
         }
 
         private static string StripInternationalPrefix(Territory territory, string @string)
@@ -36,9 +36,9 @@ namespace GlobalPhone
             Region region; 
             if ((region = RegionForString(@string))!=null)
             {
-                return region.parse_national_string(@string);
+                return region.ParseNationalString(@string);
             }
-            return null;
+            throw new FailedToParseNumberException();
         }
 
         private static IEnumerable<String> CountryCodeCandidatesFor(string @string)

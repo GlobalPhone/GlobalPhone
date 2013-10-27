@@ -47,7 +47,7 @@ namespace GlobalPhone
             get { return _region; }
         }
 
-        public Number parse_national_string(string str)
+        public Number ParseNationalString(string str)
         {
             str = Normalize(str);
             if (Possible(str))
@@ -72,16 +72,18 @@ namespace GlobalPhone
                 var transformRule = NationalPrefixTransformRule ?? "";
                 stringWithoutPrefix = str.Sub(NationalPrefixForParsing, transformRule);
             }
-            else if (starts_with_national_prefix(str))
+            else if (StartsWithNationalPrefix(str))
             {
                 stringWithoutPrefix = str.Substring(NationalPrefix.Length);
             }
             return Possible(stringWithoutPrefix) ? stringWithoutPrefix : str;
         }
-        protected bool starts_with_national_prefix(string str)
+        
+        protected bool StartsWithNationalPrefix(string str)
         {
             return NationalPrefix != null && str.StartsWith(NationalPrefix);
         }
+
         public override bool Equals(object obj)
         {
             if (ReferenceEquals(null, obj)) return false;

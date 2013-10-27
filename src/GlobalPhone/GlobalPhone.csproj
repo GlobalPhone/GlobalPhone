@@ -49,6 +49,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Begin.cs" />
+    <Compile Include="FailedToParseNumberException.cs" />
     <Compile Include="Format.cs" />
     <Compile Include="GlobalPhone.cs" />
     <Compile Include="Rubyfy.cs" />

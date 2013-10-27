@@ -36,23 +36,23 @@ namespace GlobalPhone
 
         public IEnumerable<Format> Formats
         {
-            get { return _formats ?? (_formatRecordData.Map(data => new Format(data))); }
+            get { return _formats ?? (_formats=_formatRecordData.Map(data => new Format(data))); }
         }
 
-        public Number parse_national_string(string @string)
+        public Number ParseNationalString(string @string)
         {
             @string = Number.Normalize(@string);
             if (StartsWithCountryCode(@string))
             {
                 @string = StripCountryCode(@string);
-                return find_first_parsed_national_string_from_territories(@string);
+                return FindFirstParsedNationalStringFromTerritories(@string);
             }
-            return null;
+            throw new FailedToParseNumberException();
         }
 
-        private Number find_first_parsed_national_string_from_territories(string s)
+        private Number FindFirstParsedNationalStringFromTerritories(string s)
         {
-            return Territories.MapDetect(territory => territory.parse_national_string(s));
+            return Territories.MapDetect(territory => territory.ParseNationalString(s));
         }
 
         private string StripCountryCode(string s)

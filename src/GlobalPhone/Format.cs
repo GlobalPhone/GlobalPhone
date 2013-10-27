@@ -33,14 +33,14 @@ namespace GlobalPhone
         public string Apply(string nationalString, string type)
         {
             string replacement;
-            if ((replacement = format_replacement_string(type)) != null)
+            if ((replacement = FormatReplacementString(type)) != null)
             {
                 return nationalString.Gsub(_pattern, replacement);
             }
             return null;
         }
 
-        private string format_replacement_string(string type)
+        private string FormatReplacementString(string type)
         {
             string formatRule;
             switch (type)

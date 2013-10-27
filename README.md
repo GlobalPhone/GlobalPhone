@@ -116,7 +116,7 @@ GlobalPhone.Normalize("+442070313000");
 # => "+442070313000"
 
 GlobalPhone.Normalize("(0) 20-7031-3000");
-# => nil
+# => null
 
 GlobalPhone.Normalize("(0) 20-7031-3000", "gb");
 # => "+442070313000"
