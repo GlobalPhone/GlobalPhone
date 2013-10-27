@@ -18,8 +18,7 @@ namespace GlobalPhone.Tests
         {
             var assertions = obj.ToHash();
             var territoryName = assertions.DeleteOrUseDefault("with_territory", Context.DefaultTerritoryName);
-            var number = Context.Parse(val, (string) territoryName);
-            Assert.That(number,Is.Null,"expected " +val+ " not to parse for territory "+territoryName);
+            Assert.Throws<FailedToParseNumberException>(() => { Context.Parse(val, (string) territoryName); },"expected " +val+ " not to parse for territory "+territoryName);
         }
 
         [Test]
@@ -80,13 +79,13 @@ namespace GlobalPhone.Tests
             Assert.That(Context.Normalize("+1 312-555-1212"), Is.EqualTo("+13125551212"));
             Assert.That(Context.Normalize("+44 (0) 20-7031-3000"), Is.EqualTo("+442070313000"));
             Assert.That(Context.Normalize("+442070313000"), Is.EqualTo("+442070313000"));
-            Assert.That(Context.Normalize("+12345"), Is.Null);
+            Assert.Throws<FailedToParseNumberException>(() => Context.Normalize("+12345"));
         }
         [Test]
         public void normalizing_a_national_number()
         {
             Assert.That(Context.Normalize("(312) 555-1212"), Is.EqualTo("+13125551212"));
-            Assert.That(Context.Normalize("(0) 20-7031-3000"), Is.Null);
+            Assert.Throws<FailedToParseNumberException>(()=>Context.Normalize("(0) 20-7031-3000"));
             Assert.That(Context.Normalize("(0) 20-7031-3000","gb"), Is.EqualTo("+442070313000"));
         }
 

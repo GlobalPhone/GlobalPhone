@@ -1,3 +1,5 @@
+using System;
+
 namespace GlobalPhone
 {
     public class Context
@@ -33,8 +35,15 @@ namespace GlobalPhone
 
         public bool Validate(string str, string territoryName = null)
         {
-            var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
-            return number.NotNull() && number.IsValid;
+            try
+            {
+                var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
+                return number.NotNull() && number.IsValid;
+            }
+            catch (FailedToParseNumberException)
+            {
+                return false;
+            }
         }
 
     }

@@ -52,7 +52,7 @@ namespace GlobalPhone
             str = Normalize(str);
             if (Possible(str))
                 return new Number(this, str);
-            return null;
+            throw new FailedToParseNumberException("not possible");
         }
 
         private bool Possible(string str)
