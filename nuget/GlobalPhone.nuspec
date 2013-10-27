@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>GlobalPhone</id>
+    <title>GlobalPhone</title>
+    <version>1.0.1</version>
+    <authors>Oskar Gewalli, Sam Stephenson</authors>
+    <owners>Oskar Gewalli, Sam Stephenson</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/wallymathieu/GlobalPhone</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>GlobalPhone parses, validates, and formats local and international phone numbers according to the E.164 standard using the rules specified in Google's libphonenumber database.</description>
+    <summary>Parse, validate, and format phone numbers using Google's libphonenumber database</summary>
+    <copyright>Copyright 2013</copyright>
+    <references>
+      <reference file="GlobalPhone.dll" />
+    </references>
+    <dependencies>
+      <dependency id="Makrill" version="0.3.0" />
+      <dependency id="Newtonsoft.Json" version="5.0.8" />
+    </dependencies>
+    <releaseNotes></releaseNotes>
+  </metadata>
+</package>
