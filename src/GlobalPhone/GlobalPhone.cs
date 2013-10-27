@@ -1,5 +1,8 @@
 ﻿namespace GlobalPhone
 {
+    /// <summary>
+    /// Static class that holds a single Context
+    /// </summary>
     public class GlobalPhone
     {
         private static Context _context;
