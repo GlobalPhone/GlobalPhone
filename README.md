@@ -114,13 +114,13 @@ Shortcuts for normalizing a phone number in E.164 format:
 GlobalPhone.Normalize("(312) 555-1212");
 # => "+13125551212"
 
-GlobalPhone.Normalize("+442070313000")
+GlobalPhone.Normalize("+442070313000");
 # => "+442070313000"
 
-GlobalPhone.Normalize("(0) 20-7031-3000")
+GlobalPhone.Normalize("(0) 20-7031-3000");
 # => nil
 
-GlobalPhone.Normalize("(0) 20-7031-3000", :gb)
+GlobalPhone.Normalize("(0) 20-7031-3000", "gb");
 # => "+442070313000"
 ```
 
