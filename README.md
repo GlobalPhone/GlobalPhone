@@ -6,8 +6,6 @@ GlobalPhone parses, validates, and formats local and international phone numbers
 
 **Designed with the future in mind.** GlobalPhone uses format specifications from Google's open-source [libphonenumber](http://code.google.com/p/libphonenumber/) database. No need to upgrade the library when a new phone format is introduced—just generate a new copy of the database and check it into your app.
 
-**Pure Ruby. No dependencies.** GlobalPhone is designed for Ruby 1.9.3 and up. (Works in 1.8.7, too—just bring your own `json` gem.)
-
 ## Installation
 
 1. Add the `GlobalPhone` nuget package to your app. For example, using Package Manager Console:
