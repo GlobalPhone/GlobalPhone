@@ -27,10 +27,29 @@ namespace GlobalPhone
         {
             return Db.Parse(str, territoryName ?? DefaultTerritoryName);
         }
+
+        public Number TryParse(string str, string territoryName = null)
+        {
+            try { return Parse(str, territoryName); }
+            catch (FailedToParseNumberException)
+            {
+                return null;
+            }
+        }
+        
         public string Normalize(string str, string territoryName = null)
         {
             var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
             return number != null ? number.InternationalString : null;
+        }
+
+        public string TryNormalize(string str, string territoryName = null)
+        {
+            try { return Normalize(str, territoryName); }
+            catch (FailedToParseNumberException) 
+            {
+                return null;
+            }
         }
 
         public bool Validate(string str, string territoryName = null)

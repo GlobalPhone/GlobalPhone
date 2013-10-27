@@ -33,7 +33,6 @@ namespace GlobalPhone
                     return default(TRet);
                 var data = (T)_data[index];
                 return block(data);
-
             }
             catch (Exception e)
             {

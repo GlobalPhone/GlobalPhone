@@ -28,12 +28,12 @@ namespace GlobalPhone
             return new Database(Newtonsoft.Json.JsonConvert.DeserializeObject<object[]>(text).Map(r1 => JsonConvert.Deserialize((JToken)r1)).ToArray());
         }
 
-        public Region Region(int countryCode)
+        public Region TryGetRegion(int countryCode)
         {
-            return Region(countryCode.ToString(CultureInfo.InvariantCulture));
+            return TryGetRegion(countryCode.ToString(CultureInfo.InvariantCulture));
         }
 
-        public override Region Region(string countryCode)
+        public override Region TryGetRegion(string countryCode)
         {
             Region value;
             return RegionsByCountryCode.TryGetValue(countryCode, out value) ? value : null;
@@ -49,7 +49,7 @@ namespace GlobalPhone
         private readonly Dictionary<string, Territory> _territoriesByName;
         private static readonly JsonConvert JsonConvert = new JsonConvert();
 
-        public override Territory Territory(string name)
+        public override Territory TryGetTerritory(string name)
         {
             return _territoriesByName.GetOrAdd(name, () =>
                 {

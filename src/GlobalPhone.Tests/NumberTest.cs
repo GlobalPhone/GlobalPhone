@@ -30,19 +30,19 @@ namespace GlobalPhone.Tests
         public void region()
         {
             var number = Context.Parse("(312) 555-1212");
-            Assert.That(number.Region, Is.EqualTo(Db.Region(1)));
+            Assert.That(number.Region, Is.EqualTo(Db.TryGetRegion(1)));
 
             number = Context.Parse("+44 (0) 20-7031-3000");
-            Assert.That(number.Region, Is.EqualTo(Db.Region(44)));
+            Assert.That(number.Region, Is.EqualTo(Db.TryGetRegion(44)));
         }
         [Test]
         public void territory()
         {
             var number = Context.Parse("(312) 555-1212");
-            Assert.That(number.Territory, Is.EqualTo(Db.Territory("us")));
+            Assert.That(number.Territory, Is.EqualTo(Db.TryGetTerritory("us")));
 
             number = Context.Parse("+44 (0) 20-7031-3000");
-            Assert.That(number.Territory, Is.EqualTo(Db.Territory("gb")));
+            Assert.That(number.Territory, Is.EqualTo(Db.TryGetTerritory("gb")));
         }
 
         [Test]

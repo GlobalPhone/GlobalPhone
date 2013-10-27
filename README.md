@@ -82,7 +82,7 @@ number = GlobalPhone.Parse("00 1 3125551212", "gb");
 
 Set the default territory to Great Britain (territory names are [ISO 3166-1 Alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes):
 
-```ruby
+```
 GlobalPhone.DefaultTerritoryName = "gb";
 # => "gb"
 
@@ -115,8 +115,11 @@ GlobalPhone.Normalize("(312) 555-1212");
 GlobalPhone.Normalize("+442070313000");
 # => "+442070313000"
 
-GlobalPhone.Normalize("(0) 20-7031-3000");
+GlobalPhone.TryNormalize("(0) 20-7031-3000");
 # => null
+
+GlobalPhone.Normalize("(0) 20-7031-3000");
+# => #<GlobalPhone::FailedToParseNumberException>
 
 GlobalPhone.Normalize("(0) 20-7031-3000", "gb");
 # => "+442070313000"

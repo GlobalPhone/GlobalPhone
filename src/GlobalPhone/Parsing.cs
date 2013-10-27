@@ -8,7 +8,7 @@ namespace GlobalPhone
         public Number Parse(string str, string territoryName)
         {
             str = Number.Normalize(str);
-            var territory = Territory(territoryName).Unless(new ArgumentException("unknown territory `"+territoryName+"'"));
+            var territory = TryGetTerritory(territoryName).Unless(new ArgumentException("unknown territory `"+territoryName+"'"));
             if (StartsWithPlus(str))
             {
                 return ParseInternationalString(str);
@@ -59,11 +59,11 @@ namespace GlobalPhone
         private Region RegionForString(string @string)
         {
             var candidates = CountryCodeCandidatesFor(@string);
-            return candidates.MapDetect(Region);
+            return candidates.MapDetect(TryGetRegion);
         }
 
-        public abstract Region Region(String countryCode);
+        public abstract Region TryGetRegion(String countryCode);
 
-        public abstract Territory Territory(string territoryName);
+        public abstract Territory TryGetTerritory(string territoryName);
     }
 }
