@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -7,142 +7,127 @@ namespace GlobalPhone
 {
     public class Number
     {
-        //            attr_reader :territory, :national_string
-        public Territory territory { get; set; }
-        /*    attr_reader :territory, :national_string
+        public Territory Territory { get; private set; }
 
-    def_delegator :territory, :region
-    def_delegator :territory, :country_code
-    def_delegator :territory, :national_prefix
-    def_delegator :territory, :national_pattern
-*/
-
-        public string national_string { get; set; }
-        public string national_prefix
+        public string NationalString { get; private set; }
+        public string NationalPrefix
         {
-            get { return territory.national_prefix; }
+            get { return Territory.NationalPrefix; }
         }
-        public string country_code
+        public string CountryCode
         {
-            get { return territory.country_code; }
+            get { return Territory.CountryCode; }
         }
-        public Region region
+        public Region Region
         {
-            get { return territory.region; }
+            get { return Territory.Region; }
         }
-        public Regex national_pattern
+        public Regex NationalPattern
         {
-            get { return territory.national_pattern; }
+            get { return Territory.NationalPattern; }
         }
 
-        public string national_format
+        public string NationalFormat
         {
             get
             {
-                return _national_format ?? (_national_format = Begin.Do(() =>
+                return _nationalFormat ?? (_nationalFormat = Begin.Do(() =>
                     {
                         string result;
-                        if (format!=null && (result=format.apply(national_string,"national"))!=null)
+                        if (Format!=null && (result=Format.Apply(NationalString,"national"))!=null)
                         {
-                            return apply_national_prefix_format(result);
-                        }else
-                        {
-                            return national_string;
+                            return ApplyNationalPrefixFormat(result);
                         }
+                        return NationalString;
                     }));
             }
         }
-        private string national_prefix_formatting_rule
+        private string NationalPrefixFormattingRule
         {
-            get { return format.national_prefix_formatting_rule ?? territory.national_prefix_formatting_rule; }
+            get { return Format.NationalPrefixFormattingRule ?? Territory.NationalPrefixFormattingRule; }
         }
-        private string apply_national_prefix_format(string result)
+        private string ApplyNationalPrefixFormat(string result)
         {
-            var prefix = national_prefix_formatting_rule;
+            var prefix = NationalPrefixFormattingRule;
             Match match;
-            if (!string.IsNullOrEmpty(prefix) && (match = result.match(SPLIT_FIRST_GROUP)).Success)
+            if (!string.IsNullOrEmpty(prefix) && (match = result.Match(SplitFirstGroup)).Success)
             {
-                prefix = prefix.Replace("$NP", national_prefix);
+                prefix = prefix.Replace("$NP", NationalPrefix);
                 prefix = prefix.Replace("$FG", match.Groups[1].Value);
                 result = prefix + " " + match.Groups[2].Value;
                 return result;
-            }else
-            {
-                return result;
             }
+            return result;
         }
 
-        public bool valid()
+        public bool IsValid
         {
-            return format != null && national_string.match(national_pattern).Success;
+            get { return Format != null && NationalString.Match(NationalPattern).Success; }
         }
 
-        private Format format
+        private Format Format
         {
-            get { return _format ?? (_format = find_format_for(national_string)); }
+            get { return _format ?? (_format = FindFormatFor(NationalString)); }
         }
 
-        public string international_format
+        public string InternationalFormat
         {
             get
             {
-                return _international_format ?? (_international_format =
+                return _internationalFormat ?? (_internationalFormat =
                     Begin.Do(() =>
                                 {
-                                    string formatted_number;
-                                    if (format != null &&
-                                        (formatted_number =
-                                        format.apply(national_string, "international")) != null)
+                                    string formattedNumber;
+                                    if (Format != null &&
+                                        (formattedNumber =
+                                        Format.Apply(NationalString, "international")) != null)
                                     {
-                                        return "+" + country_code + " " + formatted_number;
+                                        return "+" + CountryCode + " " + formattedNumber;
                                     }
-                                    else
-                                    {
-                                        return "+" + country_code + " " + national_string;
-                                    }
+                                    return "+" + CountryCode + " " + NationalString;
                                 }));
             }
         }
 
-        private string _international_string;
+        private string _internationalString;
 
-        public string international_string
+        public string InternationalString
         {
-            get { return _international_string ?? (_international_string = international_format.gsub(NON_DIALABLE_CHARS, "")); }
+            get { return _internationalString ?? (_internationalString = InternationalFormat.Gsub(NonDialableChars, "")); }
         }
 
-        private Format find_format_for(string str)
+        private Format FindFormatFor(string str)
         {
-            return region.formats().detect(f => f.match(str))
-            ?? region.formats().detect(f => f.match(str, false));
+            return Region.Formats.Detect(f => f.Match(str))
+            ?? Region.Formats.Detect(f => f.Match(str, false));
         }
 
-        private static Dictionary<string, string> E161_MAPPING = "a2b2c2d3e3f3g4h4i4j5k5l5m6n6o6p7q7r7s7t8u8v8w9x9y9z9".SplitN(2).ToDictionary(kv => kv[0].ToString(), kv => kv[1].ToString());
-        private static Regex VALID_ALPHA_CHARS = new Regex("[a-zA-Z]");
-        private static Regex LEADING_PLUS_CHARS = new Regex("^\\++");
-        private static Regex NON_DIALABLE_CHARS = new Regex("[^,#+\\*\\d]");
-        private static Regex SPLIT_FIRST_GROUP = new Regex("^(\\d+)(.*)$");
+        private static readonly Dictionary<string, string> E161Mapping = "a2b2c2d3e3f3g4h4i4j5k5l5m6n6o6p7q7r7s7t8u8v8w9x9y9z9".SplitN(2).ToDictionary(kv => kv[0].ToString(CultureInfo.InvariantCulture), kv => kv[1].ToString(CultureInfo.InvariantCulture));
+        private static readonly Regex ValidAlphaChars = new Regex("[a-zA-Z]");
+        private static readonly Regex LeadingPlusChars = new Regex("^\\++");
+        private static readonly Regex NonDialableChars = new Regex("[^,#+\\*\\d]");
+        private static readonly Regex SplitFirstGroup = new Regex("^(\\d+)(.*)$");
         private Format _format;
-        private string _international_format;
-        private string _national_format;
+        private string _internationalFormat;
+        private string _nationalFormat;
 
-        public Number(Territory territory, string national_string)
+        public Number(Territory territory, string nationalString)
         {
-            this.territory = territory;
-            this.national_string = national_string;
+            Territory = territory;
+            NationalString = nationalString;
         }
 
-        public static string normalize(string str)
+        public static string Normalize(string str)
         {
             return
-                str.gsub(VALID_ALPHA_CHARS, match => 
-                    E161_MAPPING[match.Value.ToLower()])
-                    .gsub(LEADING_PLUS_CHARS, "+")
-                    .gsub(NON_DIALABLE_CHARS, "");
+                str.Gsub(ValidAlphaChars, match => 
+                    E161Mapping[match.Value.ToLower()])
+                    .Gsub(LeadingPlusChars, "+")
+                    .Gsub(NonDialableChars, "");
         }
         public override string ToString()
         {
-            return international_string;
+            return InternationalString;
         }
     }
 }

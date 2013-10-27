@@ -7,19 +7,19 @@ namespace GlobalPhone.Tests
 {
     public class TestFixtureBase
     {
-        public void assert(bool assert)
+        public void Assert(bool assert)
         {
             if (!assert) throw new Exception();
         }
 
         public void assert_equal<T>(T expected, T actual)
         {
-            Assert.That(actual, Is.EqualTo(expected));
+            NUnit.Framework.Assert.That(actual, Is.EqualTo(expected));
         }
 
         public void assert_nil<T>(T actual)
         {
-            Assert.That(actual, Is.Null);
+            NUnit.Framework.Assert.That(actual, Is.Null);
         }
 
 
@@ -32,35 +32,35 @@ namespace GlobalPhone.Tests
         {
             _context = null;
         }
-        private TestContext _context;
-        public TestContext context
+        private Context _context;
+        public Context Context
         {
-            get { return _context ?? (_context = new TestContext {db_path = fixture_path("record_data.json")}); }
+            get { return _context ?? (_context = new Context { DbPath = FixturePath("record_data.json") }); }
         }
-        private string fixture_path(string file)
+        private static string FixturePath(string file)
         {
             return Path.Combine("fixtures", file);//File.expand_path("../fixtures/#{filename}", __FILE__)
         }
 
-        public Database db
+        public Database Db
         {
-            get { return context.db; }
+            get { return Context.Db; }
         }
 
-        private object[] _record_data;
-        private object[] _example_numbers;
+        private object[] _recordData;
+        private object[] _exampleNumbers;
 
-        public object[] record_data
+        public object[] RecordData
         {
-            get { return _record_data ?? (_record_data = json_fixture("record_data")); }
+            get { return _recordData ?? (_recordData = json_fixture("record_data")); }
         }
-        public object[] example_numbers
+        public object[] ExampleNumbers
         {
-            get { return _example_numbers ?? (_example_numbers = json_fixture("example_numbers")); }
+            get { return _exampleNumbers ?? (_exampleNumbers = json_fixture("example_numbers")); }
         }
         private object[] json_fixture(string name)
         {
-            return new Makrill.JsonConvert().Deserialize(JArray.Parse(File.ReadAllText(fixture_path(name + ".json"))));
+            return new Makrill.JsonConvert().Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
         }
     
 

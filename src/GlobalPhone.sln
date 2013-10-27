@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
-MinimumVisualStudioVersion = 10.0.40219.1
+# Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone", "GlobalPhone\GlobalPhone.csproj", "{34C587CD-441B-49CC-9355-33404300A88B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F62470A6-7361-4DCF-85F6-74E523A904F2}"
@@ -15,6 +13,11 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone.Tests", "GlobalPhone.Tests\GlobalPhone.Tests.csproj", "{80733888-5582-4584-8339-D3B886D4B46D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone.exe", "GlobalPhone.DbGen\GlobalPhone.exe.csproj", "{A8999C65-2EEE-4066-8A9A-18FF91B2E996}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C262BF2-3B14-406A-83B9-5EC214DD39B0}"
+	ProjectSection(SolutionItems) = preProject
+		..\README.md = ..\README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

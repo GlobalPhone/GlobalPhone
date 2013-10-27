@@ -8,67 +8,67 @@ namespace GlobalPhone.Tests
         [Test]
         public void valid_number()
         {
-            var number = context.parse("(312) 555-1212");
-            assert(number.valid());
+            var number = Context.Parse("(312) 555-1212");
+            Assert(number.IsValid);
         }
         [Test]
         public void invalid_number()
         {
-            var number = context.parse("555-1212");
-            assert(!number.valid());
+            var number = Context.Parse("555-1212");
+            Assert(!number.IsValid);
         }
         [Test]
         public void country_code()
         {
-            var number = context.parse("(312) 555-1212");
-            assert_equal("1", number.country_code);
+            var number = Context.Parse("(312) 555-1212");
+            assert_equal("1", number.CountryCode);
 
-            number = context.parse("+44 (0) 20-7031-3000");
-            assert_equal("44", number.country_code);
+            number = Context.Parse("+44 (0) 20-7031-3000");
+            assert_equal("44", number.CountryCode);
         }
         [Test]
         public void region()
         {
-            var number = context.parse("(312) 555-1212");
-            assert_equal(db.region(1), number.region);
+            var number = Context.Parse("(312) 555-1212");
+            assert_equal(Db.Region(1), number.Region);
 
-            number = context.parse("+44 (0) 20-7031-3000");
-            assert_equal(db.region(44), number.region);
+            number = Context.Parse("+44 (0) 20-7031-3000");
+            assert_equal(Db.Region(44), number.Region);
         }
         [Test]
         public void territory()
         {
-            var number = context.parse("(312) 555-1212");
-            assert_equal(db.territory("us"), number.territory);
+            var number = Context.Parse("(312) 555-1212");
+            assert_equal(Db.Territory("us"), number.Territory);
 
-            number = context.parse("+44 (0) 20-7031-3000");
-            assert_equal(db.territory("gb"), number.territory);
+            number = Context.Parse("+44 (0) 20-7031-3000");
+            assert_equal(Db.Territory("gb"), number.Territory);
         }
 
         [Test]
         public void national_string()
         {
-            var number = context.parse("(312) 555-1212");
-            assert_equal("3125551212", number.national_string);
+            var number = Context.Parse("(312) 555-1212");
+            assert_equal("3125551212", number.NationalString);
         }
         [Test]
         public void national_format()
         {
-            var number = context.parse("312-555-1212");
-            assert_equal("(312) 555-1212", number.national_format);
+            var number = Context.Parse("312-555-1212");
+            assert_equal("(312) 555-1212", number.NationalFormat);
         }
         [Test]
         public void international_string()
         {
-            var number = context.parse("(312) 555-1212");
-            assert_equal("+13125551212", number.international_string);
-            assert_equal(number.international_string, number.ToString());
+            var number = Context.Parse("(312) 555-1212");
+            assert_equal("+13125551212", number.InternationalString);
+            assert_equal(number.InternationalString, number.ToString());
         }
         [Test]
         public void international_format()
         {
-            var number = context.parse("(312) 555-1212");
-            assert_equal("+1 312-555-1212", number.international_format);
+            var number = Context.Parse("(312) 555-1212");
+            assert_equal("+1 312-555-1212", number.InternationalFormat);
         }
     }
 }

@@ -21,8 +21,8 @@ namespace GlobalPhone.Tests
           # We don't include those formats in our database, so we fall
           # back to the closest match.
              */
-            var number = context.parse("1520123456", "IE");
-            assert_equal("1520  123 456", number.national_format);
+            var number = Context.Parse("1520123456", "IE");
+            assert_equal("1520  123 456", number.NationalFormat);
 
         }
 

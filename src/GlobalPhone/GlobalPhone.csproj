@@ -50,6 +50,7 @@
   <ItemGroup>
     <Compile Include="Begin.cs" />
     <Compile Include="Format.cs" />
+    <Compile Include="GlobalPhone.cs" />
     <Compile Include="Rubyfy.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Database.cs" />
@@ -60,7 +61,6 @@
     <Compile Include="Record.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="Territory.cs" />
-    <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -3,33 +3,33 @@ namespace GlobalPhone
     public class Context
     {
         private Database _db;
-        public string db_path { get; set; }
+        public string DbPath { get; set; }
 
-        public virtual Database db
+        public virtual Database Db
         {
-            get { return _db ?? (_db = Database.load_file(db_path.Unless(new NoDatabaseException("set `db_path=' first")))); }
+            get { return _db ?? (_db = Database.LoadFile(DbPath.Unless(new NoDatabaseException("set `db_path=' first")))); }
         }
 
         public Context()
         {
-            default_territory_name = "US";
+            DefaultTerritoryName = "US";
         }
 
-        public string default_territory_name { get; set; }
-        public Number parse(string str, string territory_name = null)
+        public string DefaultTerritoryName { get; set; }
+        public Number Parse(string str, string territoryName = null)
         {
-            return db.parse(str, territory_name ?? default_territory_name);
+            return Db.Parse(str, territoryName ?? DefaultTerritoryName);
         }
-        public string normalize(string str, string territory_name = null)
+        public string Normalize(string str, string territoryName = null)
         {
-            var number = db.parse(str, territory_name ?? default_territory_name);
-            return number!=null?number.international_string:null;
+            var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
+            return number!=null?number.InternationalString:null;
         }
 
-        public bool validate(string str, string territory_name = null)
+        public bool Validate(string str, string territoryName = null)
         {
-            var number = db.parse(str, territory_name ?? default_territory_name);
-            return number.NotNull() && number.valid();
+            var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
+            return number.NotNull() && number.IsValid;
         }
 
     }

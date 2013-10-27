@@ -8,7 +8,7 @@ namespace GlobalPhone.Tests
         [Test]
         public void parsing_example_numbers()
         {
-            foreach (object[] item in example_numbers)
+            foreach (object[] item in ExampleNumbers)
             {
                 var @string = item[0];
                 var territory_name = item[1];
@@ -18,12 +18,12 @@ namespace GlobalPhone.Tests
 
         private void assert_parses(object @string, object territory_name)
         {
-            var number = context.parse((string)@string, (string)territory_name);
-          Assert.That(number,Is.TypeOf<Number>(),"expected "+@string+" to parse for territory "+territory_name);
-          Assert.NotNull( number.national_string);
-          Assert.NotNull( number.national_format);
-          Assert.NotNull( number.international_string);
-          Assert.NotNull( number.international_format);
+            var number = Context.Parse((string)@string, (string)territory_name);
+          NUnit.Framework.Assert.That(number,Is.TypeOf<Number>(),"expected "+@string+" to parse for territory "+territory_name);
+          NUnit.Framework.Assert.NotNull( number.NationalString);
+          NUnit.Framework.Assert.NotNull( number.NationalFormat);
+          NUnit.Framework.Assert.NotNull( number.InternationalString);
+          NUnit.Framework.Assert.NotNull( number.InternationalFormat);
         }
     }
 }

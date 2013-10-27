@@ -1,4 +1,3 @@
-using System;
 using System.Text.RegularExpressions;
 
 namespace GlobalPhone
@@ -6,82 +5,82 @@ namespace GlobalPhone
     public class Territory : Record
     {
         private readonly Region _region;
-        public string name;
-        private Regex possible_pattern;
-        public Regex national_pattern;
-        public string national_prefix_formatting_rule;
+        public readonly string Name;
+        private readonly Regex _possiblePattern;
+        public readonly Regex NationalPattern;
+        public readonly string NationalPrefixFormattingRule;
 
         public Territory(object data, Region region)
             : base(data)
         {
             _region = region;
-            name = field<string>(0);
-            possible_pattern = field<string, Regex>(1, p => new Regex("^" + p + "$"));
-            national_pattern = field<string, Regex>(2, p => new Regex("^" + p + "$"));
-            national_prefix_formatting_rule = field<string>(3);
+            Name = Field<string>(0);
+            _possiblePattern = Field<string, Regex>(1, p => new Regex("^" + p + "$"));
+            NationalPattern = Field<string, Regex>(2, p => new Regex("^" + p + "$"));
+            NationalPrefixFormattingRule = Field<string>(3);
         }
 
-        public string country_code
+        public string CountryCode
         {
-            get { return _region.country_code; }
+            get { return _region.CountryCode; }
         }
-        public Regex international_prefix
+        public Regex InternationalPrefix
         {
-            get { return _region.international_prefix; }
+            get { return _region.InternationalPrefix; }
         }
-        public string national_prefix
+        public string NationalPrefix
         {
-            get { return _region.national_prefix; }
+            get { return _region.NationalPrefix; }
         }
-        public Regex national_prefix_for_parsing
+        public Regex NationalPrefixForParsing
         {
-            get { return _region.national_prefix_for_parsing; }
-        }
-
-        public string national_prefix_transform_rule
-        {
-            get { return _region.national_prefix_transform_rule; }
+            get { return _region.NationalPrefixForParsing; }
         }
 
-        public Region region
+        public string NationalPrefixTransformRule
+        {
+            get { return _region.NationalPrefixTransformRule; }
+        }
+
+        public Region Region
         {
             get { return _region; }
         }
 
         public Number parse_national_string(string str)
         {
-            str = normalize(str);
-            if (possible(str))
+            str = Normalize(str);
+            if (Possible(str))
                 return new Number(this, str);
             return null;
         }
 
-        private bool possible(string str)
+        private bool Possible(string str)
         {
-            return str.match(possible_pattern).Success;
+            return str.Match(_possiblePattern).Success;
         }
 
-        protected string normalize(string str)
+        protected string Normalize(string str)
         {
-            return strip_national_prefix(Number.normalize(str));
+            return StripNationalPrefix(Number.Normalize(str));
         }
-        protected string strip_national_prefix(string str)
+        protected string StripNationalPrefix(string str)
         {
-            string string_without_prefix = null;
-            if (national_prefix_for_parsing != null)
+            string stringWithoutPrefix = null;
+            if (NationalPrefixForParsing != null)
             {
-                var transform_rule = national_prefix_transform_rule ?? "";
-                string_without_prefix = str.sub(national_prefix_for_parsing, transform_rule);
+                var transformRule = NationalPrefixTransformRule ?? "";
+                stringWithoutPrefix = str.Sub(NationalPrefixForParsing, transformRule);
             }
             else if (starts_with_national_prefix(str))
             {
-                string_without_prefix = str.Substring(national_prefix.Length);
+                stringWithoutPrefix = str.Substring(NationalPrefix.Length);
             }
-            return possible(string_without_prefix) ? string_without_prefix : str;
+            return Possible(stringWithoutPrefix) ? stringWithoutPrefix : str;
         }
         protected bool starts_with_national_prefix(string str)
         {
-            return national_prefix != null && str.StartsWith(national_prefix);
+            return NationalPrefix != null && str.StartsWith(NationalPrefix);
         }
         public override bool Equals(object obj)
         {
@@ -95,16 +94,16 @@ namespace GlobalPhone
         {
             if (ReferenceEquals(null, other)) return false;
             if (ReferenceEquals(this, other)) return true;
-            return Equals(other.name, name);
+            return Equals(other.Name, Name);
         }
 
         public override int GetHashCode()
         {
-            return (name != null ? name.GetHashCode() : 0);
+            return (Name != null ? Name.GetHashCode() : 0);
         }
         public override string ToString()
         {
-            return name;
+            return Name;
         }
     }
 }

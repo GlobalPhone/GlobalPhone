@@ -10,7 +10,7 @@ namespace GlobalPhone
         {
             _data = (object[])data;
         }
-        protected T field<T>(int index, T fallback=default(T))
+        protected T Field<T>(int index, T fallback=default(T))
         {
             try
             {
@@ -25,7 +25,7 @@ namespace GlobalPhone
             }
         }
 
-        protected TRet field<T, TRet>(int index, Func<T, TRet> block)
+        protected TRet Field<T, TRet>(int index, Func<T, TRet> block)
         {
             try
             {

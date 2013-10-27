@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Makrill;
@@ -9,60 +10,61 @@ namespace GlobalPhone
 {
     public class Database : Parsing
     {
-        public readonly Region[] regions;
+        public readonly Region[] Regions;
 
         public Database(object[] recordData)
         {
-            territories_by_name = new Dictionary<string, Territory>(StringComparer.InvariantCultureIgnoreCase);
-            regions = recordData.Map(data => new Region(data)).ToArray();
+            _territoriesByName = new Dictionary<string, Territory>(StringComparer.InvariantCultureIgnoreCase);
+            Regions = recordData.Map(data => new Region(data)).ToArray();
         }
 
-        public static Database load_file(string filename)
+        public static Database LoadFile(string filename)
         {
-            return load(File.ReadAllText(filename));
+            return Load(File.ReadAllText(filename));
         }
 
-        private static Database load(string text)
+        private static Database Load(string text)
         {
-            return new Database(Newtonsoft.Json.JsonConvert.DeserializeObject<object[]>(text).Map(r1 => _jsonConvert.Deserialize((JToken)r1)).ToArray());
+            return new Database(Newtonsoft.Json.JsonConvert.DeserializeObject<object[]>(text).Map(r1 => JsonConvert.Deserialize((JToken)r1)).ToArray());
         }
 
-        public Region region(int country_code)
+        public Region Region(int countryCode)
         {
-            return region(country_code.ToString());
+            return Region(countryCode.ToString(CultureInfo.InvariantCulture));
         }
 
-        public override Region region(string country_code)
+        public override Region Region(string countryCode)
         {
             Region value;
-            return regions_by_country_code().TryGetValue(country_code, out value) ? value : null;
+            return RegionsByCountryCode.TryGetValue(countryCode, out value) ? value : null;
         }
 
-        private Dictionary<string, Region> _regions_by_country_code;
-        protected Dictionary<string, Region> regions_by_country_code()
+        private Dictionary<string, Region> _regionsByCountryCode;
+
+        protected Dictionary<string, Region> RegionsByCountryCode
         {
-            return _regions_by_country_code ?? (_regions_by_country_code = regions.ToDictionary(r => r.country_code));
+            get { return _regionsByCountryCode ?? (_regionsByCountryCode = Regions.ToDictionary(r => r.CountryCode)); }
         }
 
-        private Dictionary<string, Territory> territories_by_name;
-        private static JsonConvert _jsonConvert = new JsonConvert();
+        private readonly Dictionary<string, Territory> _territoriesByName;
+        private static readonly JsonConvert JsonConvert = new JsonConvert();
 
-        public override Territory territory(string name)
+        public override Territory Territory(string name)
         {
-            return territories_by_name.GetOrAdd(name, () =>
+            return _territoriesByName.GetOrAdd(name, () =>
                 {
-                    Region region = null;
-                    if ((region = region_for_territory(name)) != null)
+                    Region region;
+                    if ((region = RegionForTerritory(name)) != null)
                     {
-                        return region.territory(name);
+                        return region.Territory(name);
                     }
                     return null;
                 });
         }
 
-        protected Region region_for_territory(string name)
+        protected Region RegionForTerritory(string name)
         {
-            return regions.SingleOrDefault(r => r.has_territory(name));
+            return Regions.SingleOrDefault(r => r.HasTerritory(name));
         }
     }
 }

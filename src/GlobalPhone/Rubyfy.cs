@@ -9,11 +9,11 @@ namespace GlobalPhone
     {
         internal static string Unless<T>(this string obj, T exc) where T : Exception
         {
-            if (string.IsNullOrEmpty(obj))
+            if (String.IsNullOrEmpty(obj))
                 throw exc;
             return obj;
         }
-        internal static TRet Unless<T, TRet>(this TRet obj, T exc) where T : Exception
+        internal static TRet Unless<T, TRet>(this TRet obj, T exc) where T : Exception where TRet : class
         {
             if (obj == null)
                 throw exc;
@@ -33,7 +33,7 @@ namespace GlobalPhone
         {
             return action(self);
         }
-        internal static string gsub(this string self, Regex regex, string evaluator)
+        internal static string Gsub(this string self, Regex regex, string evaluator)
         {
             if (evaluator.Contains("$"))
             {
@@ -48,42 +48,46 @@ namespace GlobalPhone
                                                            eval = eval.Replace("$" + (i), g.Value);
                                                        }
                                                    }
-                                                   //var matches = new Regex("$\\d").Matches();
-                                                   //($1) $2-$3
                                                    return eval;
                                                });
             }
             return regex.Replace(self, evaluator);
         }
-        internal static string gsub(this string self, string regex, string evaluator)
+        internal static string Gsub(this string self, string regex, string evaluator)
         {
             return regex.Replace(self, evaluator);
         }
-        internal static string sub(this string self, Regex regex, string evaluator)
+        internal static string Sub(this string self, Regex regex, string evaluator)
         {
             return regex.Replace(self, evaluator, 1);
         }
-        internal static string gsub(this string self, Regex regex, MatchEvaluator evaluator)
+        internal static string Gsub(this string self, Regex regex, MatchEvaluator evaluator)
         {
             return regex.Replace(self, evaluator);
         }
 
-        internal static Match match(this string self, Regex regex)
+        internal static Match Match(this string self, Regex regex)
         {
-            return regex.Match(self ?? string.Empty);
+            return regex.Match(self ?? String.Empty);
         }
 
         internal static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
         {
             return self.Select(map);
         }
-        internal static string[] SplitN(this string self, int num)
+        /// <summary>
+        /// split the string into length large pieces
+        /// </summary>
+        /// <param name="self"></param>
+        /// <param name="length"></param>
+        /// <returns></returns>
+        internal static string[] SplitN(this string self, int length)
         {
-            var result = new string[self.Length / num];
+            var result = new string[self.Length / length];
             var index = 0;
-            for (int i = 0; i < self.Length; i += num)
+            for (int i = 0; i < self.Length; i += length)
             {
-                result[index++] = self.Substring(i, num);
+                result[index++] = self.Substring(i, length);
             }
             return result;
         }
@@ -95,10 +99,22 @@ namespace GlobalPhone
             }
             return self[key];
         }
-        internal static T detect<T>(this IEnumerable<T> self, Func<T, bool> predicate)
+        internal static T Detect<T>(this IEnumerable<T> self, Func<T, bool> predicate)
         {
             return self.FirstOrDefault(predicate);
         }
 
+        public static TRet MapDetect<T, TRet>(this IEnumerable<T> collection, Func<T, TRet> func) where TRet:class
+        {
+            foreach (var value in collection)
+            {
+                TRet result ;
+                if ((result=func(value))!=null)
+                {
+                    return result;
+                }
+            }
+            return null;
+        }
     }
 }

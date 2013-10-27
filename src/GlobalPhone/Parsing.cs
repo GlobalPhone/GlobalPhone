@@ -1,72 +1,69 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
     public abstract class Parsing
     {
-        public Number parse(string str, string territory_name)
+        public Number Parse(string str, string territoryName)
         {
-            str = Number.normalize(str);
-            var territory = this.territory(territory_name).Unless(new ArgumentException("unknown territory `"+territory_name+"'"));
-            if (starts_with_plus(str))
+            str = Number.Normalize(str);
+            var territory = Territory(territoryName).Unless(new ArgumentException("unknown territory `"+territoryName+"'"));
+            if (StartsWithPlus(str))
             {
-                return parse_international_string(str);
+                return ParseInternationalString(str);
             }
-            else if (str.match(territory.international_prefix).Success)
+            if (str.Match(territory.InternationalPrefix).Success)
             {
-                str = strip_international_prefix(territory, str);
-                return parse_international_string(str);
-            }else
-            {
-                return territory.parse_national_string(str);
+                str = StripInternationalPrefix(territory, str);
+                return ParseInternationalString(str);
             }
+            return territory.parse_national_string(str);
         }
 
-        private string strip_international_prefix(Territory territory, string @string)
+        private static string StripInternationalPrefix(Territory territory, string @string)
         {
-            return @string.gsub(territory.international_prefix, "");
+            return @string.Gsub(territory.InternationalPrefix, "");
         }
 
-        private Number parse_international_string(string @string)
+        private Number ParseInternationalString(string @string)
         {
-            @string = Number.normalize(@string);
-            if (starts_with_plus(@string))
+            @string = Number.Normalize(@string);
+            if (StartsWithPlus(@string))
             {
-                @string = strip_leading_plus(@string) ;
+                @string = StripLeadingPlus(@string) ;
             }
             Region region; 
-            if ((region = region_for_string(@string))!=null)
+            if ((region = RegionForString(@string))!=null)
             {
                 return region.parse_national_string(@string);
             }
             return null;
         }
 
-        private IEnumerable<String> country_code_candidates_for(string @string)
+        private static IEnumerable<String> CountryCodeCandidatesFor(string @string)
         {
             return new[] {1, 2, 3}.Map(i=>@string.Substring(0,i));
         }
 
-        private string strip_leading_plus(string str)
+        private static string StripLeadingPlus(string str)
         {
             return str.Substring(1);
         }
 
-        private bool starts_with_plus(string str)
+        private bool StartsWithPlus(string str)
         {
             return str.StartsWith("+");
         }
 
-        private Region region_for_string(string @string)
+        private Region RegionForString(string @string)
         {
-            var candidates = country_code_candidates_for(@string);
-            return Utils.map_detect(candidates, country_code => region(country_code));
+            var candidates = CountryCodeCandidatesFor(@string);
+            return candidates.MapDetect(Region);
         }
 
-        public abstract Region region(String countryCode);
+        public abstract Region Region(String countryCode);
 
-        public abstract Territory territory(string territoryName);
+        public abstract Territory Territory(string territoryName);
     }
 }
