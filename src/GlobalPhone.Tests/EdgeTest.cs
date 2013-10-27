@@ -22,8 +22,7 @@ namespace GlobalPhone.Tests
           # back to the closest match.
              */
             var number = Context.Parse("1520123456", "IE");
-            assert_equal("1520  123 456", number.NationalFormat);
-
+            Assert.That(number.NationalFormat, Is.EqualTo("1520  123 456"));
         }
 
     }

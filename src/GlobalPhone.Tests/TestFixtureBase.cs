@@ -7,22 +7,6 @@ namespace GlobalPhone.Tests
 {
     public class TestFixtureBase
     {
-        public void Assert(bool assert)
-        {
-            if (!assert) throw new Exception();
-        }
-
-        public void assert_equal<T>(T expected, T actual)
-        {
-            NUnit.Framework.Assert.That(actual, Is.EqualTo(expected));
-        }
-
-        public void assert_nil<T>(T actual)
-        {
-            NUnit.Framework.Assert.That(actual, Is.Null);
-        }
-
-
         [SetUp]
         public void SetUp()
         {
@@ -52,13 +36,13 @@ namespace GlobalPhone.Tests
 
         public object[] RecordData
         {
-            get { return _recordData ?? (_recordData = json_fixture("record_data")); }
+            get { return _recordData ?? (_recordData = JsonFixture("record_data")); }
         }
         public object[] ExampleNumbers
         {
-            get { return _exampleNumbers ?? (_exampleNumbers = json_fixture("example_numbers")); }
+            get { return _exampleNumbers ?? (_exampleNumbers = JsonFixture("example_numbers")); }
         }
-        private object[] json_fixture(string name)
+        private object[] JsonFixture(string name)
         {
             return new Makrill.JsonConvert().Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
         }

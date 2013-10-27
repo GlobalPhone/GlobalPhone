@@ -19,11 +19,11 @@ namespace GlobalPhone.Tests
         private void assert_parses(object @string, object territory_name)
         {
             var number = Context.Parse((string)@string, (string)territory_name);
-          NUnit.Framework.Assert.That(number,Is.TypeOf<Number>(),"expected "+@string+" to parse for territory "+territory_name);
-          NUnit.Framework.Assert.NotNull( number.NationalString);
-          NUnit.Framework.Assert.NotNull( number.NationalFormat);
-          NUnit.Framework.Assert.NotNull( number.InternationalString);
-          NUnit.Framework.Assert.NotNull( number.InternationalFormat);
+            Assert.That(number, Is.TypeOf<Number>(), "expected " + @string + " to parse for territory " + territory_name);
+            Assert.NotNull(number.NationalString);
+            Assert.NotNull(number.NationalFormat);
+            Assert.NotNull(number.InternationalString);
+            Assert.NotNull(number.InternationalFormat);
         }
     }
 }

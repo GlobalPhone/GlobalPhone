@@ -10,36 +10,36 @@ namespace GlobalPhone.Tests
         public void initializing_database_manually()
         {
             var db = new Database(RecordData);
-            assert_equal(RecordData.Length, db.Regions.Length);
+            Assert.That(db.Regions.Length, Is.EqualTo(RecordData.Length));
         }
         [Test]
         public void finding_region_by_country_code()
         {
             var region = Db.Region(1);
-            NUnit.Framework.Assert.That(region,Is.TypeOf<Region>());
-            assert_equal("1", region.CountryCode);
+            Assert.That(region,Is.TypeOf<Region>());
+            Assert.That(region.CountryCode, Is.EqualTo("1"));
         }
         [Test]
         public void nonexistent_region_returns_nil()
         {
             var region = Db.Region(999);
-            assert_nil(region);
+            Assert.That(region, Is.Null);
         }
         [Test]
         public void finding_territory_by_name()
         {
             var territory = Db.Territory("gb");
-            NUnit.Framework.Assert.That(territory,Is.TypeOf<Territory>());
-            assert_equal("GB", territory.Name);
+            Assert.That(territory,Is.TypeOf<Territory>());
+            Assert.That(territory.Name, Is.EqualTo("GB"));
             //assert_equal "GB", territory.name
-            assert_equal(Db.Region(44), territory.Region);
+            Assert.That(territory.Region, Is.EqualTo(Db.Region(44)));
         }
 
         [Test]
         public void nonexistent_territory_returns_nil()
         {
             var territory = Db.Territory("nonexistent");
-            assert_nil(territory);
+            Assert.That(territory, Is.Null);
         }
 
     }

@@ -9,66 +9,66 @@ namespace GlobalPhone.Tests
         public void valid_number()
         {
             var number = Context.Parse("(312) 555-1212");
-            Assert(number.IsValid);
+            Assert.That(number.IsValid);
         }
         [Test]
         public void invalid_number()
         {
             var number = Context.Parse("555-1212");
-            Assert(!number.IsValid);
+            Assert.That(!number.IsValid);
         }
         [Test]
         public void country_code()
         {
             var number = Context.Parse("(312) 555-1212");
-            assert_equal("1", number.CountryCode);
+            Assert.That(number.CountryCode, Is.EqualTo("1"));
 
             number = Context.Parse("+44 (0) 20-7031-3000");
-            assert_equal("44", number.CountryCode);
+            Assert.That(number.CountryCode, Is.EqualTo("44"));
         }
         [Test]
         public void region()
         {
             var number = Context.Parse("(312) 555-1212");
-            assert_equal(Db.Region(1), number.Region);
+            Assert.That(number.Region, Is.EqualTo(Db.Region(1)));
 
             number = Context.Parse("+44 (0) 20-7031-3000");
-            assert_equal(Db.Region(44), number.Region);
+            Assert.That(number.Region, Is.EqualTo(Db.Region(44)));
         }
         [Test]
         public void territory()
         {
             var number = Context.Parse("(312) 555-1212");
-            assert_equal(Db.Territory("us"), number.Territory);
+            Assert.That(number.Territory, Is.EqualTo(Db.Territory("us")));
 
             number = Context.Parse("+44 (0) 20-7031-3000");
-            assert_equal(Db.Territory("gb"), number.Territory);
+            Assert.That(number.Territory, Is.EqualTo(Db.Territory("gb")));
         }
 
         [Test]
         public void national_string()
         {
             var number = Context.Parse("(312) 555-1212");
-            assert_equal("3125551212", number.NationalString);
+            Assert.That(number.NationalString, Is.EqualTo("3125551212"));
         }
         [Test]
         public void national_format()
         {
             var number = Context.Parse("312-555-1212");
-            assert_equal("(312) 555-1212", number.NationalFormat);
+            Assert.That(number.NationalFormat, Is.EqualTo("(312) 555-1212"));
         }
         [Test]
         public void international_string()
         {
             var number = Context.Parse("(312) 555-1212");
-            assert_equal("+13125551212", number.InternationalString);
-            assert_equal(number.InternationalString, number.ToString());
+            Assert.That(number.InternationalString, Is.EqualTo("+13125551212"));
+            Assert.That(number.ToString(), Is.EqualTo(number.InternationalString));
         }
         [Test]
         public void international_format()
         {
             var number = Context.Parse("(312) 555-1212");
-            assert_equal("+1 312-555-1212", number.InternationalFormat);
+            Assert.That(number.InternationalFormat, Is.EqualTo("+1 312-555-1212"));
         }
     }
 }
