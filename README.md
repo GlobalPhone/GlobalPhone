@@ -28,7 +28,7 @@ GlobalPhone parses, validates, and formats local and international phone numbers
 Parse an international number string into a `GlobalPhone::Number` object:
 
 ```
-var number = GlobalPhone.Parse('+1-312-555-1212');
+var number = GlobalPhone.Parse("+1-312-555-1212");
 # => #<GlobalPhone::Number Territory=#<GlobalPhone::Territory CountryCode=1 Name=US> NationalString="3125551212">
 ```
 
