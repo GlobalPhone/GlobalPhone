@@ -18,7 +18,7 @@ namespace GlobalPhone.Tests
         {
             var assertions = obj.ToHash();
             var territoryName = assertions.DeleteOrUseDefault("with_territory", Context.DefaultTerritoryName);
-            Assert.Throws<FailedToParseNumberException>(() => { Context.Parse(val, (string) territoryName); },"expected " +val+ " not to parse for territory "+territoryName);
+            Assert.Throws<FailedToParseNumberException>(() => Context.Parse(val, (string) territoryName),"expected " +val+ " not to parse for territory "+territoryName);
         }
 
         [Test]

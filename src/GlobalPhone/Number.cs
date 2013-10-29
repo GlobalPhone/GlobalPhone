@@ -34,7 +34,7 @@ namespace GlobalPhone
                 return _nationalFormat ?? (_nationalFormat = Begin.Do(() =>
                     {
                         string result;
-                        if (Format!=null && (result=Format.Apply(NationalString,"national"))!=null)
+                        if (Format != null && (result = Format.Apply(NationalString, "national")) != null)
                         {
                             return ApplyNationalPrefixFormat(result);
                         }
@@ -103,10 +103,10 @@ namespace GlobalPhone
         }
 
         private static readonly Dictionary<string, string> E161Mapping = "a2b2c2d3e3f3g4h4i4j5k5l5m6n6o6p7q7r7s7t8u8v8w9x9y9z9".SplitN(2).ToDictionary(kv => kv[0].ToString(CultureInfo.InvariantCulture), kv => kv[1].ToString(CultureInfo.InvariantCulture));
-        private static readonly Regex ValidAlphaChars = new Regex("[a-zA-Z]");
-        private static readonly Regex LeadingPlusChars = new Regex("^\\++");
-        private static readonly Regex NonDialableChars = new Regex("[^,#+\\*\\d]");
-        private static readonly Regex SplitFirstGroup = new Regex("^(\\d+)(.*)$");
+        private static readonly Regex ValidAlphaChars = new Regex("[a-zA-Z]", RegexOptions.Compiled);
+        private static readonly Regex LeadingPlusChars = new Regex("^\\++", RegexOptions.Compiled);
+        private static readonly Regex NonDialableChars = new Regex("[^,#+\\*\\d]", RegexOptions.Compiled);
+        private static readonly Regex SplitFirstGroup = new Regex("^(\\d+)(.*)$", RegexOptions.Compiled);
         private Format _format;
         private string _internationalFormat;
         private string _nationalFormat;
@@ -120,7 +120,7 @@ namespace GlobalPhone
         public static string Normalize(string str)
         {
             return
-                str.Gsub(ValidAlphaChars, match => 
+                str.Gsub(ValidAlphaChars, match =>
                     E161Mapping[match.Value.ToLower()])
                     .Gsub(LeadingPlusChars, "+")
                     .Gsub(NonDialableChars, "");
