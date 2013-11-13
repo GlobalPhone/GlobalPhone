@@ -1,3 +1,4 @@
+require 'visual_studio_files.rb'
 require 'albacore'
 
 task :default => ['build']
@@ -35,4 +36,22 @@ exec :install_packages do |cmd|
   end
 end
 
-
+desc "regenerate links in dbgen"
+task :regen_links_dbgen do
+  global_phone = VisualStudioFiles::CsProj.new(File.open(File.join(dir,'src','GlobalPhone','GlobalPhone.csproj'), "r").read)
+  global_phone_files = global_phone.files.select do |file|
+    file.type=='Compile' && !file.file.end_with?('AssemblyInfo.cs')
+  end
+    
+  global_phone_dbgen = VisualStudioFiles::CsProj.new(File.open(File.join(dir,'src','GlobalPhoneDbgen','GlobalPhoneDbgen.csproj'), "r").read)
+  global_phone_dbgen.clear_links
+  global_phone_files.each do |file|
+    hash = file.to_hash
+    hash[:file] = "..\\GlobalPhone\\#{file.file}"
+    hash[:link] = "GlobalPhone\\#{file.file}"
+    global_phone_dbgen.add(hash)
+  end
+  File.open(File.join(dir,'src','GlobalPhoneDbgen','GlobalPhoneDbgen.csproj'), "w") do |f|
+    global_phone_dbgen.write f
+  end
+end

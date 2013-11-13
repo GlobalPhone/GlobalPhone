@@ -1,0 +1,17 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    albacore (0.3.5)
+      rubyzip
+    rake (10.1.0)
+    rubyzip (0.9.9)
+    visual_studio_files (0.1.1)
+
+PLATFORMS
+  x86-mingw32
+
+DEPENDENCIES
+  albacore
+  rake
+  rubyzip (~> 0.9.9)
+  visual_studio_files

@@ -75,6 +75,7 @@
     </Content>
     <Content Include="fixtures\PhoneNumberMetadata.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="fixtures\record_data.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
