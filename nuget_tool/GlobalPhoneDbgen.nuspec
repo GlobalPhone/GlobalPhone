@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>GlobalPhoneDbgen</id>
+    <title>GlobalPhoneDbgen</title>
+    <version>1.0.0</version>
+    <authors>Oskar Gewalli, Sam Stephenson</authors>
+    <owners>Oskar Gewalli, Sam Stephenson</owners>
+    <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
+    <projectUrl>https://github.com/wallymathieu/GlobalPhone</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>GlobalPhone parses, validates, and formats local and international phone numbers according to the E.164 standard using the rules specified in Google's libphonenumber database. GlobalPhoneDbgen transforms PhoneNumberMetadata xml to json consumable by GlobalPhone</description>
+    <summary>Generate json from googles PhoneNumberMetadata.xml</summary>
+    <copyright>Copyright 2013</copyright>
+    <dependencies>
+      <dependency id="Makrill" version="0.3.0" />
+      <dependency id="Newtonsoft.Json" version="5.0.8" />
+    </dependencies>
+    <releaseNotes>GlobalPhoneDbgen.exe packaged in a nuget package</releaseNotes>
+  </metadata>
+</package>

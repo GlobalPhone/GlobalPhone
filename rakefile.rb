@@ -16,6 +16,10 @@ task :core_copy_to_nuspec => [:build] do
   output_directory_lib = File.join(dir,"nuget/lib/40/")
   mkdir_p output_directory_lib
   cp Dir.glob("./src/GlobalPhone/bin/Debug/GlobalPhone.dll"), output_directory_lib
+  output_directory_tools = File.join(dir,"nuget_tool/tools/")
+  mkdir_p output_directory_tools
+  cp Dir.glob("./src/GlobalPhoneDbgen/bin/Debug/*.dll"), output_directory_tools
+  cp Dir.glob("./src/GlobalPhoneDbgen/bin/Debug/GlobalPhoneDbgen.exe"), output_directory_tools
   
 end
 
@@ -26,6 +30,10 @@ task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
   cd File.join(dir,"nuget") do
     sh "..\\src\\.nuget\\NuGet.exe pack GlobalPhone.nuspec"
   end
+  cd File.join(dir,"nuget_tool") do
+    sh "..\\src\\.nuget\\NuGet.exe pack GlobalPhoneDbgen.nuspec"
+  end
+
 end
 
 desc "Install missing NuGet packages."
