@@ -80,9 +80,9 @@ namespace GlobalPhone
             private static object NodeOrNodes(XmlNode node, string rest)
             {
                 var node1 = new Node(node);
-                return rest.Any()
-                           ? (object) node1.Search(rest)
-                           : node1;
+                return string.IsNullOrWhiteSpace(rest)
+                           ? node1
+                           : (object) node1.Search(rest);
             }
 
             private static XmlNode[] GetNodesWithName(XmlNode xmlNode, string selector)
