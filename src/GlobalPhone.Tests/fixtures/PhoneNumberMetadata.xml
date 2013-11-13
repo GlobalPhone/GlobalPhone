@@ -1,0 +1,301 @@
+<!-- Copyright (C) 2009 The Libphonenumber Authors
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+
+     @author: Shaopeng Jia
+     @author: Lara Rennie
+
+     Metadata on Phone Number Plan and formatting rules
+     Note: Territories are in alphabetical order by their IDs, which are based on ISO 3166-1
+           two-letter country codes (or are set to "001" for non-geographical entities, which
+           represents "World" in the UN M.49 standard). The country names in the comments are the
+           official short names in English according to ISO 3166-1.
+
+     For more information on what each element represents, see
+     resources/phonemetadata.proto
+
+     Note that if you want to add validation metadata, the generalDesc nationalNumberPattern and
+     possibleNumberPattern must be provided. If this is missing, then the country will be
+     considered to have no more specific phone-number type metadata (fixedLine, mobile etc) and
+     hence only basic validation rules (numbers should be between 3 and 15 digits long) will be
+     applied.
+
+     If adding an element for a non-geographical entity, please add an example number element to the
+     general description.
+
+     Country code, international and national prefix information main source:
+     http://www.itu.int/pub/T-SP-E.164C-2011
+-->
+
+<!DOCTYPE phoneNumberMetadata [
+    <!ELEMENT phoneNumberMetadata (territories)>
+    <!ELEMENT territories (territory+)>
+    <!ELEMENT territory (availableFormats?, generalDesc?, noInternationalDialling?,
+        areaCodeOptional?, fixedLine?, mobile?, pager?, tollFree?, premiumRate?,
+        sharedCost?, personalNumber?, voip?, uan?, voicemail?)>
+    <!ELEMENT generalDesc (nationalNumberPattern, possibleNumberPattern, exampleNumber?)>
+    <!ELEMENT noInternationalDialling (nationalNumberPattern, possibleNumberPattern?,
+        exampleNumber?)>
+    <!ELEMENT areaCodeOptional (nationalNumberPattern, possibleNumberPattern, exampleNumber?)>
+    <!ELEMENT fixedLine (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT mobile (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT pager (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT tollFree (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT premiumRate (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT sharedCost (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT personalNumber (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT voip (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT uan (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT voicemail (nationalNumberPattern?, possibleNumberPattern?, exampleNumber?)>
+    <!ELEMENT availableFormats (numberFormat+)>
+    <!ELEMENT nationalNumberPattern (#PCDATA)>
+    <!ELEMENT possibleNumberPattern (#PCDATA)>
+    <!ELEMENT exampleNumber (#PCDATA)>
+    <!ELEMENT numberFormat (leadingDigits*, format, intlFormat*)>
+    <!ELEMENT format (#PCDATA)>
+    <!ELEMENT intlFormat (#PCDATA)>
+    <!ELEMENT leadingDigits (#PCDATA)>
+
+    <!ATTLIST territory id CDATA #REQUIRED>
+    <!ATTLIST territory countryCode CDATA #REQUIRED>
+    <!ATTLIST territory mainCountryForCode (true) #IMPLIED>
+    <!ATTLIST territory leadingDigits CDATA #IMPLIED>
+    <!ATTLIST territory preferredInternationalPrefix CDATA #IMPLIED>
+    <!ATTLIST territory internationalPrefix CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefix CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixForParsing CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixTransformRule CDATA #IMPLIED>
+    <!ATTLIST territory preferredExtnPrefix CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixFormattingRule CDATA #IMPLIED>
+    <!ATTLIST territory nationalPrefixOptionalWhenFormatting (true) #IMPLIED>
+    <!ATTLIST territory leadingZeroPossible (true) #IMPLIED>
+    <!ATTLIST territory carrierCodeFormattingRule CDATA #IMPLIED>
+    <!ATTLIST territory mobileNumberPortableRegion (true) #IMPLIED>
+    <!ATTLIST numberFormat nationalPrefixFormattingRule CDATA #IMPLIED>
+    <!ATTLIST numberFormat nationalPrefixOptionalWhenFormatting (true) #IMPLIED>
+    <!ATTLIST numberFormat carrierCodeFormattingRule CDATA #IMPLIED>
+    <!ATTLIST numberFormat pattern CDATA #REQUIRED>
+]>
+
+<phoneNumberMetadata>
+  <territories>
+
+
+    <!-- Sweden -->
+    <!-- http://www.pts.se/upload/Ovrigt/Tele/Nummerfragor/Sv_nrplan_telefoni_enl_TU-T_rek_E.164.pdf -->
+    <!-- http://www.pts.se/upload/Ovrigt/Tele/Nummerfragor/Nrplansammanst%C3%A4llning-2013-07-05.pdf -->
+    <territory id="SE" countryCode="46" internationalPrefix="00"
+               nationalPrefix="0" nationalPrefixFormattingRule="$NP$FG"
+               mobileNumberPortableRegion="true">
+      <availableFormats>
+      <!-- Formatting patterns are from the numbering plan and from the Swedish yellow pages
+           http://gulasidorna.eniro.se -->
+        <numberFormat pattern="(8)(\d{2,3})(\d{2,3})(\d{2})">
+          <leadingDigits>8</leadingDigits>
+          <format>$1-$2 $3 $4</format>
+          <intlFormat>$1 $2 $3 $4</intlFormat>
+        </numberFormat>
+      </availableFormats>
+      <generalDesc>
+        <nationalNumberPattern>[1-9]\d{5,9}</nationalNumberPattern>
+        <possibleNumberPattern>\d{5,10}</possibleNumberPattern>
+      </generalDesc>
+      <fixedLine>
+        <nationalNumberPattern>
+          1(?:
+            0[1-8]\d{6}|
+            [136]\d{5,7}|
+            (?:
+              2[0-35]|
+              4[0-4]|
+              5[0-25-9]|
+              7[13-6]|
+              [89]\d
+            )\d{5,6}
+          )|
+          2(?:
+            [136]\d{5,7}|
+            (?:
+              2[0-7]|
+              4[0136-8]|
+              5[0138]|
+              7[018]|
+              8[01]|
+              9[0-57]
+            )\d{5,6}
+          )|
+          3(?:
+            [356]\d{5,7}|
+            (?:
+              0[0-4]|
+              1\d|
+              2[0-25]|
+              4[056]|
+              7[0-2]|
+              8[0-3]|
+              9[023]
+            )\d{5,6}
+          )|
+          4(?:
+            0[1-9]\d{4,6}|
+            [246]\d{5,7}|
+            (?:
+              1[013-8]|
+              3[0135]|
+              5[14-79]|
+              7[0-246-9]|
+              8[0156]|
+              9[0-689]
+            )\d{5,6}
+          )|
+          5(?:
+            0[0-6]|
+            [15][0-5]|
+            2[0-68]|
+            3[0-4]|
+            4\d|
+            6[03-5]|
+            7[013]|
+            8[0-79]|
+            9[01]
+          )\d{5,6}|
+          6(?:
+            0[1-9]\d{4,6}|
+            3\d{5,7}|
+            (?:
+              1[1-3]|
+              2[0-4]|
+              4[02-57]|
+              5[0-37]|
+              6[0-3]|
+              7[0-2]|
+              8[0247]|
+              9[0-356]
+            )\d{5,6}
+          )|
+          8[1-9]\d{5,7}|
+          9(?:
+            0[1-9]\d{4,6}|
+            (?:
+              1[0-68]|
+              2\d|
+              3[02-5]|
+              4[0-3]|
+              5[0-4]|
+              [68][01]|
+              7[0135-8]
+            )\d{5,6}
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{5,9}</possibleNumberPattern>
+        <exampleNumber>8123456</exampleNumber>
+      </fixedLine>
+      <mobile>
+        <nationalNumberPattern>7[0236]\d{7}</nationalNumberPattern>
+        <possibleNumberPattern>\d{9}</possibleNumberPattern>
+        <exampleNumber>701234567</exampleNumber>
+      </mobile>
+      <pager>
+        <nationalNumberPattern>74[02-9]\d{6}</nationalNumberPattern>
+        <possibleNumberPattern>\d{9}</possibleNumberPattern>
+        <exampleNumber>740123456</exampleNumber>
+      </pager>
+      <tollFree>
+        <nationalNumberPattern>
+          20(?:
+            0(?:
+              0\d{2}|
+              [1-9](?:
+                0\d{1,4}|
+                [1-9]\d{4}
+              )
+            )|
+            1(?:
+              0\d{4}|
+              [1-9]\d{4,5}
+            )|
+            [2-9]\d{5}
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{6,9}</possibleNumberPattern>
+        <exampleNumber>20123456</exampleNumber>
+      </tollFree>
+      <premiumRate>
+        <nationalNumberPattern>
+          9(?:
+            00|
+            39|
+            44
+          )(?:
+            1(?:
+              [0-26]\d{5}|
+              [3-57-9]\d{2}
+            )|
+            2(?:
+              [0-2]\d{5}|
+              [3-9]\d{2}
+            )|
+            3(?:
+              [0139]\d{5}|
+              [24-8]\d{2}
+            )|
+            4(?:
+              [045]\d{5}|
+              [1-36-9]\d{2}
+            )|
+            5(?:
+              5\d{5}|
+              [0-46-9]\d{2}
+            )|
+            6(?:
+              [679]\d{5}|
+              [0-58]\d{2}
+            )|
+            7(?:
+              [078]\d{5}|
+              [1-69]\d{2}
+            )|
+            8(?:
+              [578]\d{5}|
+              [0-469]\d{2}
+            )
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{7}(?:\d{3})?</possibleNumberPattern>
+        <exampleNumber>9001234567</exampleNumber>
+      </premiumRate>
+      <sharedCost>
+        <nationalNumberPattern>
+          77(?:
+            0(?:
+              0\d{2}|
+              [1-9](?:
+                0\d|
+                [1-9]\d{4}
+              )
+            )|
+            [1-6][1-9]\d{5}
+          )
+        </nationalNumberPattern>
+        <possibleNumberPattern>\d{6}(?:\d{3})?</possibleNumberPattern>
+        <exampleNumber>771234567</exampleNumber>
+      </sharedCost>
+      <personalNumber>
+        <nationalNumberPattern>75[1-8]\d{6}</nationalNumberPattern>
+        <possibleNumberPattern>\d{9}</possibleNumberPattern>
+        <exampleNumber>751234567</exampleNumber>
+      </personalNumber>
+    </territory>
+
+  </territories>
+</phoneNumberMetadata>

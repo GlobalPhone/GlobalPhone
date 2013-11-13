@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -55,7 +56,7 @@ namespace GlobalPhone
         }
         internal static string Gsub(this string self, string regex, string evaluator)
         {
-            return regex.Replace(self, evaluator);
+            return new Regex(regex).Replace(self, evaluator);
         }
         internal static string Sub(this string self, Regex regex, string evaluator)
         {
@@ -75,6 +76,76 @@ namespace GlobalPhone
         {
             return self.Select(map);
         }
+        internal static IEnumerable<T> Flatten<T>(this IEnumerable self)
+        {
+            foreach (var variable in self)
+            {
+                if (variable is T)
+                {
+                    yield return (T) variable;
+                }
+                else
+                {
+                    foreach (var result in Flatten<T>((IEnumerable) variable))
+                    {
+                        yield return result;
+                    }
+                }
+            }
+        }
+        internal static IEnumerable<T> Flatten<T>(this IEnumerable self, int order)
+        {
+            if (order != 0)
+            {
+                foreach (var variable in self)
+                {
+                    if (variable is IEnumerable)
+                    {
+                        foreach (var result in Flatten<T>((IEnumerable) variable, order - 1))
+                        {
+                            yield return result;
+                        }
+                    }else
+                    {
+                        yield return (T)variable;
+                    }
+                }
+            }
+            else
+            {
+                yield return (T) self;
+            }
+        }
+        internal static IEnumerable Flatten(this IEnumerable self, int order)
+        {
+            if (order != 0)
+            {
+                foreach (var variable in self)
+                {
+                    if (variable is IEnumerable)
+                    {
+                        foreach (var result in Flatten((IEnumerable)variable, order - 1))
+                        {
+                            yield return result;
+                        }
+                    }
+                    else
+                    {
+                        yield return variable;
+                    }
+                }
+            }
+            else
+            {
+                yield return self;
+            }
+        }
+
+        internal static bool IsEmpty<T>(this IEnumerable<T> self)
+        {
+            return null == self || !self.Any();
+        }
+
         /// <summary>
         /// split the string into length large pieces
         /// </summary>

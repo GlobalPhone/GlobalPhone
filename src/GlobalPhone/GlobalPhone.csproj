@@ -49,9 +49,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Begin.cs" />
+    <Compile Include="DatabaseGenerator.cs" />
     <Compile Include="FailedToParseNumberException.cs" />
     <Compile Include="Format.cs" />
     <Compile Include="GlobalPhone.cs" />
+    <Compile Include="Nokogiri.cs" />
+    <Compile Include="NokogiriExtensions.cs" />
     <Compile Include="Rubyfy.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Database.cs" />

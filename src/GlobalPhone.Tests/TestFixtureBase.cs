@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using NUnit.Framework;
 using Newtonsoft.Json.Linq;
 
@@ -33,7 +32,9 @@ namespace GlobalPhone.Tests
 
         private object[] _recordData;
         private object[] _exampleNumbers;
-
+        private object[] _globalPhone;
+        private object[] _globalPhoneTestCases;
+        private string _phoneNumberMetadata;
         public object[] RecordData
         {
             get { return _recordData ?? (_recordData = JsonFixture("record_data")); }
@@ -46,7 +47,19 @@ namespace GlobalPhone.Tests
         {
             return new Makrill.JsonConvert().Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
         }
-    
+        public object[] GlobalPhone
+        {
+            get { return _globalPhone ?? (_globalPhone = JsonFixture("global_phone")); }
+        }
 
+        public object[] GlobalPhoneTestCases
+        {
+            get { return _globalPhoneTestCases ?? (_globalPhoneTestCases = JsonFixture("global_phone_test_cases")); }
+        }
+
+        public string PhoneNumberMetadata
+        {
+            get { return _phoneNumberMetadata ?? (_phoneNumberMetadata = File.ReadAllText(FixturePath("PhoneNumberMetadata.xml"))); }
+        }   
     }
 }
