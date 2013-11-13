@@ -12,10 +12,15 @@ GlobalPhone parses, validates, and formats local and international phone numbers
 
         PM> Install-Package GlobalPhone
 
-2. Use `global_phone_dbgen` to convert Google's libphonenumber `PhoneNumberMetaData.xml` file into a JSON database for GlobalPhone.
+2. Use `GlobalPhoneDbgen` to convert Google's libphonenumber `PhoneNumberMetaData.xml` file into a JSON database for GlobalPhone. You can either install it using nuget in some project:
 
-        CMD> gem install global_phone_dbgen
-        CMD> global_phone_dbgen > db/global_phone.json
+        PM> Install-Package GlobalPhoneDbgen
+
+Or you can add it as a solution level package.
+
+However you have installed it, you can then use the command prompt to execute the exe: 
+
+        CMD> .\packages\GlobalPhoneDbgen\tools\GlobalPhoneDbgen.exe > db/global_phone.json
 
 3. Tell GlobalPhone where to find the database:
 
