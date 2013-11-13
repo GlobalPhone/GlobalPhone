@@ -10,12 +10,12 @@ GlobalPhone parses, validates, and formats local and international phone numbers
 
 1. Add the `GlobalPhone` nuget package to your app. For example, using Package Manager Console:
 
-        $ Install-Package GlobalPhone
+        PM> Install-Package GlobalPhone
 
 2. Use `global_phone_dbgen` to convert Google's libphonenumber `PhoneNumberMetaData.xml` file into a JSON database for GlobalPhone.
 
-        $ gem install global_phone_dbgen
-        $ global_phone_dbgen > db/global_phone.json
+        CMD> gem install global_phone_dbgen
+        CMD> global_phone_dbgen > db/global_phone.json
 
 3. Tell GlobalPhone where to find the database:
 
@@ -136,7 +136,7 @@ Territory heuristics are imprecise. Parsing a number will usually result in the 
 ## Development
 The GlobalPhone source code is [hosted on GitHub](https://github.com/wallymathieu/GlobalPhone). You can check out a copy of the latest code using Git:
 
-    $ git clone https://github.com/wallymathieu/GlobalPhone.git
+    CMD> git clone https://github.com/wallymathieu/GlobalPhone.git
 
 If you've found a bug or have a question, please open an issue on the [issue tracker](https://github.com/wallymathieu/GlobalPhone/issues). Or, clone the GlobalPhone repository, write a failing test case, fix the bug, and submit a pull request.
 
