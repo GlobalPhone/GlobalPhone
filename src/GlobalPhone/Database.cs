@@ -2,10 +2,11 @@ using System;
 using System.Globalization;
 using System.IO;
 using System.Linq;
-using Makrill;
 using System.Collections.Generic;
+#if NEWTONSOFT
+using Makrill;
 using Newtonsoft.Json.Linq;
-
+#endif
 namespace GlobalPhone
 {
     public class Database : Parsing
@@ -25,7 +26,11 @@ namespace GlobalPhone
 
         public static Database Load(string text)
         {
+#if NEWTONSOFT
             return new Database(JArray.Parse(text).Map(r1 => JsonConvert.Deserialize(r1)).ToArray());
+#else
+            throw new NotImplementedException();
+#endif
         }
 
         public Region TryGetRegion(int countryCode)
@@ -47,8 +52,10 @@ namespace GlobalPhone
         }
 
         private readonly Dictionary<string, Territory> _territoriesByName;
+#if NEWTONSOFT
         private static readonly JsonConvert JsonConvert = new JsonConvert();
-
+#endif
+      
         public override Territory TryGetTerritory(string name)
         {
             return _territoriesByName.GetOrAdd(name, () =>

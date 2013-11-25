@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using GlobalPhone;
+#if NEWTONSOFT
 using Newtonsoft.Json;
-
+#else
+using System.Web.Script.Serialization;
+#endif
 namespace GlobalPhoneDbgen
 {
     class Program
@@ -46,7 +49,7 @@ Options:
             var compact = false;
             foreach (var arg in args)
             {
-                
+
                 switch (arg)
                 {
                     case "-c":
@@ -80,8 +83,13 @@ Options:
             var generator = DatabaseGenerator.Load(new System.Net.WebClient().DownloadString(path));
             var result = Send(generator, method);
             Console.WriteLine(
-                JsonConvert.SerializeObject(result,
-                    compact ? Formatting.None : Formatting.Indented));
+#if NEWTONSOFT
+wJsonConvert.SerializeObject(result,
+compact ? Formatting.None : Formatting.Indented)
+#else
+new JavaScriptSerializer().Serialize(result)
+#endif
+);
         }
 
         private static object Send(DatabaseGenerator generator, string method)
