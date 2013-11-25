@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
@@ -155,10 +156,9 @@ namespace GlobalPhone
             return territoryNodes.Map(node =>
                                        node.Search("availableFormats numberFormat").ToArray()).Flatten<Nokogiri.Node>();
         }
-
         private static string Squish(string @string)
         {
-            return !String.IsNullOrEmpty(@string) ? @string.Gsub(@"/\s+/", "") : @string;
+            return !String.IsNullOrEmpty(@string) ? @string.Gsub(@"\s+", "") : @string;
         }
 
         private string Pattern(Nokogiri.Node node, string selector)

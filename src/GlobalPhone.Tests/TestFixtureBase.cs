@@ -33,8 +33,10 @@ namespace GlobalPhone.Tests
         private object[] _recordData;
         private object[] _exampleNumbers;
         private object[] _globalPhone;
+        private object[] _globalPhone2;
         private object[] _globalPhoneTestCases;
         private string _phoneNumberMetadata;
+        private string _phoneNumberMetadata2;
         public object[] RecordData
         {
             get { return _recordData ?? (_recordData = JsonFixture("record_data")); }
@@ -51,7 +53,10 @@ namespace GlobalPhone.Tests
         {
             get { return _globalPhone ?? (_globalPhone = JsonFixture("global_phone")); }
         }
-
+        public object[] GlobalPhone2
+        {
+            get { return _globalPhone2 ?? (_globalPhone2 = JsonFixture("global_phone2")); }
+        }
         public object[] GlobalPhoneTestCases
         {
             get { return _globalPhoneTestCases ?? (_globalPhoneTestCases = JsonFixture("global_phone_test_cases")); }
@@ -60,6 +65,11 @@ namespace GlobalPhone.Tests
         public string PhoneNumberMetadata
         {
             get { return _phoneNumberMetadata ?? (_phoneNumberMetadata = File.ReadAllText(FixturePath("PhoneNumberMetadata.xml"))); }
+        }
+        public string PhoneNumberMetadata2
+        {
+            get { return _phoneNumberMetadata2 ?? (_phoneNumberMetadata2 = File.ReadAllText(FixturePath("PhoneNumberMetadata2.xml"))); }
         }   
+
     }
 }

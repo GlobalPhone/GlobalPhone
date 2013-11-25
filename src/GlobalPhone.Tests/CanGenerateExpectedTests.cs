@@ -15,6 +15,14 @@ namespace GlobalPhone.Tests
         }
 
         [Test]
+        public void The_json_matches_what_ruby_generates2()
+        {
+            var dbgen = DatabaseGenerator.Load(PhoneNumberMetadata2);
+            var recordData = dbgen.RecordData();
+            Assert.That(recordData, Json.EqualTo(GlobalPhone2));
+        }
+
+        [Test]
         public void The_json_matches_what_ruby_generates_test_cases()
         {
             var dbgen = DatabaseGenerator.Load(PhoneNumberMetadata);

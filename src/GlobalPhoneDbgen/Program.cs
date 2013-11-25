@@ -84,8 +84,7 @@ Options:
             var result = Send(generator, method);
             Console.WriteLine(
 #if NEWTONSOFT
-wJsonConvert.SerializeObject(result,
-compact ? Formatting.None : Formatting.Indented)
+wJsonConvert.SerializeObject(result, compact ? Formatting.None : Formatting.Indented)
 #else
 new JavaScriptSerializer().Serialize(result)
 #endif
