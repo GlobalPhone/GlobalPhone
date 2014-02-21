@@ -5,16 +5,41 @@ namespace GlobalPhone.Tests
     [TestFixture]
     public class ContextTest : TestFixtureBase
     {
-        private void assert_parses(string val, object obj)
+		class Conf
+		{
+			public string country_code {
+				get;
+				set;
+			}
+			public string national_string {
+				get;
+				set;
+			}
+			public string with_territory {
+				get;
+				set;
+			}
+		}
+		[SetUp]
+		public void SetUp ()
+		{
+			Context.DefaultTerritoryName = "US";
+		}
+
+		private void assert_parses(string val, Conf obj)
         {
             var assertions = obj.ToHash();
-            var territory_name = assertions.DeleteOrUseDefault("with_territory", Context.DefaultTerritoryName);
+            var territory_name =  assertions.DeleteOrUseDefault("with_territory", Context.DefaultTerritoryName);
             var number = Context.Parse(val, (string) territory_name);
             Assert.That(number,Is.TypeOf<Number>());
-            Assert.That(new { country_code = number.CountryCode, national_string = number.NationalString }.ToHash(), Is.EquivalentTo(assertions));
+            Assert.That(new { 
+				country_code = number.CountryCode, 
+				national_string = number.NationalString
+			}.ToHash(), 
+				Is.EquivalentTo(assertions));
         }
 
-        private void assert_does_not_parse(string val, object obj=null)
+		private void assert_does_not_parse(string val, Conf obj=null)
         {
             var assertions = obj.ToHash();
             var territoryName = assertions.DeleteOrUseDefault("with_territory", Context.DefaultTerritoryName);
@@ -30,24 +55,24 @@ namespace GlobalPhone.Tests
         [Test]
         public void parsing_international_number()
         {
-            assert_parses("+1-312-555-1212", new {country_code = "1", national_string = "3125551212"});
+			assert_parses("+1-312-555-1212", new Conf{country_code = "1", national_string = "3125551212"});
         }
         [Test]
         public void parsing_national_number_in_default_territory()
         {
-            assert_parses("(312) 555-1212", new { country_code = "1", national_string = "3125551212" });
+			assert_parses("(312) 555-1212", new Conf{ country_code = "1", national_string = "3125551212" });
         }
 
         [Test]
         public void parsing_national_number_for_given_territory()
         {
-            assert_parses("(0) 20-7031-3000", new { with_territory = "gb", country_code = "44", national_string = "2070313000" });
+			assert_parses("(0) 20-7031-3000", new Conf{ with_territory = "gb", country_code = "44", national_string = "2070313000" });
         }
 
         [Test]
         public void parsing_international_number_with_prefix()
         {
-            assert_parses("00 1 3125551212", new { with_territory = "gb", country_code = "1", national_string = "3125551212" });
+			assert_parses("00 1 3125551212", new Conf{ with_territory = "gb", country_code = "1", national_string = "3125551212" });
         }
 
         [Test]
@@ -57,7 +82,7 @@ namespace GlobalPhone.Tests
 
             Context.DefaultTerritoryName = "gb";
 
-            assert_parses("(0) 20-7031-3000", new { with_territory = "gb", country_code = "44", national_string = "2070313000" });
+			assert_parses("(0) 20-7031-3000", new Conf{ with_territory = "gb", country_code = "44", national_string = "2070313000" });
         }
         [Test]
         public void validating_an_international_number()
