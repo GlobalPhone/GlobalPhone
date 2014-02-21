@@ -94,12 +94,15 @@ AppPackages/
 sql
 TestResults
 [Tt]est[Rr]esult*
+[Tt]est-[Rr]esult*
 *.Cache
 ClientBin
 [Ss]tyle[Cc]op.*
 ~$*
 *.dbmdl
 Generated_Code #added for RIA/Silverlight projects
+*.userprefs
+*.swp
 
 # Backup & report files from converting an old project file to a newer
 # Visual Studio version. Backup files are not needed, because we have git ;-)
@@ -113,3 +116,4 @@ nuget/*.nupkg
 
 nuget_tool/tools/
 nuget_tool/*.nupkg
+

@@ -63,3 +63,37 @@ task :regen_links_dbgen do
     global_phone_dbgen.write f
   end
 end
+
+namespace :mono do
+  desc "build isop on mono"
+  xbuild :build do |msb|
+    solution_dir = File.join(File.dirname(__FILE__),'src')
+    nuget_tools_path = File.join(solution_dir, '.nuget')
+    msb.properties :configuration => :Debug, 
+      :SolutionDir => solution_dir,
+      :NuGetToolsPath => nuget_tools_path,
+      :NuGetExePath => File.join(nuget_tools_path, 'NuGet.exe'),
+      :PackagesDir => File.join(solution_dir, 'packages')
+    msb.targets :rebuild
+    msb.verbosity = 'quiet'
+    msb.solution = File.join('.','src',"GlobalPhone.sln")
+  end
+
+  desc "test with nunit"
+  task :test => :build do
+    # does not work for some reason 
+    command = "nunit-console4"
+    assemblies = "GlobalPhone.Tests.dll"
+    cd "src/GlobalPhone.Tests/bin/Debug" do
+      sh "#{command} #{assemblies}"
+    end
+  end
+
+  desc "Install missing NuGet packages."
+  task :install_packages do |cmd|
+    FileList["src/**/packages.config"].each do |filepath|
+      sh "mono --runtime=v4.0.30319 ./src/.nuget/NuGet.exe i #{filepath} -o ./src/packages"
+    end
+  end
+
+end
