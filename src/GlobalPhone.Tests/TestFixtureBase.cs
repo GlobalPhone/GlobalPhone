@@ -37,6 +37,8 @@ namespace GlobalPhone.Tests
         private object[] _globalPhoneTestCases;
         private string _phoneNumberMetadata;
         private string _phoneNumberMetadata2;
+        private object[] _exampleInvalidNumbers;
+
         public object[] RecordData
         {
             get { return _recordData ?? (_recordData = JsonFixture("record_data")); }
@@ -44,6 +46,19 @@ namespace GlobalPhone.Tests
         public object[] ExampleNumbers
         {
             get { return _exampleNumbers ?? (_exampleNumbers = JsonFixture("example_numbers")); }
+        }
+        public object[] ExampleInvalidNumbers
+        {
+            get
+            {
+                return _exampleInvalidNumbers ?? (_exampleInvalidNumbers = new object[]
+                {
+                    new []{"689","AC"},
+                    new []{"112","SE"},
+                    new []{"000","SE"},
+                    new []{"ABC","SE"},
+                });
+            }
         }
         private object[] JsonFixture(string name)
         {
