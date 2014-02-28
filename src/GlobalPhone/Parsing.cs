@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace GlobalPhone
 {
@@ -43,7 +44,8 @@ namespace GlobalPhone
 
         private static IEnumerable<String> CountryCodeCandidatesFor(string @string)
         {
-            return new[] {1, 2, 3}.Map(i=>@string.Substring(0,i));
+            return new[] {1, 2, 3}.Map(i => @string.Length <= i ? null : @string.Substring(0, i))
+                .Where(candidate => !String.IsNullOrEmpty(candidate));
         }
 
         private static string StripLeadingPlus(string str)

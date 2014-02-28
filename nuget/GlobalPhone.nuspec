@@ -3,7 +3,7 @@
   <metadata>
     <id>GlobalPhone</id>
     <title>GlobalPhone</title>
-    <version>1.0.6</version>
+    <version>1.1.0</version>
     <authors>Oskar Gewalli, Sam Stephenson</authors>
     <owners>Oskar Gewalli, Sam Stephenson</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -19,6 +19,6 @@
       <dependency id="Makrill" version="0.3.1" />
       <dependency id="Newtonsoft.Json" version="5.0.8" />
     </dependencies>
-    <releaseNotes>Updated Makrill version</releaseNotes>
+    <releaseNotes>The library crashed when three letter invalid numbers where entered.</releaseNotes>
   </metadata>
 </package>
