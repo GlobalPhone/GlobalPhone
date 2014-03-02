@@ -2,7 +2,7 @@ language: objective-c
 
 env:
   matrix:
-    - MONO_VERSION="3.2.5"
+    - MONO_VERSION="3.2.7"
   global:
     - EnableNuGetPackageRestore=false
 install:
