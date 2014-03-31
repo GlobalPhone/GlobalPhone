@@ -1,5 +1,3 @@
-using System;
-
 namespace GlobalPhone
 {
     public class Context
@@ -35,6 +33,10 @@ namespace GlobalPhone
             {
                 return null;
             }
+            catch (UnknownTerritoryException) 
+            {
+                return null;
+            }
         }
         
         public string Normalize(string str, string territoryName = null)
@@ -47,6 +49,10 @@ namespace GlobalPhone
         {
             try { return Normalize(str, territoryName); }
             catch (FailedToParseNumberException) 
+            {
+                return null;
+            }
+            catch (UnknownTerritoryException) 
             {
                 return null;
             }
