@@ -76,6 +76,12 @@ namespace GlobalPhone.Tests
         }
 
         [Test]
+        public void try_parse_with_illegal_territory_should_not_throw()
+        {
+            Assert.DoesNotThrow(() => Context.TryParse("12345", "alderaan"));
+        }
+
+        [Test]
         public void changing_the_default_territory()
         {
             assert_does_not_parse("(0) 20-7031-3000");
@@ -112,6 +118,11 @@ namespace GlobalPhone.Tests
             Assert.That(Context.Normalize("(312) 555-1212"), Is.EqualTo("+13125551212"));
             Assert.Throws<FailedToParseNumberException>(()=>Context.Normalize("(0) 20-7031-3000"));
             Assert.That(Context.Normalize("(0) 20-7031-3000","gb"), Is.EqualTo("+442070313000"));
+        }
+        [Test]
+        public void try_normalize_with_illegal_territory_should_not_throw()
+        {
+            Assert.DoesNotThrow(() => Context.TryNormalize("12345", "alderaan"));
         }
 
     }
