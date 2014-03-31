@@ -65,6 +65,7 @@
     <Compile Include="Record.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="Territory.cs" />
+    <Compile Include="UnknownTerritoryException.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
