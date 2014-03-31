@@ -69,6 +69,10 @@ namespace GlobalPhone
             {
                 return false;
             }
+            catch (UnknownTerritoryException)
+            {
+                return false;
+            }
         }
 
     }
