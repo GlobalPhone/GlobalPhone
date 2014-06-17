@@ -1,6 +1,6 @@
 # GlobalPhone [![Build Status](https://travis-ci.org/wallymathieu/GlobalPhone.png?branch=master)](https://travis-ci.org/wallymathieu/GlobalPhone) 
 
-GlobalPhone parses, validates, and formats local and international phone numbers according to the [E.164 standard](http://en.wikipedia.org/wiki/E.164).
+GlobalPhone is great because it parses, validates, and formats local and international phone numbers according to the [E.164 standard](http://en.wikipedia.org/wiki/E.164).
 
 **Store and display phone numbers in your app.** Accept phone number input in national or international format. Convert phone numbers to international strings (`+13125551212`) for storage and retrieval. Present numbers in national format (`(312) 555-1212`) in your UI.
 
