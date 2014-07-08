@@ -62,7 +62,7 @@ namespace GlobalPhone.Tests
         public void national_format_gb()
         {
             var number = Context.Parse("07411 111111", "gb");
-            Assert.That(number.NationalFormat, Is.EqualTo("07411 111111"));
+            Assert.That(number.NationalFormat, Is.EqualTo("074 1111 1111"));
         }
 
         [Test]

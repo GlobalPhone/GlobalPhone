@@ -106,7 +106,7 @@ namespace GlobalPhone
         private static readonly Regex ValidAlphaChars = new Regex("[a-zA-Z]", RegexOptions.Compiled);
         private static readonly Regex LeadingPlusChars = new Regex("^\\++", RegexOptions.Compiled);
         private static readonly Regex NonDialableChars = new Regex("[^,#+\\*\\d]", RegexOptions.Compiled);
-        private static readonly Regex SplitFirstGroup = new Regex("^(\\d+)(.*)$", RegexOptions.Compiled);
+        private static readonly Regex SplitFirstGroup = new Regex("^(\\d+)\\W*(.*)$", RegexOptions.Compiled);
         private Format _format;
         private string _internationalFormat;
         private string _nationalFormat;
