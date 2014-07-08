@@ -3,7 +3,7 @@
   <metadata>
     <id>GlobalPhone</id>
     <title>GlobalPhone</title>
-    <version>1.2.1</version>
+    <version>1.2.2</version>
     <authors>Oskar Gewalli, Sam Stephenson</authors>
     <owners>Oskar Gewalli, Sam Stephenson</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -19,6 +19,6 @@
       <dependency id="Makrill" version="0.3.3" />
       <dependency id="Newtonsoft.Json" version="6.0.1" />
     </dependencies>
-    <releaseNotes>Fixed bug: Validate, TryNormalize and TryParse would throw for invalid territory.</releaseNotes>
+    <releaseNotes>Fixed bug: Extra whitespace in national string.</releaseNotes>
   </metadata>
 </package>
