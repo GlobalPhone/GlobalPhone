@@ -20,7 +20,15 @@ task :core_copy_to_nuspec => [:build] do
   mkdir_p output_directory_tools
   cp Dir.glob("./src/GlobalPhoneDbgen/bin/Debug/*.dll"), output_directory_tools
   cp Dir.glob("./src/GlobalPhoneDbgen/bin/Debug/GlobalPhoneDbgen.exe"), output_directory_tools
-  
+end
+
+desc "test with nunit"
+task :test => :build do
+  command = Dir.glob(File.join(dir,"src/packages/NUnit.Runners.*/Tools/nunit-console.exe")).first
+  assemblies = "GlobalPhone.Tests.dll"
+  cd "src/GlobalPhone.Tests/bin/Debug" do
+    sh "#{command} #{assemblies}"
+  end
 end
 
 desc "create the nuget package"
