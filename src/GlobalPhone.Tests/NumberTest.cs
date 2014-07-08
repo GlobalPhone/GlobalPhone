@@ -57,6 +57,14 @@ namespace GlobalPhone.Tests
             var number = Context.Parse("312-555-1212");
             Assert.That(number.NationalFormat, Is.EqualTo("(312) 555-1212"));
         }
+
+        [Test]
+        public void national_format_gb()
+        {
+            var number = Context.Parse("07411 111111", "gb");
+            Assert.That(number.NationalFormat, Is.EqualTo("07411 111111"));
+        }
+
         [Test]
         public void international_string()
         {
