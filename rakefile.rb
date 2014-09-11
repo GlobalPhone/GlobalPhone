@@ -12,14 +12,41 @@ msbuild :build do |msb|
   msb.solution =File.join(dir,"src", "GlobalPhone.sln")
 end
 
-task :core_copy_to_nuspec => [:build] do
+task :main_copy_to_nuspec => [:build] do
   output_directory_lib = File.join(dir,"nuget/lib/40/")
   mkdir_p output_directory_lib
   cp Dir.glob("./src/GlobalPhone/bin/Debug/GlobalPhone.dll"), output_directory_lib
+end
+
+task :tool_copy_to_nuspec => [:build] do
   output_directory_tools = File.join(dir,"nuget_tool/tools/")
   mkdir_p output_directory_tools
   cp Dir.glob("./src/GlobalPhoneDbgen/bin/Debug/*.dll"), output_directory_tools
   cp Dir.glob("./src/GlobalPhoneDbgen/bin/Debug/GlobalPhoneDbgen.exe"), output_directory_tools
+end
+
+task :core_copy_to_nuspec => [:build] do
+  output_directory_lib = File.join(dir,"nuget_core/lib/40/")
+  mkdir_p output_directory_lib
+  cp Dir.glob("./src/GlobalPhoneCore/bin/Debug/GlobalPhone.dll"), output_directory_lib
+end
+
+task :main_nugetpack => [:main_copy_to_nuspec] do |nuget|
+  cd File.join(dir,"nuget") do
+    sh "..\\src\\.nuget\\NuGet.exe pack GlobalPhone.nuspec"
+  end
+end
+
+task :tool_nugetpack => [:tool_copy_to_nuspec] do |nuget|
+  cd File.join(dir,"nuget_tool") do
+    sh "..\\src\\.nuget\\NuGet.exe pack GlobalPhoneDbgen.nuspec"
+  end
+end
+
+task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
+  cd File.join(dir,"nuget_core") do
+    sh "..\\src\\.nuget\\NuGet.exe pack GlobalPhoneCore.nuspec"
+  end
 end
 
 desc "test with nunit"
@@ -37,17 +64,7 @@ task :test => :build do
 end
 
 desc "create the nuget package"
-task :nugetpack => [:core_nugetpack]
-
-task :core_nugetpack => [:core_copy_to_nuspec] do |nuget|
-  cd File.join(dir,"nuget") do
-    sh "..\\src\\.nuget\\NuGet.exe pack GlobalPhone.nuspec"
-  end
-  cd File.join(dir,"nuget_tool") do
-    sh "..\\src\\.nuget\\NuGet.exe pack GlobalPhoneDbgen.nuspec"
-  end
-
-end
+task :nugetpack => [:main_nugetpack, :tool_nugetpack, :core_nugetpack]
 
 desc "Install missing NuGet packages."
 exec :install_packages do |cmd|

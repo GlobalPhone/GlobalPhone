@@ -117,3 +117,5 @@ nuget/*.nupkg
 nuget_tool/tools/
 nuget_tool/*.nupkg
 
+nuget_core/lib/
+nuget_core/*.nupkg
