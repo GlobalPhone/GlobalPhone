@@ -29,6 +29,11 @@ task :test => :build do
   cd "src/GlobalPhone.Tests/bin/Debug" do
     sh "#{command} #{assemblies}"
   end
+
+  assemblies = "GlobalPhoneCore.Tests.dll"
+  cd "src/GlobalPhoneCore.Tests/bin/Debug" do
+    sh "#{command} #{assemblies}"
+  end
 end
 
 desc "create the nuget package"

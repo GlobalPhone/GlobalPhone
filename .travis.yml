@@ -13,4 +13,4 @@ script:
   - bundle install 
   - rake mono:install_packages
   - rake mono:build
-  - /Library/Frameworks/Mono.framework/Versions/${MONO_VERSION}/bin/nunit-console4 ./src/GlobalPhone.Tests/bin/Debug/GlobalPhone.Tests.dll
+  - /Library/Frameworks/Mono.framework/Versions/${MONO_VERSION}/bin/nunit-console4 ./src/GlobalPhone.Tests/bin/Debug/GlobalPhone.Tests.dll ./src/GlobalPhoneCore.Tests/bin/Debug/GlobalPhoneCore.Tests.dll
