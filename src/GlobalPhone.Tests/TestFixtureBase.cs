@@ -1,6 +1,12 @@
 ﻿using System.IO;
 using NUnit.Framework;
+#if NEWTONSOFT
+using Makrill;
 using Newtonsoft.Json.Linq;
+#else
+using System.Web.Script.Serialization;
+#endif
+
 
 namespace GlobalPhone.Tests
 {
@@ -60,10 +66,21 @@ namespace GlobalPhone.Tests
                 });
             }
         }
+#if NEWTONSOFT
+        private static readonly JsonConvert jsonConvert = new Makrill.JsonConvert();
+#else
+        private static readonly JavaScriptSerializer jsonConvert = new JavaScriptSerializer();
+#endif
+
         private object[] JsonFixture(string name)
         {
-            return new Makrill.JsonConvert().Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
+#if NEWTONSOFT
+            return jsonConvert.Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
+#else
+            return jsonConvert.Deserialize<object[]>(File.ReadAllText(FixturePath(name + ".json")));
+#endif
         }
+
         public object[] GlobalPhone
         {
             get { return _globalPhone ?? (_globalPhone = JsonFixture("global_phone")); }

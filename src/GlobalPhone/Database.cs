@@ -29,9 +29,9 @@ namespace GlobalPhone
         public static Database Load(string text)
         {
 #if NEWTONSOFT
-            return new Database(JArray.Parse(text).Map(r1 => JsonConvert.Deserialize(r1)).ToArray());
+            return new Database(JArray.Parse(text).Map(r1 => jsonConvert.Deserialize(r1)).ToArray());
 #else
-            return new Database(JsonConvert.Deserialize<object[]>(text));
+            return new Database(jsonConvert.Deserialize<object[]>(text));
 #endif
         }
 
@@ -55,9 +55,9 @@ namespace GlobalPhone
 
         private readonly Dictionary<string, Territory> _territoriesByName;
 #if NEWTONSOFT
-        private static readonly JsonConvert JsonConvert = new JsonConvert();
+        private static readonly JsonConvert jsonConvert = new JsonConvert();
 #else
-        private static readonly JavaScriptSerializer JsonConvert = new JavaScriptSerializer();
+        private static readonly JavaScriptSerializer jsonConvert = new JavaScriptSerializer();
 #endif
       
         public override Territory TryGetTerritory(string name)
