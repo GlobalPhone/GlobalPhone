@@ -6,6 +6,8 @@ using System.Collections.Generic;
 #if NEWTONSOFT
 using Makrill;
 using Newtonsoft.Json.Linq;
+#else
+using System.Web.Script.Serialization;
 #endif
 namespace GlobalPhone
 {
@@ -29,7 +31,7 @@ namespace GlobalPhone
 #if NEWTONSOFT
             return new Database(JArray.Parse(text).Map(r1 => JsonConvert.Deserialize(r1)).ToArray());
 #else
-            throw new NotImplementedException();
+            return new Database(JsonConvert.Deserialize<object[]>(text));
 #endif
         }
 
@@ -54,6 +56,8 @@ namespace GlobalPhone
         private readonly Dictionary<string, Territory> _territoriesByName;
 #if NEWTONSOFT
         private static readonly JsonConvert JsonConvert = new JsonConvert();
+#else
+        private static readonly JavaScriptSerializer JsonConvert = new JavaScriptSerializer();
 #endif
       
         public override Territory TryGetTerritory(string name)

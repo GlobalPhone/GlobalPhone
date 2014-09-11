@@ -5,7 +5,7 @@ GEM
       rubyzip
     rake (10.1.0)
     rubyzip (0.9.9)
-    visual_studio_files (0.1.1)
+    visual_studio_files (0.1.2)
 
 PLATFORMS
   ruby

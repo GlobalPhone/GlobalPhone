@@ -52,6 +52,9 @@ exec :install_packages do |cmd|
   end
 end
 
+desc "regenerate links"
+task :regen_links => [:regen_links_dbgen, :regen_links_core, :regen_links_core_tests]
+
 desc "regenerate links in dbgen"
 task :regen_links_dbgen do
   global_phone = VisualStudioFiles::CsProj.new(File.open(File.join(dir,'src','GlobalPhone','GlobalPhone.csproj'), "r").read)
@@ -69,6 +72,46 @@ task :regen_links_dbgen do
   end
   File.open(File.join(dir,'src','GlobalPhoneDbgen','GlobalPhoneDbgen.csproj'), "w") do |f|
     global_phone_dbgen.write f
+  end
+end
+
+desc "regenerate links in core"
+task :regen_links_core do
+  global_phone = VisualStudioFiles::CsProj.new(File.open(File.join(dir,'src','GlobalPhone','GlobalPhone.csproj'), "r").read)
+  global_phone_files = global_phone.files.select do |file|
+    file.type=='Compile' && !file.file.end_with?('AssemblyInfo.cs')
+  end
+
+  global_phone_core = VisualStudioFiles::CsProj.new(File.open(File.join(dir,'src','GlobalPhoneCore','GlobalPhoneCore.csproj'), "r").read)
+  global_phone_core.clear_links
+  global_phone_files.each do |file|
+    hash = file.to_hash
+    hash[:file] = "..\\GlobalPhone\\#{file.file}"
+    hash[:link] = "GlobalPhone\\#{file.file}"
+    global_phone_core.add(hash)
+  end
+  File.open(File.join(dir,'src','GlobalPhoneCore','GlobalPhoneCore.csproj'), "w") do |f|
+    global_phone_core.write f
+  end
+end
+
+desc "regenerate links in core"
+task :regen_links_core_tests do
+  global_phone = VisualStudioFiles::CsProj.new(File.open(File.join(dir,'src','GlobalPhone.Tests','GlobalPhone.Tests.csproj'), "r").read)
+  global_phone_files = global_phone.files.select do |file|
+    (file.type=='Compile'||file.type=='Content') && !file.file.end_with?('AssemblyInfo.cs')
+  end
+
+  global_phone_core = VisualStudioFiles::CsProj.new(File.open(File.join(dir,'src','GlobalPhoneCore.Tests','GlobalPhoneCore.Tests.csproj'), "r").read)
+  global_phone_core.clear_links
+  global_phone_files.each do |file|
+    hash = file.to_hash
+    hash[:file] = "..\\GlobalPhone.Tests\\#{file.file}"
+    hash[:link] = "#{file.file}"
+    global_phone_core.add(hash)
+  end
+  File.open(File.join(dir,'src','GlobalPhoneCore.Tests','GlobalPhoneCore.Tests.csproj'), "w") do |f|
+    global_phone_core.write f
   end
 end
 

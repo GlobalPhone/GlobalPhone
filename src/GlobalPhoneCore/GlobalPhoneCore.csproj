@@ -1,34 +1,29 @@
 <?xml version='1.0' encoding='UTF-8'?> 
-<Project ToolsVersion='4.0' DefaultTargets='Build' xmlns='http://schemas.microsoft.com/developer/msbuild/2003'>
+<Project ToolsVersion='12.0' DefaultTargets='Build' xmlns='http://schemas.microsoft.com/developer/msbuild/2003'>
+  <Import Project='$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props' Condition='Exists(&apos;$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props&apos;)'/>
   <PropertyGroup>
     <Configuration Condition=' &apos;$(Configuration)&apos; == &apos;&apos; '>Debug</Configuration>
-    <Platform Condition=' &apos;$(Platform)&apos; == &apos;&apos; '>x86</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <Platform Condition=' &apos;$(Platform)&apos; == &apos;&apos; '>AnyCPU</Platform>
+    <ProjectGuid>{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GlobalPhoneDbgen</RootNamespace>
-    <AssemblyName>GlobalPhoneDbgen</AssemblyName>
+    <RootNamespace>GlobalPhoneCore</RootNamespace>
+    <AssemblyName>GlobalPhoneCore</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition='$(SolutionDir) == &apos;&apos; Or $(SolutionDir) == &apos;*Undefined*&apos;'>..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
-    <PackagesConfig>$(ProjectDir)/packages.config</PackagesConfig>
   </PropertyGroup>
-  <PropertyGroup Condition=' &apos;$(Configuration)|$(Platform)&apos; == &apos;Debug|x86&apos; '>
-    <PlatformTarget>x86</PlatformTarget>
-    <DebugSymbols>True</DebugSymbols>
+  <PropertyGroup Condition=' &apos;$(Configuration)|$(Platform)&apos; == &apos;Debug|AnyCPU&apos; '>
+    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup Condition=' &apos;$(Configuration)|$(Platform)&apos; == &apos;Release|x86&apos; '>
-    <PlatformTarget>x86</PlatformTarget>
+  <PropertyGroup Condition=' &apos;$(Configuration)|$(Platform)&apos; == &apos;Release|AnyCPU&apos; '>
     <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
+    <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
@@ -37,18 +32,12 @@
   <ItemGroup>
     <Reference Include='System'/>
     <Reference Include='System.Core'/>
-    <Reference Include='System.Web.Extensions'/>
     <Reference Include='Microsoft.CSharp'/>
+    <Reference Include='System.Web.Extensions'/>
     <Reference Include='System.XML'/>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include='Program.cs'/>
     <Compile Include='Properties\AssemblyInfo.cs'/>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include='app.config'/>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include='..\GlobalPhone\Begin.cs'>
       <Link>GlobalPhone\Begin.cs</Link>
     </Compile>
@@ -102,7 +91,6 @@
     </Compile>
   </ItemGroup>
   <Import Project='$(MSBuildToolsPath)\Microsoft.CSharp.targets'/>
-  <Import Project='$(SolutionDir)\.nuget\NuGet.targets' Condition='Exists(&apos;$(SolutionDir)\.nuget\NuGet.targets&apos;)'/>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
