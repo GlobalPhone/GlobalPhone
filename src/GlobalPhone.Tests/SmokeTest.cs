@@ -1,5 +1,6 @@
 using NUnit.Framework;
-
+using System.Collections;
+using System.Linq;
 namespace GlobalPhone.Tests
 {
     [TestFixture]
@@ -8,8 +9,9 @@ namespace GlobalPhone.Tests
         [Test]
         public void parsing_example_numbers()
         {
-            foreach (object[] item in ExampleNumbers)
+            foreach (object obj in ExampleNumbers)
             {
+				var item = ((IEnumerable)obj).Cast<object>().ToArray();
                 var @string = item[0];
                 var territory_name = item[1];
                 assert_parses(@string, territory_name);

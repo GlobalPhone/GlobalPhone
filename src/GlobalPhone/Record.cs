@@ -8,13 +8,11 @@ namespace GlobalPhone
     {
         private readonly object[] _data;
 
-		protected object[] AsArray(object value){
-			IEnumerable<Object> genericEnumerable ;
-			ArrayList arrayList ;
-			if ((genericEnumerable = value as IEnumerable<Object>) != null) {
-				return genericEnumerable.ToArray();
-			} else if ((arrayList = value as ArrayList) != null) {
-				return arrayList.ToArray();
+		protected object[] AsArray(object value)
+		{
+			IEnumerable enumerable ;
+			if ((enumerable = value as IEnumerable) != null) {
+				return enumerable.Cast<Object>().ToArray();
 			} else {
 				throw new Exception ("Unknown type: "+value.GetType().Name);
 			}
