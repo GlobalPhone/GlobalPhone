@@ -39,8 +39,10 @@ namespace GlobalPhone.Tests
         [Test]
         public void parsing_invalid_numbers()
         {
-            foreach (object[] item in ExampleInvalidNumbers)
+            foreach (object obj in ExampleInvalidNumbers)
             {
+				var item = ((IEnumerable)obj).Cast<object>().ToArray();
+
                 var @string = item[0];
                 var territory_name = item[1];
                 assert_can_handle_invalid(@string, territory_name);
