@@ -1,15 +1,33 @@
 using System;
-
+using System.Linq;
+using System.Collections;
+using System.Collections.Generic;
 namespace GlobalPhone
 {
     public class Record
     {
         private readonly object[] _data;
 
+		protected object[] AsArray(object value){
+			IEnumerable<Object> genericEnumerable ;
+			ArrayList arrayList ;
+			if ((genericEnumerable = value as IEnumerable<Object>) != null) {
+				return genericEnumerable.ToArray();
+			} else if ((arrayList = value as ArrayList) != null) {
+				return arrayList.ToArray();
+			} else {
+				throw new Exception ("Unknown type: "+value.GetType().Name);
+			}
+		}
+
         public Record(object data)
         {
-            _data = (object[])data;
+			_data = AsArray (data);
         }
+		protected object[] FieldAsArray(int index)
+		{
+			return AsArray(_data[index]);
+		}
         protected T Field<T>(int index, T fallback=default(T))
         {
             try

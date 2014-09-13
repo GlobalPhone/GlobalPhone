@@ -18,8 +18,8 @@ namespace GlobalPhone
             : base(data)
         {
             CountryCode = Field<string>(0);
-            _formatRecordData = Field<object[]>(1);
-            _territoryRecordData = Field<object[]>(2);
+			_formatRecordData = FieldAsArray(1);
+			_territoryRecordData = FieldAsArray(2);
             InternationalPrefix = Field<string, Regex>(3, p => new Regex("^(?:" + p + ")"));
             NationalPrefix = Field<string>(4);
             NationalPrefixForParsing = Field<string, Regex>(5, p => new Regex("^(?:" + p + ")"));
@@ -77,7 +77,7 @@ namespace GlobalPhone
         }
         private List<string> TerritoryNames()
         {
-            return _territoryRecordData.Map(d => ((object[])d)[0].ToString().ToUpper()).ToList();
+			return _territoryRecordData.Map(d => (AsArray(d))[0].ToString().ToUpper()).ToList();
         }
 
     }
