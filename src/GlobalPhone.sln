@@ -21,9 +21,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneDbgen", "GlobalPhoneDbgen\GlobalPhoneDbgen.csproj", "{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneCore", "GlobalPhoneCore\GlobalPhoneCore.csproj", "{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneNewtonSoft", "GlobalPhoneCore\GlobalPhoneNewtonSoft.csproj", "{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneCore.Tests", "GlobalPhoneCore.Tests\GlobalPhoneCore.Tests.csproj", "{67400CC2-CC26-43E3-AA55-C839030622D9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneNewtonSoft.Tests", "GlobalPhoneCore.Tests\GlobalPhoneNewtonSoft.Tests.csproj", "{67400CC2-CC26-43E3-AA55-C839030622D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

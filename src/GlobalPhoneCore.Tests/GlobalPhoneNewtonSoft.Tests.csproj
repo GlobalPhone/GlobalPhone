@@ -20,7 +20,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;NEWTONSOFT</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -33,6 +33,13 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Makrill">
+      <HintPath>..\packages\Makrill.0.3.3\lib\40\Makrill.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
@@ -53,9 +60,9 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GlobalPhoneCore\GlobalPhoneCore.csproj">
+    <ProjectReference Include="..\GlobalPhoneCore\GlobalPhoneNewtonSoft.csproj">
       <Project>{c2aa9b9d-825f-4190-97a9-4acb016bd4e9}</Project>
-      <Name>GlobalPhoneCore</Name>
+      <Name>GlobalPhoneNewtonSoft</Name>
     </ProjectReference>
     <Compile Include="..\GlobalPhone.Tests\CanGenerateExpectedTests.cs">
       <Link>CanGenerateExpectedTests.cs</Link>
