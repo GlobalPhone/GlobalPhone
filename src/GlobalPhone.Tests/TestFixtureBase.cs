@@ -14,11 +14,11 @@ namespace GlobalPhone.Tests
         private Context _context;
         public Context Context
         {
-            get { return _context ?? (_context = new Context { DbPath = FixturePath("record_data.json") }); }
+			get { return _context ?? (_context = new Context(_deserializer) { DbPath = FixturePath("record_data.json") }); }
         }
         private static string FixturePath(string file)
         {
-            return Path.Combine("fixtures", file);//File.expand_path("../fixtures/#{filename}", __FILE__)
+            return Path.Combine("fixtures", file);
         }
 
         public Database Db
@@ -60,7 +60,6 @@ namespace GlobalPhone.Tests
 
         private object[] JsonFixture(string name)
         {
-            //return jsonConvert.Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
 			return _deserializer.Deserialize(File.ReadAllText(FixturePath(name + ".json")));
         }
 
