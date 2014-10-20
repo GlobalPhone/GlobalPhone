@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
+# Visual Studio 2012
 VisualStudioVersion = 12.0.30723.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone", "GlobalPhone\GlobalPhone.csproj", "{34C587CD-441B-49CC-9355-33404300A88B}"
@@ -20,10 +20,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneDbgen", "GlobalPhoneDbgen\GlobalPhoneDbgen.csproj", "{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneNewtonSoft", "GlobalPhoneCore\GlobalPhoneNewtonSoft.csproj", "{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneNewtonSoft.Tests", "GlobalPhoneCore.Tests\GlobalPhoneNewtonSoft.Tests.csproj", "{67400CC2-CC26-43E3-AA55-C839030622D9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,31 +67,13 @@ Global
 		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|Mixed Platforms.Build.0 = Release|x86
 		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|x86.ActiveCfg = Release|x86
 		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|x86.Build.0 = Release|x86
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{C2AA9B9D-825F-4190-97A9-4ACB016BD4E9}.Release|x86.ActiveCfg = Release|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Release|Mixed Platforms.Build.0 = Release|Any CPU
-		{67400CC2-CC26-43E3-AA55-C839030622D9}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
+	GlobalSection(NestedProjects) = preSolution
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = GlobalPhone\GlobalPhone.csproj
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

@@ -1,26 +1,16 @@
 ﻿using System.IO;
 using NUnit.Framework;
-#if NEWTONSOFT
-using Makrill;
-using Newtonsoft.Json.Linq;
-#else
-using System.Web.Script.Serialization;
-#endif
-
 
 namespace GlobalPhone.Tests
 {
     public class TestFixtureBase
     {
-        [SetUp]
-        public void SetUp()
-        {
-        }
-        [SetUp]
+		[TearDown]
         public void TearDown()
         {
             _context = null;
         }
+
         private Context _context;
         public Context Context
         {
@@ -66,19 +56,12 @@ namespace GlobalPhone.Tests
                 });
             }
         }
-#if NEWTONSOFT
-        private static readonly JsonConvert jsonConvert = new Makrill.JsonConvert();
-#else
-        private static readonly JavaScriptSerializer jsonConvert = new JavaScriptSerializer();
-#endif
+		protected IDeserializer _deserializer;
 
         private object[] JsonFixture(string name)
         {
-#if NEWTONSOFT
-            return jsonConvert.Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
-#else
-            return jsonConvert.Deserialize<object[]>(File.ReadAllText(FixturePath(name + ".json")));
-#endif
+            //return jsonConvert.Deserialize(JArray.Parse(File.ReadAllText(FixturePath(name + ".json"))));
+			return _deserializer.Deserialize(File.ReadAllText(FixturePath(name + ".json")));
         }
 
         public object[] GlobalPhone

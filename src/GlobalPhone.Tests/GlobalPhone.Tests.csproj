@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{80733888-5582-4584-8339-D3B886D4B46D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -43,6 +41,12 @@
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.1\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Makrill">
+      <HintPath>..\packages\Makrill.0.3.3\lib\40\Makrill.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CanGenerateExpectedTests.cs" />
@@ -56,6 +60,7 @@
     <Compile Include="SmokeTest.cs" />
     <Compile Include="TestExtensions.cs" />
     <Compile Include="TestFixtureBase.cs" />
+    <Compile Include="NewtonsoftDeserializer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GlobalPhone\GlobalPhone.csproj">

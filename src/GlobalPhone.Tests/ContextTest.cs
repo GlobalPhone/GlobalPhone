@@ -2,9 +2,15 @@
 
 namespace GlobalPhone.Tests
 {
-    [TestFixture]
-    public class ContextTest : TestFixtureBase
+	[TestFixture(typeof(DefaultDeserializer))]
+	[TestFixture(typeof(NewtonsoftDeserializer))]
+	public class ContextTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
+		[TestFixtureSetUp]
+		public void TestFixtureSetup()
+		{
+			_deserializer = new Deserializer ();
+		}
 		class Conf
 		{
 			public string country_code {

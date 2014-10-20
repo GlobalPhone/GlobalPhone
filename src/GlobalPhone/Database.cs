@@ -3,12 +3,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Collections.Generic;
-#if NEWTONSOFT
-using Makrill;
-using Newtonsoft.Json.Linq;
-#else
 using System.Web.Script.Serialization;
-#endif
 namespace GlobalPhone
 {
     public class Database : Parsing
@@ -21,18 +16,14 @@ namespace GlobalPhone
             Regions = recordData.Map(data => new Region(data)).ToArray();
         }
 
-        public static Database LoadFile(string filename)
+		public static Database LoadFile(string filename, IDeserializer serializer)
         {
-            return Load(File.ReadAllText(filename));
+			return Load(File.ReadAllText(filename), serializer);
         }
 
-        public static Database Load(string text)
+		public static Database Load(string text, IDeserializer serializer)
         {
-#if NEWTONSOFT
-            return new Database(JArray.Parse(text).Map(r1 => jsonConvert.Deserialize(r1)).ToArray());
-#else
-            return new Database(jsonConvert.Deserialize<object[]>(text));
-#endif
+			return new Database(serializer.Deserialize(text));
         }
 
         public Region TryGetRegion(int countryCode)
@@ -54,11 +45,6 @@ namespace GlobalPhone
         }
 
         private readonly Dictionary<string, Territory> _territoriesByName;
-#if NEWTONSOFT
-        private static readonly JsonConvert jsonConvert = new JsonConvert();
-#else
-        private static readonly JavaScriptSerializer jsonConvert = new JavaScriptSerializer();
-#endif
       
         public override Territory TryGetTerritory(string name)
         {

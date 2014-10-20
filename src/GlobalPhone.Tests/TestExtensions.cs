@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using System;
 
 namespace GlobalPhone.Tests
 {
@@ -14,5 +16,10 @@ namespace GlobalPhone.Tests
             }
             return deflt;
         }
+
+		internal static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
+		{
+			return self.Select(map);
+		}
     }
 }

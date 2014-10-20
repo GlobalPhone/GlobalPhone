@@ -3,9 +3,16 @@ using System.Collections;
 using System.Linq;
 namespace GlobalPhone.Tests
 {
-    [TestFixture]
-    public class SmokeTest : TestFixtureBase
+	[TestFixture(typeof(DefaultDeserializer))]
+	[TestFixture(typeof(NewtonsoftDeserializer))]
+	public class SmokeTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
+		[TestFixtureSetUp]
+		public void TestFixtureSetup()
+		{
+			_deserializer = new Deserializer ();
+		}
+
         [Test]
         public void parsing_example_numbers()
         {

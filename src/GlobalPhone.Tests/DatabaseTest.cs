@@ -2,9 +2,15 @@ using NUnit.Framework;
 
 namespace GlobalPhone.Tests
 {
-    [TestFixture]
-    public class DatabaseTest : TestFixtureBase
+	[TestFixture(typeof(DefaultDeserializer))]
+	[TestFixture(typeof(NewtonsoftDeserializer))]
+	public class DatabaseTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
+		[TestFixtureSetUp]
+		public void TestFixtureSetup()
+		{
+			_deserializer = new Deserializer ();
+		}
 
         [Test]
         public void initializing_database_manually()

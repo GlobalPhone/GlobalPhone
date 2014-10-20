@@ -2,10 +2,16 @@
 
 namespace GlobalPhone.Tests
 {
-    [TestFixture]
-    public class CanGenerateExpectedTests : TestFixtureBase
+	[TestFixture(typeof(DefaultDeserializer))]
+	[TestFixture(typeof(NewtonsoftDeserializer))]
+	public class CanGenerateExpectedTests<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
-        
+		[TestFixtureSetUp]
+		public void TestFixtureSetup()
+		{
+			_deserializer = new Deserializer ();
+		}
+
         [Test]
         public void The_json_matches_what_ruby_generates()
         {

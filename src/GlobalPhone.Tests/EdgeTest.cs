@@ -2,9 +2,15 @@ using NUnit.Framework;
 
 namespace GlobalPhone.Tests
 {
-    [TestFixture]
-    public class EdgeTest : TestFixtureBase
+	[TestFixture(typeof(DefaultDeserializer))]
+	[TestFixture(typeof(NewtonsoftDeserializer))]
+	public class EdgeTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
+		[TestFixtureSetUp]
+		public void TestFixtureSetup()
+		{
+			_deserializer = new Deserializer ();
+		}
         [Test]
         public void formatting_numbers_that_match_a_pattern_but_not_leading_digits()
         {

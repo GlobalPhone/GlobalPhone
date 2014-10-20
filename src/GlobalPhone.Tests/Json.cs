@@ -1,10 +1,6 @@
 using System;
-#if NEWTONSOFT
 using Makrill;
 using Newtonsoft.Json.Linq;
-#else
-using System.Web.Script.Serialization;
-#endif
 
 using NUnit.Framework.Constraints;
 
@@ -28,19 +24,11 @@ namespace GlobalPhone.Tests
         }
         internal class JsonEqualConstraint :EqualConstraint
         {
-#if NEWTONSOFT
             private static readonly JsonConvert jsonConvert = new JsonConvert();
-#else
-            private static readonly JavaScriptSerializer jsonConvert = new JavaScriptSerializer();
-#endif
 
             private static string SerializeObject(Object o)
             {
-#if NEWTONSOFT
                 return jsonConvert.Serialize(o);
-#else
-                return jsonConvert.Serialize(o);
-#endif
             }
 
             public JsonEqualConstraint(object match)
