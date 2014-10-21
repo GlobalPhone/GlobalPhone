@@ -78,14 +78,14 @@ build :build do |msb|
   msb.target = :Rebuild
   msb.be_quiet
   msb.nologo
-  msb.sln =File.join(dir,"src", "GlobalPhone.sln")
+  msb.sln =File.join(File.dirname(__FILE__), "src", "GlobalPhone.sln")
 end
 
 desc "test using nunit console"
 task :test => :build do |t|
   assemblies = "GlobalPhone.Tests.dll"
   dir = File.join('.',"src","GlobalPhone.Tests","bin","Debug")
-  nunit_exec(dir,"GlobalPhone.Tests")
+  nunit_exec(dir, "GlobalPhone.Tests")
 end
 
 task :main_copy_to_nuspec => [:build] do
