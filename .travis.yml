@@ -1,17 +1,15 @@
-language: objective-c
+language: java
 
 env:
-  matrix:
-    - MONO_VERSION="3.8.0.9"
-    # see http://xamarin.com/installer_assets/v3/Mac/Universal/InstallationManifest.xml
   global:
     - EnableNuGetPackageRestore=false
 install:
-  - wget "http://download.xamarin.com/MonoFrameworkMDK/Macx86/MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg"
-  - sudo installer -pkg "MonoFramework-MDK-${MONO_VERSION}.macos10.xamarin.x86.pkg" -target /
+  - sudo apt-get install python-software-properties -y
+  - sudo add-apt-repository ppa:v-kukol/mono-3.2 -y
+  - sudo apt-get update
+  - sudo apt-get install mono-devel nunit-console -y
 
 script: 
   - bundle install 
-  - rake mono:install_packages
-  - rake mono:build
-  - /Library/Frameworks/Mono.framework/Versions/${MONO_VERSION}/bin/nunit-console4 ./src/GlobalPhone.Tests/bin/Debug/GlobalPhone.Tests.dll
+  - rake install_packages
+  - rake test
