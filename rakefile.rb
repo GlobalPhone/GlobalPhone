@@ -1,5 +1,7 @@
 require 'visual_studio_files.rb'
 require 'albacore'
+# .\src\GlobalPhoneDbgen\bin\Debug\GlobalPhoneDbgen.exe  > .\src\GlobalPhone.Tests\fixtures\record_data_hash.json
+# .\src\GlobalPhoneDbgen\bin\Debug\GlobalPhoneDbgen.exe --test > .\src\GlobalPhone.Tests\fixtures\example_numbers.json
 
 require 'rbconfig'
 #http://stackoverflow.com/questions/11784109/detecting-operating-systems-in-ruby

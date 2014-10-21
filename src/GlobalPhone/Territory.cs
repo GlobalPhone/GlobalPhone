@@ -14,10 +14,10 @@ namespace GlobalPhone
             : base(data)
         {
             _region = region;
-            Name = Field<string>(0);
-            _possiblePattern = Field<string, Regex>(1, p => new Regex("^" + p + "$"));
-            NationalPattern = Field<string, Regex>(2, p => new Regex("^" + p + "$"));
-            NationalPrefixFormattingRule = Field<string>(3);
+            Name = Field<string>(0, column: "name");
+            _possiblePattern = Field<string, Regex>(1, column: "possibleNumber", block: p => new Regex("^" + p + "$"));
+            NationalPattern = Field<string, Regex>(2, column: "nationalNumber", block: p => new Regex("^" + p + "$"));
+            NationalPrefixFormattingRule = Field<string>(3, column: "formattingRule");
         }
 
         public string CountryCode
@@ -52,7 +52,7 @@ namespace GlobalPhone
             str = Normalize(str);
             if (Possible(str))
                 return new Number(this, str);
-            throw new FailedToParseNumberException("not possible");
+            throw new FailedToParseNumberException("not possible for "+Name);
         }
 
         private bool Possible(string str)

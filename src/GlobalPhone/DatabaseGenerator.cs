@@ -1,8 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
@@ -24,26 +24,25 @@ namespace GlobalPhone
             return Load(File.ReadAllText(filename));
         }
 
-        private IEnumerable<object[]> record_data;
-        public IEnumerable<object[]> RecordData()
+        private IDictionary[] record_data_hash;
+        public IDictionary[] RecordData()
         {
-            return record_data ?? (record_data = TerritoryNodesByRegion().Map(kv =>
-                                                                                        {
-                                                                                            var countryCode = kv.Key;
-                                                                                            var territoryNodes = kv.ToArray();
-                                                                                            return
-                                                                                                Truncate(CompileRegion(
-                                                                                                    territoryNodes,
-                                                                                                    countryCode)).ToArray();
-                                                                                        }).ToArray());
-
+            return record_data_hash ?? (record_data_hash = TerritoryNodesByRegion().Map(kv =>
+            {
+                var countryCode = kv.Key;
+                var territoryNodes = kv.ToArray();
+                return
+                    Truncate(CompileRegion(
+                        territoryNodes,
+                        countryCode));
+            }).ToArray());
         }
 
         private string[][] _testCases;
         public string[][] TestCases()
         {
             return _testCases ?? (_testCases = TerritoryNodes().Map(ExampleNumbersForTerritoryNode)
-                .Flatten(2).Cast<string[]>().ToArray());
+                .Flatten(1).Cast<string[]>().Where(arr=>arr.Length>0).ToArray());
         }
 
         private IEnumerable<Nokogiri.Node> TerritoryNodes()
@@ -63,12 +62,13 @@ namespace GlobalPhone
             return node.Search(example_numbers_selector())
                 .Map(node1 => new[] { node1.Text, name })
                 .ToArray();
-
         }
+
         private IEnumerable<IGrouping<string, Nokogiri.Node>> TerritoryNodesByRegion()
         {
             return TerritoryNodes().GroupBy(node => node["countryCode"]);
         }
+
         private string example_numbers_selector()
         {
             return "./*[not(" + String.Join(" or ", ExampleNumberTypesToExclude().Map(type =>
@@ -81,7 +81,7 @@ namespace GlobalPhone
             return "emergency shortCode".Split(new[] { ' ' });
         }
 
-        private object[] CompileRegion(IEnumerable<Nokogiri.Node> territoryNodes, string countryCode)
+        private IDictionary CompileRegion(IEnumerable<Nokogiri.Node> territoryNodes, string countryCode)
         {
             var nodes = territoryNodes.ToArray();
             var kv = CompileTerritories(nodes);
@@ -89,15 +89,15 @@ namespace GlobalPhone
             var mainTerritoryNode = kv.Item2;
             var formats = CompileFormats(nodes);
 
-            return new object[]
+            return new Dictionary<string, object>
                      {
-                         countryCode,
-                         formats,
-                         territories,
-                         mainTerritoryNode["internationalPrefix"],
-                         mainTerritoryNode["nationalPrefix"],
-                         Squish(mainTerritoryNode["nationalPrefixForParsing"]),
-                         Squish(mainTerritoryNode["nationalPrefixTransformRule"])
+                         {"countryCode",countryCode},
+                         {"formats",formats},
+                         {"territories",territories},
+                         {"interPrefix", mainTerritoryNode["internationalPrefix"]},
+                         {"prefix",mainTerritoryNode["nationalPrefix"]},
+                         {"prefixParse",Squish(mainTerritoryNode["nationalPrefixForParsing"])},
+                         {"prefixTRule",Squish(mainTerritoryNode["nationalPrefixTransformRule"])}
                      };
         }
 
@@ -121,32 +121,33 @@ namespace GlobalPhone
             }
 
             return new Tuple<object[], Nokogiri.Node>(territories.ToArray(), mainTerritoryNode);
+        }
 
-        }
-        private string[] CompileTerritory(Nokogiri.Node node)
+        private IDictionary CompileTerritory(Nokogiri.Node node)
         {
-            return new[]
-                       {
-                           TerritoryName(node),
-                           Pattern(node, "generalDesc possibleNumberPattern"),
-                           Pattern(node, "generalDesc nationalNumberPattern"),
-                           Squish(node["nationalPrefixFormattingRule"])
-                       };
+            return new Dictionary<string, object>
+            {
+                {"name",TerritoryName(node)},
+                {"possibleNumber",Pattern(node, "generalDesc possibleNumberPattern")},
+                {"nationalNumber",Pattern(node, "generalDesc nationalNumberPattern")},
+                {"formattingRule",Squish(node["nationalPrefixFormattingRule"])}
+            };
         }
-        private IEnumerable<string[]> CompileFormats(IEnumerable<Nokogiri.Node> territoryNodes)
+
+        private IEnumerable<IDictionary> CompileFormats(IEnumerable<Nokogiri.Node> territoryNodes)
         {
             return Truncate(FormatNodesFor(territoryNodes).Map(node => Truncate(CompileFormat(node))));
-
         }
-        private string[] CompileFormat(Nokogiri.Node node)
+
+        private IDictionary CompileFormat(Nokogiri.Node node)
         {
-            var format = new[]
+            var format = new Dictionary<string, object>
                                     {
-                                        node["pattern"], 
-                                        TextOrNull(node, "format"), 
-                                        Pattern(node, "leadingDigits"),
-                                        node["nationalPrefixFormattingRule"], 
-                                        TextOrNull(node, "intlFormat")
+                                        {"pattern",node["pattern"]}, 
+                                        {"format",TextOrNull(node, "format")}, 
+                                        {"leadingDigits",Pattern(node, "leadingDigits")}, 
+                                        {"formatRule",node["nationalPrefixFormattingRule"]}, 
+                                        {"intlFormat",TextOrNull(node, "intlFormat")}, 
                                     };
             return format;
         }
@@ -168,8 +169,22 @@ namespace GlobalPhone
         private static string TextOrNull(Nokogiri.Node node, string selector)
         {
             var nodes = node.Search(selector);
-            return nodes.IsEmpty() ? null : String.Join("",nodes.Map(n=>n.Text));
+            return nodes.IsEmpty() ? null : String.Join("", nodes.Map(n => n.Text));
 
+        }
+
+        private static IDictionary Truncate(IDictionary self)
+        {
+            var truncated = new Dictionary<string, object>();
+            foreach (string key in self.Keys)
+            {
+                var value = self[key];
+                if (value != null)
+                {
+                    truncated.Add(key,value);
+                }
+            }
+            return truncated;
         }
 
         private static T[] Truncate<T>(IEnumerable<T> self)
@@ -188,17 +203,18 @@ end
             var found = -1;
             for (int i = self.Length - 1; i >= 0; i--)
             {
-                if (self[i]!=null)
+                if (self[i] != null)
                 {
                     found = i;
                     break;
                 }
             }
-            if (found>=0 && found!=self.Length-1)
+            if (found >= 0 && found != self.Length - 1)
             {
-                return self.Take(found+1).ToArray();
+                return self.Take(found + 1).ToArray();
             }
             return self.ToArray();
         }
+
     }
 }

@@ -24,6 +24,11 @@ namespace GlobalPhoneDbgen
 
         static void Help()
         {
+#if NEWTONSOFT
+            var showCompat = true;
+#else
+            var showCompat = false;
+#endif
             Warn(@" Generates a database for the Ruby GlobalNumber library in JSON format
     and writes it to standard output.
 
@@ -34,8 +39,8 @@ namespace GlobalPhoneDbgen
     Google's database from:
       " + RemoteUrl + @"
 
-Options:
-    --compact      Strip all whitespace from the JSON output
+Options:" + (showCompat? @"
+    --compact      Strip all whitespace from the JSON output" :"") + @"
     --test         Generate example phone number fixtures for smoke tests
 
 ");
@@ -46,16 +51,20 @@ Options:
             const string nameOfProgram = "GlobalPhoneDbgen.exe";
             var path = RemoteUrl;
             var method = "record_data";
+#if NEWTONSOFT
             var compact = false;
+#endif
             foreach (var arg in args)
             {
 
                 switch (arg)
                 {
+#if NEWTONSOFT
                     case "-c":
                     case "--compact":
                         compact = true;
                         break;
+#endif
                     case "-t":
                     case "--test":
                         method = "test_cases";

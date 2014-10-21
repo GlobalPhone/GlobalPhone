@@ -17,13 +17,13 @@ namespace GlobalPhone
         public Region(object data)
             : base(data)
         {
-            CountryCode = Field<string>(0);
-			_formatRecordData = FieldAsArray(1);
-			_territoryRecordData = FieldAsArray(2);
-            InternationalPrefix = Field<string, Regex>(3, p => new Regex("^(?:" + p + ")"));
-            NationalPrefix = Field<string>(4);
-            NationalPrefixForParsing = Field<string, Regex>(5, p => new Regex("^(?:" + p + ")"));
-            NationalPrefixTransformRule = Field<string>(6);
+            CountryCode = Field<string>(0, column: "countryCode");
+            _formatRecordData = FieldAsArray(1, column: "formats");
+            _territoryRecordData = FieldAsArray(2, column: "territories");
+            InternationalPrefix = Field<string, Regex>(3, column: "interPrefix", block: p => new Regex("^(?:" + p + ")"));
+            NationalPrefix = Field<string>(4, column: "prefix");
+            NationalPrefixForParsing = Field<string, Regex>(5, column: "prefixParse", block: p => new Regex("^(?:" + p + ")"));
+            NationalPrefixTransformRule = Field<string>(6, column: "prefixTRule");
         }
 
         private IEnumerable<Territory> _territories;
@@ -77,7 +77,7 @@ namespace GlobalPhone
         }
         private List<string> TerritoryNames()
         {
-			return _territoryRecordData.Map(d => (AsArray(d))[0].ToString().ToUpper()).ToList();
+			return _territoryRecordData.Map(d => IsArray(d) ? (AsArray(d))[0].ToString().ToUpper() : (AsHash(d))["name"].ToString().ToUpper()).ToList();
         }
 
     }

@@ -5,7 +5,14 @@ namespace GlobalPhone.Tests
 {
     public class TestFixtureBase
     {
-		[TearDown]
+        private readonly ForData _forData;
+
+        public TestFixtureBase(ForData forData)
+        {
+            _forData = forData;
+        }
+
+        [TearDown]
         public void TearDown()
         {
             _context = null;
@@ -14,7 +21,7 @@ namespace GlobalPhone.Tests
         private Context _context;
         public Context Context
         {
-			get { return _context ?? (_context = new Context(_deserializer) { DbPath = FixturePath("record_data.json") }); }
+            get { return _context ?? (_context = new Context(_deserializer) { DbPath = _forData == ForData.UseArray ? FixturePath("record_data.json") : FixturePath("record_data_hash.json") }); }
         }
         private static string FixturePath(string file)
         {
@@ -28,8 +35,6 @@ namespace GlobalPhone.Tests
 
         private object[] _recordData;
         private object[] _exampleNumbers;
-        private object[] _globalPhone;
-        private object[] _globalPhone2;
         private object[] _globalPhoneTestCases;
         private string _phoneNumberMetadata;
         private string _phoneNumberMetadata2;
@@ -56,21 +61,13 @@ namespace GlobalPhone.Tests
                 });
             }
         }
-		protected IDeserializer _deserializer;
+        protected IDeserializer _deserializer;
 
         private object[] JsonFixture(string name)
         {
-			return _deserializer.Deserialize(File.ReadAllText(FixturePath(name + ".json")));
+            return _deserializer.Deserialize(File.ReadAllText(FixturePath(name + ".json")));
         }
 
-        public object[] GlobalPhone
-        {
-            get { return _globalPhone ?? (_globalPhone = JsonFixture("global_phone")); }
-        }
-        public object[] GlobalPhone2
-        {
-            get { return _globalPhone2 ?? (_globalPhone2 = JsonFixture("global_phone2")); }
-        }
         public object[] GlobalPhoneTestCases
         {
             get { return _globalPhoneTestCases ?? (_globalPhoneTestCases = JsonFixture("global_phone_test_cases")); }
@@ -83,7 +80,7 @@ namespace GlobalPhone.Tests
         public string PhoneNumberMetadata2
         {
             get { return _phoneNumberMetadata2 ?? (_phoneNumberMetadata2 = File.ReadAllText(FixturePath("PhoneNumberMetadata2.xml"))); }
-        }   
+        }
 
     }
 }

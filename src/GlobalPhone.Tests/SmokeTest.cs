@@ -1,12 +1,19 @@
+using System;
 using NUnit.Framework;
 using System.Collections;
 using System.Linq;
 namespace GlobalPhone.Tests
 {
-	[TestFixture(typeof(DefaultDeserializer))]
-	[TestFixture(typeof(NewtonsoftDeserializer))]
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
+    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
 	public class SmokeTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
+        public SmokeTest(ForData forData)
+            : base(forData)
+        {
+        }
+
 		[TestFixtureSetUp]
 		public void TestFixtureSetup()
 		{
@@ -27,12 +34,25 @@ namespace GlobalPhone.Tests
 
         private void assert_parses(object @string, object territory_name)
         {
-            var number = Context.Parse((string)@string, (string)territory_name);
-            Assert.That(number, Is.TypeOf<Number>(), "expected " + @string + " to parse for territory " + territory_name);
+            Number number=null;
+            try
+            {
+                number = Context.Parse((string)@string, (string)territory_name);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(Message(@string, territory_name), ex);
+            }
+            Assert.That(number, Is.TypeOf<Number>(), Message(@string, territory_name));
             Assert.NotNull(number.NationalString);
             Assert.NotNull(number.NationalFormat);
             Assert.NotNull(number.InternationalString);
             Assert.NotNull(number.InternationalFormat);
+        }
+
+        private static string Message(object @string, object territoryName)
+        {
+            return "expected " + @string + " to parse for territory " + territoryName;
         }
 
         private void assert_can_handle_invalid(object @string, object territory_name)

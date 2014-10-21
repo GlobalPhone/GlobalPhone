@@ -2,15 +2,21 @@ using NUnit.Framework;
 
 namespace GlobalPhone.Tests
 {
-	[TestFixture(typeof(DefaultDeserializer))]
-	[TestFixture(typeof(NewtonsoftDeserializer))]
-	public class NumberTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
+    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
+    public class NumberTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
     {
-		[TestFixtureSetUp]
-		public void TestFixtureSetup()
-		{
-			_deserializer = new Deserializer ();
-		}
+        public NumberTest(ForData forData)
+            : base(forData)
+        {
+        }
+
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            _deserializer = new Deserializer();
+        }
         [Test]
         public void valid_number()
         {

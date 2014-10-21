@@ -2,10 +2,16 @@ using NUnit.Framework;
 
 namespace GlobalPhone.Tests
 {
-	[TestFixture(typeof(DefaultDeserializer))]
-	[TestFixture(typeof(NewtonsoftDeserializer))]
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
+    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
 	public class EdgeTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
+        public EdgeTest(ForData forData)
+            : base(forData)
+        {
+        }
+
 		[TestFixtureSetUp]
 		public void TestFixtureSetup()
 		{

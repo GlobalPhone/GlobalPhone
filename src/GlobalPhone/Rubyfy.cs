@@ -14,7 +14,9 @@ namespace GlobalPhone
                 throw exc;
             return obj;
         }
-        internal static TRet Unless<T, TRet>(this TRet obj, T exc) where T : Exception where TRet : class
+        internal static TRet Unless<T, TRet>(this TRet obj, T exc)
+            where T : Exception
+            where TRet : class
         {
             if (obj == null)
                 throw exc;
@@ -76,55 +78,45 @@ namespace GlobalPhone
         {
             return self.Select(map);
         }
+        /// <summary>
+        /// Returns a new array that is a one-dimensional flattening of self (recursively).
+        ///
+        ///That is, for every element that is an array, extract its elements into the new array.
+        /// </summary>
         internal static IEnumerable<T> Flatten<T>(this IEnumerable self)
         {
             foreach (var variable in self)
             {
                 if (variable is T)
                 {
-                    yield return (T) variable;
+                    yield return (T)variable;
                 }
                 else
                 {
-                    foreach (var result in Flatten<T>((IEnumerable) variable))
+                    foreach (var result in Flatten<T>((IEnumerable)variable))
                     {
                         yield return result;
                     }
                 }
             }
         }
-        internal static IEnumerable<T> Flatten<T>(this IEnumerable self, int order)
+     
+        /// <summary>
+        /// Returns a new array that is a one-dimensional flattening of self (recursively).
+        ///
+        ///That is, for every element that is an array, extract its elements into the new array.
+        ///
+        ///The optional level argument determines the level of recursion to flatten.
+        /// </summary>
+        internal static IEnumerable Flatten(this IEnumerable self, int? order=null)
         {
-            if (order != 0)
+            if (order==null || order >= 0)
             {
                 foreach (var variable in self)
                 {
-                    if (variable is IEnumerable)
+                    if (variable is IEnumerable && !(variable is string))
                     {
-                        foreach (var result in Flatten<T>((IEnumerable) variable, order - 1))
-                        {
-                            yield return result;
-                        }
-                    }else
-                    {
-                        yield return (T)variable;
-                    }
-                }
-            }
-            else
-            {
-                yield return (T) self;
-            }
-        }
-        internal static IEnumerable Flatten(this IEnumerable self, int order)
-        {
-            if (order != 0)
-            {
-                foreach (var variable in self)
-                {
-                    if (variable is IEnumerable)
-                    {
-                        foreach (var result in Flatten((IEnumerable)variable, order - 1))
+                        foreach (var result in Flatten((IEnumerable)variable, order!=null? order - 1:null))
                         {
                             yield return result;
                         }
@@ -175,17 +167,27 @@ namespace GlobalPhone
             return self.FirstOrDefault(predicate);
         }
 
-        public static TRet MapDetect<T, TRet>(this IEnumerable<T> collection, Func<T, TRet> func) where TRet:class
+        public static TRet MapDetect<T, TRet>(this IEnumerable<T> collection, Func<T, TRet> func) where TRet : class
         {
             foreach (var value in collection)
             {
-                TRet result ;
-                if ((result=func(value))!=null)
+                TRet result;
+                if ((result = func(value)) != null)
                 {
                     return result;
                 }
             }
             return null;
+        }
+
+        internal static T[] ToA<T>(this IEnumerable<T> enumerable)
+        {
+            return enumerable.ToArray();
+        }
+
+        internal static object[] ToA(this IEnumerable enumerable)
+        {
+            return enumerable.Cast<Object>().ToArray();
         }
     }
 }
