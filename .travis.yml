@@ -2,7 +2,8 @@ language: objective-c
 
 env:
   matrix:
-    - MONO_VERSION="3.2.7"
+    - MONO_VERSION="3.8.0.9"
+    # see http://xamarin.com/installer_assets/v3/Mac/Universal/InstallationManifest.xml
   global:
     - EnableNuGetPackageRestore=false
 install:
