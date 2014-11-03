@@ -4,62 +4,7 @@ require 'albacore'
 # .\src\GlobalPhoneDbgen\bin\Debug\GlobalPhoneDbgen.exe --test > .\src\GlobalPhone.Tests\fixtures\example_numbers.json
 
 require 'rbconfig'
-#http://stackoverflow.com/questions/11784109/detecting-operating-systems-in-ruby
-def os
-  @os ||= (
-    host_os = RbConfig::CONFIG['host_os']
-    case host_os
-    when /mswin|msys|mingw|cygwin|bccwin|wince|emc/
-      :windows
-    when /darwin|mac os/
-      :macosx
-    when /linux/
-      :linux
-    when /solaris|bsd/
-      :unix
-    else
-      raise Error::WebDriverError, "unknown os: #{host_os.inspect}"
-    end
-  )
-end
-
-def nuget_exec(parameters)
-
-  command = File.join(File.dirname(__FILE__), "src",".nuget","NuGet.exe")
-  if os == :windows
-    sh "#{command} #{parameters}"
-  else
-    sh "mono --runtime=v4.0.30319 #{command} #{parameters} "
-  end
-end
-
-def nunit_cmd()
-  cmds = Dir.glob(File.join(File.dirname(__FILE__),"src","packages","NUnit.Runners.*","tools","nunit-console.exe"))
-  if cmds.any?
-    if os != :windows
-      command = "mono --runtime=v4.0.30319 #{cmds.first}"
-    else
-      command = cmds.first
-    end
-  else
-    raise "Could not find nunit runner!"
-  end
-  return command
-  
-end
-
-def nunit_exec(dir, tlib)
-    command = nunit_cmd()
-    assemblies= "#{tlib}.dll"
-    cd dir do
-      sh "#{command} #{assemblies}" do  |ok, res|
-        if !ok
-          abort 'Nunit failed!'
-        end
-      end
-    end
-
-end
+require_relative './src/.nuget/nuget'
 
 def with_mono_properties msb
   solution_dir = File.join(File.dirname(__FILE__),'src')
@@ -74,7 +19,7 @@ desc "build"
 build :build do |msb|
   msb.prop :configuration, :Debug
   msb.prop :platform, "Mixed Platforms"
-  if os != :windows
+  if NuGet::os != :windows
     with_mono_properties msb
   end
   msb.target = :Rebuild
@@ -84,10 +29,10 @@ build :build do |msb|
 end
 
 desc "test using nunit console"
-task :test => :build do |t|
-  assemblies = "GlobalPhone.Tests.dll"
-  dir = File.join('.',"src","GlobalPhone.Tests","bin","Debug")
-  nunit_exec(dir, "GlobalPhone.Tests")
+test_runner :test => [:build] do |nunit|
+  nunit.exe = NuGet::nunit_path
+  files = [File.join(File.dirname(__FILE__),"src","GlobalPhone.Tests","bin","Debug","GlobalPhone.Tests.dll")]
+  nunit.files = files 
 end
 
 task :main_copy_to_nuspec => [:build] do
@@ -108,14 +53,14 @@ end
 task :main_nugetpack => [:main_copy_to_nuspec] do |nuget|
   dir = File.dirname(__FILE__)
   cd File.join(dir,"nuget") do
-    nuget_exec "pack GlobalPhone.nuspec"
+    NuGet::exec "pack GlobalPhone.nuspec"
   end
 end
 
 task :tool_nugetpack => [:tool_copy_to_nuspec] do |nuget|
   dir = File.dirname(__FILE__)
   cd File.join(dir,"nuget_tool") do
-    nuget_exec "pack GlobalPhoneDbgen.nuspec"
+    NuGet::exec "pack GlobalPhoneDbgen.nuspec"
   end
 end
 
@@ -128,7 +73,7 @@ task :install_packages do
 
   package_paths.each.each do |filepath|
     begin
-      nuget_exec("i #{filepath} -o ./src/packages -source http://www.nuget.org/api/v2/")
+      NuGet::exec("i #{filepath} -o ./src/packages -source http://www.nuget.org/api/v2/")
     rescue
       puts "Failed to install missing packages ..."      
     end
