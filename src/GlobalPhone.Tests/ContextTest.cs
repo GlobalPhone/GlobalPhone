@@ -148,5 +148,10 @@ namespace GlobalPhone.Tests
             Assert.DoesNotThrow(() => Context.TryParse(""));
             Assert.DoesNotThrow(() => Context.TryParse(null));
         }
+        [Test]
+        public void should_parse_number_from_argentina()
+        {
+            Assert.AreEqual("+54 11 4799-9350", Context.Parse("+54 11 4799 9350").InternationalFormat);
+        }
     }
 }
