@@ -142,5 +142,11 @@ namespace GlobalPhone.Tests
             Assert.DoesNotThrow(() => Context.TryNormalize(""));
             Assert.DoesNotThrow(() => Context.TryNormalize(null));
         }
+        [Test]
+        public void try_parse_with_empty_or_null_should_not_throw()
+        {
+            Assert.DoesNotThrow(() => Context.TryParse(""));
+            Assert.DoesNotThrow(() => Context.TryParse(null));
+        }
     }
 }
