@@ -136,6 +136,11 @@ namespace GlobalPhone.Tests
         {
             Assert.DoesNotThrow(() => Context.TryNormalize("12345", "alderaan"));
         }
-
+        [Test]
+        public void try_normalize_with_empty_or_null_should_not_throw()
+        {
+            Assert.DoesNotThrow(() => Context.TryNormalize(""));
+            Assert.DoesNotThrow(() => Context.TryNormalize(null));
+        }
     }
 }
