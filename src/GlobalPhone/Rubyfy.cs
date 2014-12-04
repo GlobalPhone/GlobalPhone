@@ -58,15 +58,15 @@ namespace GlobalPhone
         }
         internal static string Gsub(this string self, string regex, string evaluator)
         {
-            return new Regex(regex).Replace(self, evaluator);
+            return new Regex(regex).Replace(self ?? String.Empty, evaluator);
         }
         internal static string Sub(this string self, Regex regex, string evaluator)
         {
-            return regex.Replace(self, evaluator, 1);
+            return regex.Replace(self ?? String.Empty, evaluator, 1);
         }
         internal static string Gsub(this string self, Regex regex, MatchEvaluator evaluator)
         {
-            return regex.Replace(self, evaluator);
+            return regex.Replace(self ?? String.Empty, evaluator);
         }
 
         internal static Match Match(this string self, Regex regex)
