@@ -22,7 +22,7 @@ namespace GlobalPhone
             _territoryRecordData = FieldAsArray(2, column: "territories");
             InternationalPrefix = Field<string, Regex>(3, column: "interPrefix", block: p => new Regex("^(?:" + p + ")"));
             NationalPrefix = Field<string>(4, column: "prefix");
-            NationalPrefixForParsing = Field<string, Regex>(5, column: "prefixParse", block: p => new Regex("^(?:" + p + ")"));
+            NationalPrefixForParsing = Field<string, Regex>(5, column: "prefixParse", block: p => new Regex("^(?:" + p + ")$"));
             NationalPrefixTransformRule = Field<string>(6, column: "prefixTRule");
         }
 
