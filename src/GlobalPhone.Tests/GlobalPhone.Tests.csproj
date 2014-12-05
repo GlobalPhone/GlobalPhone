@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="CanGenerateExpectedTests.cs" />
     <Compile Include="ContextTest.cs" />
+    <Compile Include="DatabaseGeneratorTests.cs" />
     <Compile Include="DatabaseTest.cs" />
     <Compile Include="EdgeTest.cs" />
     <Compile Include="Json.cs" />
