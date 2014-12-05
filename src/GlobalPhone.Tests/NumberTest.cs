@@ -90,5 +90,28 @@ namespace GlobalPhone.Tests
             var number = Context.Parse("(312) 555-1212");
             Assert.That(number.InternationalFormat, Is.EqualTo("+1 312-555-1212"));
         }
+        [Test]
+        public void area_code()
+        {
+            var number = Context.Parse("+61 3 9876 0010");
+            Assert.AreEqual("03", number.AreaCode);
+            number = Context.Parse("+44 (0) 20-7031-3000");
+            Assert.AreEqual("020", number.AreaCode);
+            // Hong Kong has no area code
+            number = Context.Parse("+852 2699 2838");
+            Assert.IsNull(number.AreaCode);
+        }
+        [Test]
+        public void local_number()
+        {
+            var number = Context.Parse("+61 3 9876 0010");
+            Assert.AreEqual("9876 0010", number.LocalNumber);
+
+            number = Context.Parse("+44 (0) 20-7031-3000");
+            Assert.AreEqual("7031 3000", number.LocalNumber);
+
+            number = Context.Parse("+852 2699 2838");
+            Assert.AreEqual("2699 2838", number.LocalNumber);
+        }
     }
 }

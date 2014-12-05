@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -128,6 +129,37 @@ namespace GlobalPhone
         public override string ToString()
         {
             return InternationalString;
+        }
+
+        public string AreaCode
+        {
+            get
+            {
+
+                if (NationalPrefixFormattingRule != null)
+                {
+                    var areaCodeSuffix = FormattedNationalString.Match(SplitFirstGroup).Groups[1].Value;
+                    var formattedNationalPrefix = NationalPrefixFormattingRule.Replace("$NP", NationalPrefix).Replace("$FG", areaCodeSuffix);
+                    return formattedNationalPrefix.Gsub(@"[^\d]", "");
+                }
+                return null;
+            }
+        }
+
+        private string FormattedNationalString
+        {
+            get
+            {
+                return Format.Apply(NationalString, "national");
+            }
+        }
+
+        public string LocalNumber
+        {
+            get
+            {
+                return AreaCode != null ? FormattedNationalString.Match(SplitFirstGroup).Groups[2].Value : NationalFormat;
+            }
         }
     }
 }
