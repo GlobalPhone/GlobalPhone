@@ -139,11 +139,11 @@ Validation is not definitive and may return false positives, but *should not* re
 Territory heuristics are imprecise. Parsing a number will usually result in the territory being set to the primary territory of the region. For example, Canadian numbers will be parsed with a territory of `US`. (In most cases this does not matter, but if your application needs to perform geolocation using phone numbers, GlobalPhone may not be a good fit.)
 
 ## Development
-The GlobalPhone source code is [hosted on GitHub](https://github.com/wallymathieu/GlobalPhone). You can check out a copy of the latest code using Git:
+The GlobalPhone source code is [hosted on GitHub](https://github.com/GlobalPhone/GlobalPhone). You can check out a copy of the latest code using Git:
 
-    CMD> git clone https://github.com/wallymathieu/GlobalPhone.git
+    CMD> git clone https://github.com/GlobalPhone/GlobalPhone.git
 
-If you've found a bug or have a question, please open an issue on the [issue tracker](https://github.com/wallymathieu/GlobalPhone/issues). Or, clone the GlobalPhone repository, write a failing test case, fix the bug, and submit a pull request.
+If you've found a bug or have a question, please open an issue on the [issue tracker](https://github.com/GlobalPhone/GlobalPhone/issues). Or, clone the GlobalPhone repository, write a failing test case, fix the bug, and submit a pull request.
 
 GlobalPhone is a port of Sam Stephenson GlobalPhone for ruby [hosted on GitHub](https://github.com/sstephenson/global_phone).
 
