@@ -14,7 +14,7 @@ namespace GlobalPhone
             {
                 return ParseInternationalString(str);
             }
-            if (str.Match(territory.InternationalPrefix).Success)
+            if (territory.InternationalPrefix.Match(str ?? String.Empty).Success)
             {
                 str = StripInternationalPrefix(territory, str);
                 return ParseInternationalString(str);

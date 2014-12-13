@@ -51,7 +51,7 @@ namespace GlobalPhone
         {
             var prefix = NationalPrefixFormattingRule;
             Match match;
-            if (!string.IsNullOrEmpty(prefix) && (match = result.Match(SplitFirstGroup)).Success)
+            if (!string.IsNullOrEmpty(prefix) && (match = SplitFirstGroup.Match(result ?? String.Empty)).Success)
             {
                 prefix = prefix.Replace("$NP", NationalPrefix);
                 prefix = prefix.Replace("$FG", match.Groups[1].Value);
@@ -63,7 +63,7 @@ namespace GlobalPhone
 
         public bool IsValid
         {
-            get { return Format != null && NationalString.Match(NationalPattern).Success; }
+            get { return Format != null && NationalPattern.Match(NationalString ?? String.Empty).Success; }
         }
 
         private Format Format
@@ -138,7 +138,7 @@ namespace GlobalPhone
 
                 if (NationalPrefixFormattingRule != null)
                 {
-                    var areaCodeSuffix = FormattedNationalString.Match(SplitFirstGroup).Groups[1].Value;
+                    var areaCodeSuffix = SplitFirstGroup.Match(FormattedNationalString).Groups[1].Value;
                     var formattedNationalPrefix = NationalPrefixFormattingRule.Replace("$NP", NationalPrefix).Replace("$FG", areaCodeSuffix);
                     return formattedNationalPrefix.Gsub(@"[^\d]", "");
                 }
@@ -158,7 +158,7 @@ namespace GlobalPhone
         {
             get
             {
-                return AreaCode != null ? FormattedNationalString.Match(SplitFirstGroup).Groups[2].Value : NationalFormat;
+                return AreaCode != null ? SplitFirstGroup.Match(FormattedNationalString).Groups[2].Value : NationalFormat;
             }
         }
     }

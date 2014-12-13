@@ -25,9 +25,9 @@ namespace GlobalPhone
         public bool Match(string nationalString, bool? matchLeadingDigits = null)
         {
             var m = matchLeadingDigits ?? true;
-            if (m && _leadingDigits != null && !nationalString.Match(_leadingDigits).Success)
+            if (m && _leadingDigits != null && !_leadingDigits.Match(nationalString ?? String.Empty).Success)
                 return false;
-            return nationalString.Match(_pattern).Success;
+            return _pattern.Match(nationalString ?? String.Empty).Success;
         }
 
         public string Apply(string nationalString, string type)

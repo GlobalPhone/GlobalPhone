@@ -60,18 +60,9 @@ namespace GlobalPhone
         {
             return new Regex(regex).Replace(self ?? String.Empty, evaluator);
         }
-        internal static string Sub(this string self, Regex regex, string evaluator)
-        {
-            return regex.Replace(self ?? String.Empty, evaluator, 1);
-        }
         internal static string Gsub(this string self, Regex regex, MatchEvaluator evaluator)
         {
             return regex.Replace(self ?? String.Empty, evaluator);
-        }
-
-        internal static Match Match(this string self, Regex regex)
-        {
-            return regex.Match(self ?? String.Empty);
         }
 
         internal static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
