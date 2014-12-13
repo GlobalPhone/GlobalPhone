@@ -65,7 +65,7 @@ namespace GlobalPhone
             {
                 if (Regex.IsMatch(selector, @"[\/\.\\]"))
                 {
-                    return _node.SelectNodes(selector).Cast<XmlNode>().Map(node => new Node(node)).ToArray(); 
+                    return _node.SelectNodes(selector).Cast<XmlNode>().Select(node => new Node(node)).ToArray(); 
                 }
                 else
                 {
@@ -73,7 +73,7 @@ namespace GlobalPhone
                     var first = split.First();
                     var rest = string.Join(" ",split.Skip(1).ToArray());
                     return
-                        GetNodesWithName(_node, first).Map(node => NodeOrNodes(node, rest)).Flatten<Node>().ToArray();
+                        GetNodesWithName(_node, first).Select(node => NodeOrNodes(node, rest)).Flatten<Node>().ToArray();
                 }
             }
 
@@ -89,7 +89,7 @@ namespace GlobalPhone
             {
                 if (xmlNode.Name == selector) return new[] {xmlNode};
                 var list = new List<XmlNode>(xmlNode.ChildNodes.Cast<XmlNode>()
-                    .Map(node => GetNodesWithName(node, selector))
+                    .Select(node => GetNodesWithName(node, selector))
                     .Flatten<XmlNode>());
                 return list.ToArray();
             }

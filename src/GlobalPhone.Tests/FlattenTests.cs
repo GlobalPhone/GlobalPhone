@@ -5,7 +5,7 @@ using NUnit.Framework;
 namespace GlobalPhone.Tests
 {
     [TestFixture]
-    public class RubyfyTests
+    public class FlattenTests
     {
         [Test]
         public void test_flatten()

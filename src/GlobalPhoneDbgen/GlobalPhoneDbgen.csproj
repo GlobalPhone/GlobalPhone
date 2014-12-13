@@ -42,6 +42,9 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="..\GlobalPhone\InternalExtensions.cs">
+      <Link>GlobalPhone\InternalExtensions.cs</Link>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -67,9 +70,6 @@
     </Compile>
     <Compile Include="..\GlobalPhone\NokogiriExtensions.cs">
       <Link>GlobalPhone\NokogiriExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\GlobalPhone\Rubyfy.cs">
-      <Link>GlobalPhone\Rubyfy.cs</Link>
     </Compile>
     <Compile Include="..\GlobalPhone\Context.cs">
       <Link>GlobalPhone\Context.cs</Link>

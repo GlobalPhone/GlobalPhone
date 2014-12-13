@@ -44,7 +44,7 @@ namespace GlobalPhone
 
         private static IEnumerable<String> CountryCodeCandidatesFor(string @string)
         {
-            return new[] {1, 2, 3}.Map(i => @string.Length <= i ? null : @string.Substring(0, i))
+            return new[] {1, 2, 3}.Select(i => @string.Length <= i ? null : @string.Substring(0, i))
                 .Where(candidate => !String.IsNullOrEmpty(candidate));
         }
 
@@ -61,7 +61,7 @@ namespace GlobalPhone
         private Region RegionForString(string @string)
         {
             var candidates = CountryCodeCandidatesFor(@string);
-            return candidates.MapDetect(TryGetRegion);
+            return candidates.SelectWhereNotNull(TryGetRegion);
         }
 
         public abstract Region TryGetRegion(String countryCode);

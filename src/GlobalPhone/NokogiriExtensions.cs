@@ -8,7 +8,7 @@ namespace GlobalPhone
         {
             return string.Join("", self
                 .Where(node=>node.IsText)
-                .Map(node => node.Text));
+                .Select(node => node.Text));
         }
     }
 }

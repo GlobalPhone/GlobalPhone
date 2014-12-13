@@ -31,12 +31,12 @@ namespace GlobalPhone
 
         public IEnumerable<Territory> Territories
         {
-            get { return _territories ?? (_territories = _territoryRecordData.Map(data => new Territory(data, this))); }
+            get { return _territories ?? (_territories = _territoryRecordData.Select(data => new Territory(data, this))); }
         }
 
         public IEnumerable<Format> Formats
         {
-            get { return _formats ?? (_formats=_formatRecordData.Map(data => new Format(data))); }
+            get { return _formats ?? (_formats=_formatRecordData.Select(data => new Format(data))); }
         }
 
         public Number ParseNationalString(string @string)
@@ -52,7 +52,7 @@ namespace GlobalPhone
 
         private Number FindFirstParsedNationalStringFromTerritories(string s)
         {
-            return Territories.MapDetect(territory => territory.ParseNationalString(s));
+            return Territories.SelectWhereNotNull(territory => territory.ParseNationalString(s));
         }
 
         private string StripCountryCode(string s)
@@ -68,7 +68,7 @@ namespace GlobalPhone
         public Territory Territory(string name)
         {
             name = name.ToUpper();
-            return Territories.Detect(region => region.Name == name);
+            return Territories.FirstOrDefault(region => region.Name == name);
         }
 
         public bool HasTerritory(string name)
@@ -77,7 +77,7 @@ namespace GlobalPhone
         }
         private List<string> TerritoryNames()
         {
-			return _territoryRecordData.Map(d => IsArray(d) ? (AsArray(d))[0].ToString().ToUpper() : (AsHash(d))["name"].ToString().ToUpper()).ToList();
+			return _territoryRecordData.Select(d => IsArray(d) ? (AsArray(d))[0].ToString().ToUpper() : (AsHash(d))["name"].ToString().ToUpper()).ToList();
         }
 
     }
