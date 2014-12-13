@@ -36,30 +36,6 @@ namespace GlobalPhone
         {
             return action(self);
         }
-        internal static string Gsub(this string self, Regex regex, string evaluator)
-        {
-            if (evaluator.Contains("$"))
-            {
-                return regex.Replace(self, match =>
-                                               {
-                                                   var eval = evaluator;
-                                                   for (int i = 1; i < match.Groups.Count; i++)
-                                                   {
-                                                       var g = match.Groups[i];
-                                                       if (g.Success)
-                                                       {
-                                                           eval = eval.Replace("$" + (i), g.Value);
-                                                       }
-                                                   }
-                                                   return eval;
-                                               });
-            }
-            return regex.Replace(self, evaluator);
-        }
-        internal static string Gsub(this string self, string regex, string evaluator)
-        {
-            return new Regex(regex).Replace(self ?? String.Empty, evaluator);
-        }
 
         internal static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
         {

@@ -94,7 +94,7 @@ namespace GlobalPhone
 
         public string InternationalString
         {
-            get { return _internationalString ?? (_internationalString = InternationalFormat.Gsub(NonDialableChars, "")); }
+            get { return _internationalString ?? (_internationalString = NonDialableChars.Replace(InternationalFormat, "")); }
         }
 
         private Format FindFormatFor(string str)
@@ -131,7 +131,6 @@ namespace GlobalPhone
             return InternationalString;
         }
         private static readonly Regex notSlashD = new Regex(@"[^\d]"); 
-
         public string AreaCode
         {
             get
