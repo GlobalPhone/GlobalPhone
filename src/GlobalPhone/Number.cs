@@ -121,15 +121,16 @@ namespace GlobalPhone
         public static string Normalize(string str)
         {
             return
-                str.Gsub(ValidAlphaChars, match =>
+                ValidAlphaChars.Replace(str ?? String.Empty, match =>
                     E161Mapping[match.Value.ToLower()])
-                    .Gsub(LeadingPlusChars, "+")
-                    .Gsub(NonDialableChars, "");
+                    .Yield(s=>LeadingPlusChars.Replace(s, "+"))
+                    .Yield(s=>NonDialableChars.Replace(s, ""));
         }
         public override string ToString()
         {
             return InternationalString;
         }
+        private static readonly Regex notSlashD = new Regex(@"[^\d]"); 
 
         public string AreaCode
         {
@@ -140,7 +141,7 @@ namespace GlobalPhone
                 {
                     var areaCodeSuffix = SplitFirstGroup.Match(FormattedNationalString).Groups[1].Value;
                     var formattedNationalPrefix = NationalPrefixFormattingRule.Replace("$NP", NationalPrefix).Replace("$FG", areaCodeSuffix);
-                    return formattedNationalPrefix.Gsub(@"[^\d]", "");
+                    return notSlashD.Replace(formattedNationalPrefix, "");
                 }
                 return null;
             }

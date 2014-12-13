@@ -24,7 +24,7 @@ namespace GlobalPhone
 
         private static string StripInternationalPrefix(Territory territory, string @string)
         {
-            return @string.Gsub(territory.InternationalPrefix, "");
+            return territory.InternationalPrefix.Replace(@string, "");
         }
 
         private Number ParseInternationalString(string @string)
