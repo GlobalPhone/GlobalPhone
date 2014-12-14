@@ -153,5 +153,10 @@ namespace GlobalPhone.Tests
         {
             Assert.AreEqual("+54 11 4799-9350", Context.Parse("+54 11 4799 9350").InternationalFormat);
         }
+        [Test]
+        public void should_normalize_alpha_numeric_to_number()
+        {
+            Assert.AreEqual("+18002667883", Context.Normalize("1800COMPUTE", "us"));
+        }
     }
 }
