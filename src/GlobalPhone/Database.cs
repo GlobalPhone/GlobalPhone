@@ -13,7 +13,7 @@ namespace GlobalPhone
         public Database(object[] recordData)
         {
             _territoriesByName = new Dictionary<string, Territory>(StringComparer.InvariantCultureIgnoreCase);
-            Regions = recordData.Map(data => new Region(data)).ToArray();
+            Regions = recordData.Select(data => new Region(data)).ToArray();
         }
 
 		public static Database LoadFile(string filename, IDeserializer serializer)

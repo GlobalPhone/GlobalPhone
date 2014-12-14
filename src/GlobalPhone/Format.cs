@@ -25,9 +25,9 @@ namespace GlobalPhone
         public bool Match(string nationalString, bool? matchLeadingDigits = null)
         {
             var m = matchLeadingDigits ?? true;
-            if (m && _leadingDigits != null && !nationalString.Match(_leadingDigits).Success)
+            if (m && _leadingDigits != null && !_leadingDigits.Match(nationalString ?? String.Empty).Success)
                 return false;
-            return nationalString.Match(_pattern).Success;
+            return _pattern.Match(nationalString ?? String.Empty).Success;
         }
 
         public string Apply(string nationalString, string type)
@@ -35,9 +35,30 @@ namespace GlobalPhone
             string replacement;
             if ((replacement = FormatReplacementString(type)) != null)
             {
-                return nationalString.Gsub(_pattern, replacement);
+                return Replace(_pattern, nationalString, replacement);
             }
             return null;
+        }
+
+        internal static string Replace(Regex regex, string self, string evaluator)
+        {
+            if (evaluator.Contains("$"))
+            {
+                return regex.Replace(self, match =>
+                    {
+                        var eval = evaluator;
+                        for (int i = 1; i < match.Groups.Count; i++)
+                        {
+                            var g = match.Groups[i];
+                            if (g.Success)
+                            {
+                                eval = eval.Replace("$" + (i), g.Value);
+                            }
+                        }
+                        return eval;
+                    });
+            }
+            return regex.Replace(self, evaluator);
         }
 
         private string FormatReplacementString(string type)

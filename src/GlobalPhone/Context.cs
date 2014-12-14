@@ -86,7 +86,7 @@ namespace GlobalPhone
             try
             {
                 var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
-                return number.NotNull() && number.IsValid;
+                return number != null && number.IsValid;
             }
             catch (FailedToParseNumberException)
             {

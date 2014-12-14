@@ -57,7 +57,7 @@ namespace GlobalPhone
 
         private bool Possible(string str)
         {
-            return str.Match(_possiblePattern).Success;
+            return _possiblePattern.Match(str ?? string.Empty).Success;
         }
 
         protected string Normalize(string str)
@@ -70,7 +70,7 @@ namespace GlobalPhone
             if (NationalPrefixForParsing != null)
             {
                 var transformRule = NationalPrefixTransformRule ?? "";
-                stringWithoutPrefix = str.Sub(NationalPrefixForParsing, transformRule);
+                stringWithoutPrefix = NationalPrefixForParsing.Replace(str, transformRule, 1);
             }
             else if (StartsWithNationalPrefix(str))
             {

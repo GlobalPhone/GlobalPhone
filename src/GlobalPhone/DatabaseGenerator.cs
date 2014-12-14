@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
@@ -27,7 +28,7 @@ namespace GlobalPhone
         private IDictionary[] record_data_hash;
         public IDictionary[] RecordData()
         {
-            return record_data_hash ?? (record_data_hash = TerritoryNodesByRegion().Map(kv =>
+            return record_data_hash ?? (record_data_hash = TerritoryNodesByRegion().Select(kv =>
             {
                 var countryCode = kv.Key;
                 var territoryNodes = kv.ToArray();
@@ -41,7 +42,7 @@ namespace GlobalPhone
         private string[][] _testCases;
         public string[][] TestCases()
         {
-            return _testCases ?? (_testCases = TerritoryNodes().Map(ExampleNumbersForTerritoryNode)
+            return _testCases ?? (_testCases = TerritoryNodes().Select(ExampleNumbersForTerritoryNode)
                 .Flatten(1).Cast<string[]>().Where(arr=>arr.Length>0).ToArray());
         }
 
@@ -60,7 +61,7 @@ namespace GlobalPhone
             var name = TerritoryName(node);
             if (name == "001") return new[] { new string[0] };
             return node.Search(example_numbers_selector())
-                .Map(node1 => new[] { node1.Text, name })
+                .Select(node1 => new[] { node1.Text, name })
                 .ToArray();
         }
 
@@ -71,7 +72,7 @@ namespace GlobalPhone
 
         private string example_numbers_selector()
         {
-            return "./*[not(" + String.Join(" or ", ExampleNumberTypesToExclude().Map(type =>
+            return "./*[not(" + String.Join(" or ", ExampleNumberTypesToExclude().Select(type =>
                                                                                            "self::" + type)) +
                    ")]/exampleNumber";
         }
@@ -136,7 +137,7 @@ namespace GlobalPhone
 
         private IEnumerable<IDictionary> CompileFormats(IEnumerable<Nokogiri.Node> territoryNodes)
         {
-            return Truncate(FormatNodesFor(territoryNodes).Map(node => Truncate(CompileFormat(node))));
+            return Truncate(FormatNodesFor(territoryNodes).Select(node => Truncate(CompileFormat(node))));
         }
 
         private IDictionary CompileFormat(Nokogiri.Node node)
@@ -154,12 +155,13 @@ namespace GlobalPhone
 
         private IEnumerable<Nokogiri.Node> FormatNodesFor(IEnumerable<Nokogiri.Node> territoryNodes)
         {
-            return territoryNodes.Map(node =>
+            return territoryNodes.Select(node =>
                                        node.Search("availableFormats numberFormat").ToArray()).Flatten<Nokogiri.Node>();
         }
+        private static readonly Regex whiteSpace = new Regex(@"\s+");
         private static string Squish(string @string)
         {
-            return !String.IsNullOrEmpty(@string) ? @string.Gsub(@"\s+", "") : @string;
+            return !String.IsNullOrEmpty(@string) ? whiteSpace.Replace(@string, "") : @string;
         }
 
         private string Pattern(Nokogiri.Node node, string selector)
@@ -169,7 +171,7 @@ namespace GlobalPhone
         private static string TextOrNull(Nokogiri.Node node, string selector)
         {
             var nodes = node.Search(selector);
-            return nodes.IsEmpty() ? null : String.Join("", nodes.Map(n => n.Text));
+            return nodes == null || !nodes.Any() ? null : String.Join("", nodes.Select(n => n.Text));
 
         }
 
