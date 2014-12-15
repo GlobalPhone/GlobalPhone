@@ -8,8 +8,9 @@ namespace GlobalPhone
     {
         public Number Parse(string str, string territoryName)
         {
-            str = Number.Normalize(str);
             var territory = TryGetTerritory(territoryName).Unless(new UnknownTerritoryException(territoryName));
+            str = territory.Normalize(str);
+
             if (StartsWithPlus(str))
             {
                 return ParseInternationalString(str);

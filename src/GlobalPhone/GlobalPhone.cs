@@ -24,17 +24,17 @@
         {
             return Context.Normalize(number, territoryName);
         }
-        
-        public static Number TryParse(string number, string territoryName = null)
+
+        public static bool TryParse(string str, out Number number, string territoryName = null)
         {
-            return Context.TryParse(number, territoryName);
+            return Context.TryParse(str, out number, territoryName);
         }
 
-        public static string TryNormalize(string number, string territoryName = null)
+        public static bool TryNormalize(string str, out string number, string territoryName = null)
         {
-            return Context.TryNormalize(number, territoryName);
+            return Context.TryNormalize(str, out number, territoryName);
         }
-        
+
         public static string DbPath
         {
             get { return Context.DbPath; }

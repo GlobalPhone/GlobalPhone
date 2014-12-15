@@ -7,25 +7,25 @@ namespace GlobalPhone.Tests
     [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
     [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
     [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
-	public class SmokeTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
+    public class SmokeTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
     {
         public SmokeTest(ForData forData)
             : base(forData)
         {
         }
 
-		[TestFixtureSetUp]
-		public void TestFixtureSetup()
-		{
-			_deserializer = new Deserializer ();
-		}
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            _deserializer = new Deserializer();
+        }
 
         [Test]
         public void parsing_example_numbers()
         {
             foreach (object obj in ExampleNumbers)
             {
-				var item = ((IEnumerable)obj).Cast<object>().ToArray();
+                var item = ((IEnumerable)obj).Cast<object>().ToArray();
                 var @string = item[0];
                 var territory_name = item[1];
                 assert_parses(@string, territory_name);
@@ -34,7 +34,7 @@ namespace GlobalPhone.Tests
 
         private void assert_parses(object @string, object territory_name)
         {
-            Number number=null;
+            Number number = null;
             try
             {
                 number = Context.Parse((string)@string, (string)territory_name);
@@ -57,9 +57,11 @@ namespace GlobalPhone.Tests
 
         private void assert_can_handle_invalid(object @string, object territory_name)
         {
-            var number = Context.TryParse((string)@string, (string)territory_name);
+            Number number;
+            Context.TryParse((string)@string, out number, (string)territory_name);
             Assert.That(number, Is.Null, "expected " + @string + " to fail to parse for territory " + territory_name);
-            var normalized = Context.TryNormalize((string)@string, (string)territory_name);
+            string normalized;
+            Context.TryNormalize((string)@string, out normalized, (string)territory_name);
             Assert.That(normalized, Is.Null, "expected " + @string + " to fail to normalize for territory " + territory_name);
         }
 
@@ -68,7 +70,7 @@ namespace GlobalPhone.Tests
         {
             foreach (object obj in ExampleInvalidNumbers)
             {
-				var item = ((IEnumerable)obj).Cast<object>().ToArray();
+                var item = ((IEnumerable)obj).Cast<object>().ToArray();
 
                 var @string = item[0];
                 var territory_name = item[1];

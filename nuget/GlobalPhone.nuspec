@@ -3,7 +3,7 @@
   <metadata>
     <id>GlobalPhone</id>
     <title>GlobalPhone</title>
-    <version>2.0.1</version>
+    <version>2.0.2</version>
     <authors>Oskar Gewalli, Sam Stephenson</authors>
     <owners>Oskar Gewalli, Sam Stephenson</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -15,6 +15,6 @@
     <references>
       <reference file="GlobalPhone.dll" />
     </references>
-    <releaseNotes>Fixed issue with parsing number from Argentina. Fixed argument null exception for TryParse(null). Added AreaCode and LocalNumber to Number.</releaseNotes>
+    <releaseNotes>Fixed issue with alphanumeric replacement active for every territory. Fixed issue with TryParse and TryNormalize not looking like standard .net.</releaseNotes>
   </metadata>
 </package>

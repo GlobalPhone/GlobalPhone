@@ -103,8 +103,6 @@ namespace GlobalPhone
             ?? Region.Formats.FirstOrDefault(f => f.Match(str, false));
         }
 
-        private static readonly Dictionary<string, string> E161Mapping = "a2b2c2d3e3f3g4h4i4j5k5l5m6n6o6p7q7r7s7t8u8v8w9x9y9z9".SplitOnLength(2).ToDictionary(kv => kv[0].ToString(CultureInfo.InvariantCulture), kv => kv[1].ToString(CultureInfo.InvariantCulture));
-        private static readonly Regex ValidAlphaChars = new Regex("[a-zA-Z]", RegexOptions.Compiled);
         private static readonly Regex LeadingPlusChars = new Regex("^\\++", RegexOptions.Compiled);
         private static readonly Regex NonDialableChars = new Regex("[^,#+\\*\\d]", RegexOptions.Compiled);
         private static readonly Regex SplitFirstGroup = new Regex("^(\\d+)\\W*(.*)$", RegexOptions.Compiled);
@@ -118,11 +116,9 @@ namespace GlobalPhone
             NationalString = nationalString;
         }
 
-        public static string Normalize(string str)
+        protected internal static string Normalize(string str)
         {
-            return
-                ValidAlphaChars.Replace(str ?? String.Empty, match =>
-                    E161Mapping[match.Value.ToLower()])
+            return (str ?? String.Empty)
                     .Yield(s=>LeadingPlusChars.Replace(s, "+"))
                     .Yield(s=>NonDialableChars.Replace(s, ""));
         }
