@@ -119,6 +119,7 @@ GlobalPhone.Normalize("(312) 555-1212");
 
 GlobalPhone.Normalize("+442070313000");
 # => "+442070313000"
+
 string normalized;
 GlobalPhone.TryNormalize("(0) 20-7031-3000", out normalized);
 # => false
