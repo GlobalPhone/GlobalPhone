@@ -10,7 +10,6 @@
     <AssemblyName>GlobalPhoneDbgen</AssemblyName>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition='$(SolutionDir) == &apos;&apos; Or $(SolutionDir) == &apos;*Undefined*&apos;'>..\</SolutionDir>
-    <RestorePackages>true</RestorePackages>
     <PackagesConfig>$(ProjectDir)/packages.config</PackagesConfig>
   </PropertyGroup>
   <PropertyGroup Condition=' &apos;$(Configuration)|$(Platform)&apos; == &apos;Debug|x86&apos; '>
@@ -105,8 +104,7 @@
       <Link>GlobalPhone\InternalExtensions.cs</Link>
     </Compile>
   </ItemGroup>
-  <Import Project='$(MSBuildToolsPath)\Microsoft.CSharp.targets'/>
-  <Import Project='$(SolutionDir)\.nuget\NuGet.targets' Condition='Exists(&apos;$(SolutionDir)\.nuget\NuGet.targets&apos;)'/>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
