@@ -1,15 +1,8 @@
-language: java
-
-env:
-  global:
-    - EnableNuGetPackageRestore=false
+language: csharp 
+solution: ./src/GlobalPhone.sln
 install:
-  - sudo apt-get install python-software-properties -y
-  - sudo add-apt-repository ppa:v-kukol/mono-3.2 -y
-  - sudo apt-get update
-  - sudo apt-get install mono-devel nunit-console -y
+  - nuget restore ./src/GlobalPhone.sln
+  - bundle install 
 
 script: 
-  - bundle install 
-  - rake install_packages
   - rake test
