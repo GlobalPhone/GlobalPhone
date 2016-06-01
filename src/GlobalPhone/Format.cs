@@ -11,12 +11,10 @@ namespace GlobalPhone
         private readonly Regex[] _leadingDigits;
         public readonly string NationalPrefixFormattingRule;
         private readonly string _internationalFormatRule;
-        internal string Pattern { get { return _pattern.ToString(); } }
 
         public Format(object data)
             : base(data)
         {
-            //name = field<string>(0);
             _pattern = Field<string, Regex>(0, block: p => new Regex("^" + p + "$"), column: "pattern");
             _nationalFormatRule = Field<string>(1, column: "format");
             _leadingDigits = FieldMaybeAsArray<string, Regex>(2, block: p => new Regex("^" + p + ""), column: "leadingDigits");
@@ -34,14 +32,13 @@ namespace GlobalPhone
 
         private bool MatchLeadingDigits(string nationalString)
         {
+            Func<Regex, bool> matchSuccess = 
+                leadingDigits => leadingDigits.Match(nationalString ?? String.Empty).Success;
+
             return _leadingDigits != null && _leadingDigits.Any()
-                && _leadingDigits.Any(MatchSuccess(nationalString));
+                && _leadingDigits.Any(matchSuccess);
         }
 
-        private static Func<Regex, bool> MatchSuccess(string nationalString)
-        {
-            return leadingDigits => leadingDigits.Match(nationalString ?? String.Empty).Success;
-        }
 
         public string Apply(string nationalString, string type)
         {
@@ -91,6 +88,15 @@ namespace GlobalPhone
             if (formatRule == "NA")
                 return null;
             return formatRule;
+        }
+
+        internal string FirstInPattern(string nationalString)
+        {
+            if (_pattern.GetGroupNumbers().Length > 3)
+            {
+                return _pattern.Match(nationalString).Groups[1].Value;
+            }
+            return null;
         }
     }
 }

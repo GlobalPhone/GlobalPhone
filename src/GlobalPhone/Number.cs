@@ -66,7 +66,7 @@ namespace GlobalPhone
             get { return Format != null && NationalPattern.Match(NationalString ?? String.Empty).Success; }
         }
 
-        internal Format Format
+        private Format Format
         {
             get { return _format ?? (_format = FindFormatFor(NationalString)); }
         }
@@ -131,14 +131,13 @@ namespace GlobalPhone
         {
             get
             {
-
                 if (NationalPrefixFormattingRule != null)
                 {
                     var areaCodeSuffix = SplitFirstGroup.Match(FormattedNationalString).Groups[1].Value;
                     var formattedNationalPrefix = NationalPrefixFormattingRule.Replace("$NP", NationalPrefix).Replace("$FG", areaCodeSuffix);
                     return notSlashD.Replace(formattedNationalPrefix, "");
                 }
-                return null;
+                return Format.FirstInPattern(NationalString);
             }
         }
 
