@@ -5,6 +5,7 @@ using System.Linq;
 namespace GlobalPhone.Tests
 {
     [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseHashV2)]
     [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
     [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
     public class SmokeTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
@@ -50,9 +51,9 @@ namespace GlobalPhone.Tests
             Assert.NotNull(number.InternationalFormat);
         }
 
-        private static string Message(object @string, object territoryName)
+        private string Message(object @string, object territoryName)
         {
-            return "expected " + @string + " to parse for territory " + territoryName;
+            return "expected " + @string + " to parse for territory " + territoryName + " for data "+_forData;
         }
 
         private void assert_can_handle_invalid(object @string, object territory_name)

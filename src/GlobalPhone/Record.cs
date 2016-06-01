@@ -11,7 +11,7 @@ namespace GlobalPhone
 
         protected bool IsArray(object value)
         {
-            return value is IEnumerable && !(value is IDictionary);
+            return value is IEnumerable && !(value is IDictionary) && !(value is string);
         }
 
         protected object[] AsArray(object value)
@@ -58,6 +58,46 @@ namespace GlobalPhone
         protected object[] FieldAsArray(int index, string column)
         {
             return AsArray(_data != null ? _data[index] : _hash[column]);
+        }
+        protected TRet[] FieldMaybeAsArray<T, TRet>(int index, string column, Func<T, TRet> block)
+        {
+            if (_data != null)
+            {
+                try
+                {
+                    if (_data.Length <= index)
+                        return new TRet[0];
+                    var val = _data[index];
+                    return MaybeMapAsArray(block, val);
+                }
+                catch (Exception e)
+                {
+                    throw new Exception("Index: " + index, e);
+                }
+            }
+            try
+            {
+                if (!_hash.Contains(column) || _hash[column] == null)
+                    return new TRet[0];
+                var val = _hash[column];
+                return MaybeMapAsArray(block, val);
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Column: " + column, e);
+            }
+        }
+
+        private TRet[] MaybeMapAsArray<T, TRet>(Func<T, TRet> block, object val)
+        {
+            if (val != null && IsArray(val))
+            {
+                return AsArray(val).Cast<T>().Select(block).ToArray();
+            }
+            else
+            {
+                return new[] { block(((T)val)) };
+            }
         }
 
         protected T Field<T>(int index, string column, T fallback = default(T))

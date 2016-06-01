@@ -1,11 +1,12 @@
 ﻿using System.IO;
 using NUnit.Framework;
+using System;
 
 namespace GlobalPhone.Tests
 {
     public class TestFixtureBase
     {
-        private readonly ForData _forData;
+        protected readonly ForData _forData;
 
         public TestFixtureBase(ForData forData)
         {
@@ -21,8 +22,31 @@ namespace GlobalPhone.Tests
         private Context _context;
         public Context Context
         {
-            get { return _context ?? (_context = new Context(_deserializer) { DbPath = _forData == ForData.UseArray ? FixturePath("record_data.json") : FixturePath("record_data_hash.json") }); }
+            get
+            {
+                return _context ?? (_context = new Context(_deserializer)
+                {
+                    DbPath = GetRecordDataPath()
+                });
+            }
         }
+
+        private string GetRecordDataPath()
+        {
+            switch (_forData)
+            {
+                case ForData.UseArray:
+                    return FixturePath("record_data.json");
+                case ForData.UseHash:
+                    return FixturePath("record_data_hash.json");
+                case ForData.None:// use latest
+                case ForData.UseHashV2:
+                    return FixturePath("record_data_hash_v2.json");
+                default:
+                    throw new Exception(_forData.ToString());
+            }
+        }
+
         private static string FixturePath(string file)
         {
             return Path.Combine("fixtures", file);
@@ -46,7 +70,13 @@ namespace GlobalPhone.Tests
         }
         public object[] ExampleNumbers
         {
-            get { return _exampleNumbers ?? (_exampleNumbers = JsonFixture("example_numbers")); }
+            get
+            {
+                return _exampleNumbers ?? (_exampleNumbers = JsonFixture(
+                                                                _forData == ForData.UseHashV2
+                                                                  ? "example_numbers_v2"
+                                                                  : "example_numbers"));
+            }
         }
         public object[] ExampleInvalidNumbers
         {

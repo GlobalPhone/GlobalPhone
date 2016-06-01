@@ -121,3 +121,5 @@ nuget_tool/*.nupkg
 
 nuget_core/lib/
 nuget_core/*.nupkg
+
+.vs

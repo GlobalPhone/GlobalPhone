@@ -43,7 +43,7 @@ namespace GlobalPhone
         public string[][] TestCases()
         {
             return _testCases ?? (_testCases = TerritoryNodes().Select(ExampleNumbersForTerritoryNode)
-                .Flatten(1).Cast<string[]>().Where(arr=>arr.Length>0).ToArray());
+                .Flatten(1).Cast<string[]>().Where(arr => arr.Length > 0).ToArray());
         }
 
         private IEnumerable<Nokogiri.Node> TerritoryNodes()
@@ -126,11 +126,13 @@ namespace GlobalPhone
 
         private IDictionary CompileTerritory(Nokogiri.Node node)
         {
+            var possibleNumberPattern = Pattern(node, "generalDesc possibleNumberPattern");
+            var nationalNumberPattern = Pattern(node, "generalDesc nationalNumberPattern");
             return new Dictionary<string, object>
             {
                 {"name",TerritoryName(node)},
-                {"possibleNumber",Pattern(node, "generalDesc possibleNumberPattern")},
-                {"nationalNumber",Pattern(node, "generalDesc nationalNumberPattern")},
+                {"possibleNumber",possibleNumberPattern.FirstOrDefault()},
+                {"nationalNumber",nationalNumberPattern.FirstOrDefault()},
                 {"formattingRule",Squish(node["nationalPrefixFormattingRule"])}
             };
         }
@@ -144,11 +146,11 @@ namespace GlobalPhone
         {
             var format = new Dictionary<string, object>
                                     {
-                                        {"pattern",node["pattern"]}, 
-                                        {"format",TextOrNull(node, "format")}, 
-                                        {"leadingDigits",Pattern(node, "leadingDigits")}, 
-                                        {"formatRule",node["nationalPrefixFormattingRule"]}, 
-                                        {"intlFormat",TextOrNull(node, "intlFormat")}, 
+                                        {"pattern",node["pattern"]},
+                                        {"format", TextOrEmpty(node, "format").FirstOrDefault()},
+                                        {"leadingDigits",Pattern(node, "leadingDigits")},
+                                        {"formatRule",node["nationalPrefixFormattingRule"]},
+                                        {"intlFormat",TextOrEmpty(node, "intlFormat").FirstOrDefault()},
                                     };
             return format;
         }
@@ -164,14 +166,25 @@ namespace GlobalPhone
             return !String.IsNullOrEmpty(@string) ? whiteSpace.Replace(@string, "") : @string;
         }
 
-        private string Pattern(Nokogiri.Node node, string selector)
+        private string[] Pattern(Nokogiri.Node node, string selector)
         {
-            return Squish(TextOrNull(node, selector));
+            return TextOrEmpty(node, selector)
+                .Select(Squish)
+                .Where(NotNullOrEmpty)
+                .ToArray();
         }
-        private static string TextOrNull(Nokogiri.Node node, string selector)
+
+        private bool NotNullOrEmpty(string arg)
+        {
+            return !string.IsNullOrEmpty(arg);
+        }
+
+        private static string[] TextOrEmpty(Nokogiri.Node node, string selector)
         {
             var nodes = node.Search(selector);
-            return nodes == null || !nodes.Any() ? null : String.Join("", nodes.Select(n => n.Text));
+            return nodes == null || !nodes.Any()
+                ? new string[0]
+                : nodes.Select(n => n.Text).ToArray();
 
         }
 
@@ -183,7 +196,7 @@ namespace GlobalPhone
                 var value = self[key];
                 if (value != null)
                 {
-                    truncated.Add(key,value);
+                    truncated.Add(key, value);
                 }
             }
             return truncated;

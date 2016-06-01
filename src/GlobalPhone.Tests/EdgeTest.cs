@@ -3,20 +3,21 @@ using NUnit.Framework;
 namespace GlobalPhone.Tests
 {
     [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
+    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV2)]
     [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
     [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
-	public class EdgeTest<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
+    public class EdgeTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
     {
         public EdgeTest(ForData forData)
             : base(forData)
         {
         }
 
-		[TestFixtureSetUp]
-		public void TestFixtureSetup()
-		{
-			_deserializer = new Deserializer ();
-		}
+        [TestFixtureSetUp]
+        public void TestFixtureSetup()
+        {
+            _deserializer = new Deserializer();
+        }
         [Test]
         public void formatting_numbers_that_match_a_pattern_but_not_leading_digits()
         {

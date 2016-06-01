@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 using GlobalPhone;
+using System.IO;
 #if NEWTONSOFT
 using Newtonsoft.Json;
 #else
@@ -10,7 +11,7 @@ namespace GlobalPhoneDbgen
 {
     class Program
     {
-        private const string RemoteUrl = "http://libphonenumber.googlecode.com/svn/trunk/resources/PhoneNumberMetadata.xml";
+        private const string RemoteUrl = "https://raw.githubusercontent.com/googlei18n/libphonenumber/master/resources/PhoneNumberMetadata.xml";
 
         static void Usage(string nameOfProgram)
         {
@@ -39,8 +40,8 @@ namespace GlobalPhoneDbgen
     Google's database from:
       " + RemoteUrl + @"
 
-Options:" + (showCompat? @"
-    --compact      Strip all whitespace from the JSON output" :"") + @"
+Options:" + (showCompat ? @"
+    --compact      Strip all whitespace from the JSON output" : "") + @"
     --test         Generate example phone number fixtures for smoke tests
 
 ");
@@ -87,9 +88,10 @@ Options:" + (showCompat? @"
                         break;
                 }
             }
-
-
-            var generator = DatabaseGenerator.Load(new System.Net.WebClient().DownloadString(path));
+            string dl = File.Exists(path) 
+                ? File.ReadAllText(path) 
+                : new System.Net.WebClient().DownloadString(path);
+            var generator = DatabaseGenerator.Load(dl);
             var result = Send(generator, method);
             Console.WriteLine(
 #if NEWTONSOFT
@@ -98,6 +100,7 @@ wJsonConvert.SerializeObject(result, compact ? Formatting.None : Formatting.Inde
 new JavaScriptSerializer().Serialize(result)
 #endif
 );
+
         }
 
         private static object Send(DatabaseGenerator generator, string method)

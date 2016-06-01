@@ -6,13 +6,12 @@ using System.Text;
 
 namespace GlobalPhone.Tests
 {
-    [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
-    [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
-    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
+    [TestFixture(typeof(DefaultDeserializer))]
+    [TestFixture(typeof(NewtonsoftDeserializer))]
 	public class DatabaseGeneratorTests<Deserializer> : TestFixtureBase where Deserializer:IDeserializer, new()
     {
-        public DatabaseGeneratorTests(ForData forData)
-            : base(forData)
+        public DatabaseGeneratorTests()
+            : base(ForData.None)
         {
         }
 

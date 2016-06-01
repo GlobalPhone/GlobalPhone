@@ -66,7 +66,7 @@ namespace GlobalPhone
             get { return Format != null && NationalPattern.Match(NationalString ?? String.Empty).Success; }
         }
 
-        private Format Format
+        internal Format Format
         {
             get { return _format ?? (_format = FindFormatFor(NationalString)); }
         }

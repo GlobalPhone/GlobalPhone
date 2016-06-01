@@ -2,7 +2,9 @@
 {
     public enum ForData
     {
-        UseArray=0,
-        UseHash=1
+        None = 0,
+        UseArray = 1,
+        UseHash=2,
+        UseHashV2=3,
     }
 }

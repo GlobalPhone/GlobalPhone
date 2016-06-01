@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace GlobalPhone
@@ -7,9 +8,10 @@ namespace GlobalPhone
     {
         private readonly Regex _pattern;
         private readonly string _nationalFormatRule;
-        private readonly Regex _leadingDigits;
+        private readonly Regex[] _leadingDigits;
         public readonly string NationalPrefixFormattingRule;
         private readonly string _internationalFormatRule;
+        internal string Pattern { get { return _pattern.ToString(); } }
 
         public Format(object data)
             : base(data)
@@ -17,17 +19,28 @@ namespace GlobalPhone
             //name = field<string>(0);
             _pattern = Field<string, Regex>(0, block: p => new Regex("^" + p + "$"), column: "pattern");
             _nationalFormatRule = Field<string>(1, column: "format");
-            _leadingDigits = Field<string, Regex>(2, block: p => new Regex("^" + p + ""), column: "leadingDigits");
+            _leadingDigits = FieldMaybeAsArray<string, Regex>(2, block: p => new Regex("^" + p + ""), column: "leadingDigits");
             NationalPrefixFormattingRule = Field<string>(3, column: "formatRule");
             _internationalFormatRule = Field(4, fallback: _nationalFormatRule, column: "intlFormat");
         }
 
         public bool Match(string nationalString, bool? matchLeadingDigits = null)
         {
-            var m = matchLeadingDigits ?? true;
-            if (m && _leadingDigits != null && !_leadingDigits.Match(nationalString ?? String.Empty).Success)
-                return false;
-            return _pattern.Match(nationalString ?? String.Empty).Success;
+            var matchesNational = _pattern.Match(nationalString ?? String.Empty).Success;
+            if (matchLeadingDigits ?? true)
+                return matchesNational && MatchLeadingDigits(nationalString);
+            return matchesNational;
+        }
+
+        private bool MatchLeadingDigits(string nationalString)
+        {
+            return _leadingDigits != null && _leadingDigits.Any()
+                && _leadingDigits.Any(MatchSuccess(nationalString));
+        }
+
+        private static Func<Regex, bool> MatchSuccess(string nationalString)
+        {
+            return leadingDigits => leadingDigits.Match(nationalString ?? String.Empty).Success;
         }
 
         public string Apply(string nationalString, string type)
