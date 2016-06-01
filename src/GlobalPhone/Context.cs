@@ -38,7 +38,7 @@ namespace GlobalPhone
             {
                 return _db ?? (_db = !string.IsNullOrEmpty(DbText)
                     ? Database.Load(DbText, _serializer)
-                    : Database.LoadFile(DbPath.Unless(new NoDatabaseException("set `DbPath=' first")), _serializer));
+                    : Database.LoadFile(DbPath.ThrowIfNullOrEmpty(new NoDatabaseException("set `DbPath=' first")), _serializer));
             }
         }
 

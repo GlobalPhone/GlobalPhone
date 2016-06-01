@@ -1,22 +1,18 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
     internal static class InternalExtensions
     {
-        [Obsolete("Should be replaced by more c#:y construct")]
-        internal static string Unless<T>(this string obj, T exc) where T : Exception
+        internal static string ThrowIfNullOrEmpty<T>(this string obj, T exc) where T : Exception
         {
             if (String.IsNullOrEmpty(obj))
                 throw exc;
             return obj;
         }
-        [Obsolete("Should be replaced by more c#:y construct")]
-        internal static TRet Unless<T, TRet>(this TRet obj, T exc)
+        internal static TRet ThrowIfNull<T, TRet>(this TRet obj, T exc)
             where T : Exception
             where TRet : class
         {
