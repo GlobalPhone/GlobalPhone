@@ -113,5 +113,28 @@ namespace GlobalPhone.Tests
             number = Context.Parse("+852 2699 2838");
             Assert.AreEqual("2699 2838", number.LocalNumber);
         }
+
+        [Test]
+        public void testFormatUSNumber()
+        {
+            var US_NUMBER = Context.Parse("+16502530000");
+            var US_TOLLFREE = Context.Parse("+18002530000");
+            var US_PREMIUM = Context.Parse("+19002530000");
+            Assert.AreEqual("(650) 253-0000",
+                         US_NUMBER.NationalFormat);
+            Assert.AreEqual("+1 650-253-0000",
+                         US_NUMBER.InternationalFormat);
+
+            Assert.AreEqual("(800) 253-0000",
+                         US_TOLLFREE.NationalFormat);
+            Assert.AreEqual("+1 800-253-0000",
+                         US_TOLLFREE.InternationalFormat);
+
+            Assert.AreEqual("(900) 253-0000",
+                         US_PREMIUM.NationalFormat);
+            Assert.AreEqual("+1 900-253-0000",
+                         US_PREMIUM.InternationalFormat);
+        }
+
     }
 }
