@@ -1,5 +1,3 @@
-Since there are many paid projects that require [my](github.com/wallymathieu) attention, I wont actively maintain the code. If someone would like to contribute I would be happy. If you need help with a non trivial change in the code please contact either the consultant firm I work for [tretton37](http://tretton37.com/contact/) or another consultant firm in order to do a pull request.
-
 # GlobalPhone [![Build Status](https://travis-ci.org/GlobalPhone/GlobalPhone.png?branch=master)](https://travis-ci.org/GlobalPhone/GlobalPhone) [![Build status](https://ci.appveyor.com/api/projects/status/q1g4004mt0bw9los/branch/master?svg=true)](https://ci.appveyor.com/project/wallymathieu/globalphone/branch/master)
 
 GlobalPhone parses, validates, and formats local and international phone numbers according to the [E.164 standard](http://en.wikipedia.org/wiki/E.164).
