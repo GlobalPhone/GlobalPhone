@@ -115,26 +115,19 @@ namespace GlobalPhone.Tests
             Assert.AreEqual("2699 2838", number.LocalNumber);
         }
 
-        [Test]
-        public void testFormatUSNumber()
+        [Test,
+            TestCase("US_NUMBER", "+16502530000", "(650) 253-0000", "+1 650-253-0000"),
+            TestCase("US_TOLLFREE", "+18002530000", "(800) 253-0000", "+1 800-253-0000"),
+            TestCase("US_PREMIUM", "+19002530000", "(900) 253-0000", "+1 900-253-0000"),
+            ]
+        public void testFormatUSNumber(string name, string number,
+            string nationalFormat, string internNationalFormat)
         {
-            var US_NUMBER = Context.Parse("+16502530000");
-            var US_TOLLFREE = Context.Parse("+18002530000");
-            var US_PREMIUM = Context.Parse("+19002530000");
-            Assert.AreEqual("(650) 253-0000",
-                         US_NUMBER.NationalFormat);
-            Assert.AreEqual("+1 650-253-0000",
-                         US_NUMBER.InternationalFormat);
-
-            Assert.AreEqual("(800) 253-0000",
-                         US_TOLLFREE.NationalFormat);
-            Assert.AreEqual("+1 800-253-0000",
-                         US_TOLLFREE.InternationalFormat);
-
-            Assert.AreEqual("(900) 253-0000",
-                         US_PREMIUM.NationalFormat);
-            Assert.AreEqual("+1 900-253-0000",
-                         US_PREMIUM.InternationalFormat);
+            var parsedNumber = Context.Parse(number);
+            Assert.AreEqual(nationalFormat,
+                         parsedNumber.NationalFormat);
+            Assert.AreEqual(internNationalFormat,
+                         parsedNumber.InternationalFormat);
         }
     }
 }
