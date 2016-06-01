@@ -3,7 +3,7 @@
   <metadata>
     <id>GlobalPhoneDbgen</id>
     <title>GlobalPhoneDbgen</title>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
     <authors>Oskar Gewalli, Sam Stephenson</authors>
     <owners>Oskar Gewalli, Sam Stephenson</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -14,6 +14,6 @@
     <copyright>Copyright 2013</copyright>
     <dependencies>
     </dependencies>
-    <releaseNotes>Changed globalphone to have easier to read json format.</releaseNotes>
+    <releaseNotes>Changed internal format.</releaseNotes>
   </metadata>
 </package>
