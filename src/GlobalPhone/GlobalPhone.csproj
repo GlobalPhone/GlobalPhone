@@ -55,6 +55,7 @@
     <Compile Include="Record.cs" />
     <Compile Include="Region.cs" />
     <Compile Include="Territory.cs" />
+    <Compile Include="UnknownRegionException.cs" />
     <Compile Include="UnknownTerritoryException.cs" />
     <Compile Include="InternalExtensions.cs" />
   </ItemGroup>

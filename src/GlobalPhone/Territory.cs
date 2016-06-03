@@ -1,3 +1,4 @@
+using System;
 using System.Text.RegularExpressions;
 
 namespace GlobalPhone
@@ -7,7 +8,7 @@ namespace GlobalPhone
         private readonly Region _region;
         public readonly string Name;
         private readonly Regex _possiblePattern;
-        public readonly Regex NationalPattern;
+        private readonly Regex _nationalPattern;
         public readonly string NationalPrefixFormattingRule;
 
         public Territory(object data, Region region)
@@ -16,7 +17,7 @@ namespace GlobalPhone
             _region = region;
             Name = Field<string>(0, column: "name");
             _possiblePattern = Field<string, Regex>(1, column: "possibleNumber", block: p => new Regex("^" + p + "$"));
-            NationalPattern = Field<string, Regex>(2, column: "nationalNumber", block: p => new Regex("^" + p + "$"));
+            _nationalPattern = Field<string, Regex>(2, column: "nationalNumber", block: p => new Regex("^" + p + "$"));
             NationalPrefixFormattingRule = Field<string>(3, column: "formattingRule");
         }
 
@@ -24,22 +25,9 @@ namespace GlobalPhone
         {
             get { return _region.CountryCode; }
         }
-        public Regex InternationalPrefix
-        {
-            get { return _region.InternationalPrefix; }
-        }
         public string NationalPrefix
         {
             get { return _region.NationalPrefix; }
-        }
-        public Regex NationalPrefixForParsing
-        {
-            get { return _region.NationalPrefixForParsing; }
-        }
-
-        public string NationalPrefixTransformRule
-        {
-            get { return _region.NationalPrefixTransformRule; }
         }
 
         public Region Region
@@ -60,23 +48,27 @@ namespace GlobalPhone
             return _possiblePattern.Match(str ?? string.Empty).Success;
         }
 
-        protected internal string Normalize(string str)
+        public string Normalize(string str)
         {
             return Number.Normalize( (E161.UsedBy(this)) ? E161.Normalize(str) : str );
         }
 
-        protected string ToNationalNumber(string str)
+        private string ToNationalNumber(string str)
         {
             return StripNationalPrefix(Number.Normalize(str));
         }
 
-        protected string StripNationalPrefix(string str)
+        internal bool NationalPatternMatch(string nationalString)
+        {
+            return _nationalPattern.Match(nationalString ?? string.Empty).Success;
+        }
+
+        private string StripNationalPrefix(string str)
         {
             string stringWithoutPrefix = null;
-            if (NationalPrefixForParsing != null)
+            if (_region.TryStripNationalPrefix(str, out stringWithoutPrefix))
             {
-                var transformRule = NationalPrefixTransformRule ?? "";
-                stringWithoutPrefix = NationalPrefixForParsing.Replace(str, transformRule, 1);
+
             }
             else if (StartsWithNationalPrefix(str))
             {

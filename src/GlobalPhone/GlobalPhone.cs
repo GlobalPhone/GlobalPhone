@@ -52,5 +52,10 @@
             get { return Context.DefaultTerritoryName; }
             set { Context.DefaultTerritoryName = value; }
         }
+
+        public Database Db
+        {
+            get { return Context.Db; }
+        }
     }
 }

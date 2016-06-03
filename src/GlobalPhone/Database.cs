@@ -16,25 +16,30 @@ namespace GlobalPhone
             Regions = recordData.Select(data => new Region(data)).ToArray();
         }
 
-		public static Database LoadFile(string filename, IDeserializer serializer)
+        public static Database LoadFile(string filename, IDeserializer serializer)
         {
-			return Load(File.ReadAllText(filename), serializer);
+            return Load(File.ReadAllText(filename), serializer);
         }
 
-		public static Database Load(string text, IDeserializer serializer)
+        public static Database Load(string text, IDeserializer serializer)
         {
-			return new Database(serializer.Deserialize(text));
+            return new Database(serializer.Deserialize(text));
+        }
+
+        public bool TryGetRegion(int countryCode, out Region value)
+        {
+            return TryGetRegion(countryCode.ToString(CultureInfo.InvariantCulture), out value);
         }
 
         public Region TryGetRegion(int countryCode)
         {
-            return TryGetRegion(countryCode.ToString(CultureInfo.InvariantCulture));
+            Region value;
+            return TryGetRegion(countryCode.ToString(CultureInfo.InvariantCulture), out value) ? value : null;
         }
 
-        public override Region TryGetRegion(string countryCode)
+        public override bool TryGetRegion(string countryCode, out Region value)
         {
-            Region value;
-            return RegionsByCountryCode.TryGetValue(countryCode, out value) ? value : null;
+            return RegionsByCountryCode.TryGetValue(countryCode, out value);
         }
 
         private Dictionary<string, Region> _regionsByCountryCode;
@@ -45,21 +50,28 @@ namespace GlobalPhone
         }
 
         private readonly Dictionary<string, Territory> _territoriesByName;
-      
-        public override Territory TryGetTerritory(string name)
+
+        public override bool TryGetTerritory(string name, out Territory territory)
         {
-            return _territoriesByName.GetOrAdd(name, () =>
-                {
-                    Region region;
-                    if ((region = RegionForTerritory(name)) != null)
-                    {
-                        return region.Territory(name);
-                    }
-                    return null;
-                });
+            Territory value;
+            if (_territoriesByName.TryGetValue(name, out value))
+            {
+                territory = value;
+                return true;
+            }
+
+            Region region;
+            if ((region = RegionForTerritory(name)) != null
+                && (territory = region.Territory(name)) != null)
+            {
+                _territoriesByName.Add(name, territory);
+                return true;
+            }
+            territory = null;
+            return false;
         }
 
-        protected Region RegionForTerritory(string name)
+        private Region RegionForTerritory(string name)
         {
             return Regions.SingleOrDefault(r => r.HasTerritory(name));
         }

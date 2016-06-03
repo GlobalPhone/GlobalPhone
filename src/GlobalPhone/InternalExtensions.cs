@@ -102,6 +102,7 @@ namespace GlobalPhone
             }
             return result;
         }
+
         internal static TValue GetOrAdd<TKey, TValue>(this IDictionary<TKey, TValue> self, TKey key, Func<TValue> getvalue)
         {
             if (!self.ContainsKey(key))
@@ -111,7 +112,7 @@ namespace GlobalPhone
             return self[key];
         }
 
-        public static TRet SelectWhereNotNull<T, TRet>(this IEnumerable<T> collection, Func<T, TRet> func) where TRet : class
+        internal static TRet SelectWhereNotNull<T, TRet>(this IEnumerable<T> collection, Func<T, TRet> func) where TRet : class
         {
             foreach (var value in collection)
             {

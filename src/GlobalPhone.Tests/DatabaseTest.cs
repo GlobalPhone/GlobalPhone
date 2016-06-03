@@ -28,7 +28,7 @@ namespace GlobalPhone.Tests
         [Test]
         public void finding_region_by_country_code()
         {
-            var region = Db.TryGetRegion(1);
+            Region region = Db.TryGetRegion(1);
             Assert.That(region, Is.TypeOf<Region>());
             Assert.That(region.CountryCode, Is.EqualTo("1"));
         }

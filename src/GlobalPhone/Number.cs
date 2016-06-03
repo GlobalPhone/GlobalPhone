@@ -23,10 +23,6 @@ namespace GlobalPhone
         {
             get { return Territory.Region; }
         }
-        public Regex NationalPattern
-        {
-            get { return Territory.NationalPattern; }
-        }
 
         public string NationalFormat
         {
@@ -63,7 +59,7 @@ namespace GlobalPhone
 
         public bool IsValid
         {
-            get { return Format != null && NationalPattern.Match(NationalString ?? String.Empty).Success; }
+            get { return Format != null && Territory.NationalPatternMatch(NationalString); }
         }
 
         private Format Format

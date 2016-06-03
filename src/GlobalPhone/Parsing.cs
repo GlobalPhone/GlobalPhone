@@ -8,24 +8,19 @@ namespace GlobalPhone
     {
         public Number Parse(string str, string territoryName)
         {
-            var territory = TryGetTerritory(territoryName).ThrowIfNull(new UnknownTerritoryException(territoryName));
+            var territory = GetTerritory(territoryName);
             str = territory.Normalize(str);
 
             if (StartsWithPlus(str))
             {
                 return ParseInternationalString(str);
             }
-            if (territory.InternationalPrefix.Match(str ?? String.Empty).Success)
+            string stripped;
+            if (territory.Region.TryStripInternationalPrefix(str, out stripped))
             {
-                str = StripInternationalPrefix(territory, str);
-                return ParseInternationalString(str);
+                return ParseInternationalString(stripped);
             }
             return territory.ParseNationalString(str);
-        }
-
-        private static string StripInternationalPrefix(Territory territory, string @string)
-        {
-            return territory.InternationalPrefix.Replace(@string, "");
         }
 
         private Number ParseInternationalString(string @string)
@@ -33,10 +28,10 @@ namespace GlobalPhone
             @string = Number.Normalize(@string);
             if (StartsWithPlus(@string))
             {
-                @string = StripLeadingPlus(@string) ;
+                @string = StripLeadingPlus(@string);
             }
-            Region region; 
-            if ((region = RegionForString(@string))!=null)
+            Region region;
+            if ((region = RegionForString(@string)) != null)
             {
                 return region.ParseNationalString(@string);
             }
@@ -45,7 +40,7 @@ namespace GlobalPhone
 
         private static IEnumerable<String> CountryCodeCandidatesFor(string @string)
         {
-            return new[] {1, 2, 3}.Select(i => @string.Length <= i ? null : @string.Substring(0, i))
+            return new[] { 1, 2, 3 }.Select(i => @string.Length <= i ? null : @string.Substring(0, i))
                 .Where(candidate => !String.IsNullOrEmpty(candidate));
         }
 
@@ -65,8 +60,48 @@ namespace GlobalPhone
             return candidates.SelectWhereNotNull(TryGetRegion);
         }
 
-        public abstract Region TryGetRegion(String countryCode);
+        public abstract bool TryGetRegion(string countryCode, out Region region);
 
-        public abstract Territory TryGetTerritory(string territoryName);
+        public abstract bool TryGetTerritory(string territoryName, out Territory territory);
+
+        public Territory TryGetTerritory(string territoryName)
+        {
+            Territory territory;
+            if (!TryGetTerritory(territoryName, out territory))
+            {
+                return null;
+            }
+            return territory;
+        }
+
+        public Territory GetTerritory(string territoryName)
+        {
+            Territory territory;
+            if (!TryGetTerritory(territoryName, out territory))
+            {
+                throw new UnknownTerritoryException(territoryName);
+            }
+            return territory;
+        }
+
+        public Region GetRegion(string regionName)
+        {
+            Region region;
+            if (!TryGetRegion(regionName, out region))
+            {
+                throw new UnknownRegionException(regionName);
+            }
+            return region;
+        }
+
+        public Region TryGetRegion(string regionName)
+        {
+            Region region;
+            if (!TryGetRegion(regionName, out region))
+            {
+                return null;
+            }
+            return region;
+        }
     }
 }
