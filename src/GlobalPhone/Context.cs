@@ -55,12 +55,9 @@ namespace GlobalPhone
                 number = Parse(str, territoryName);
                 return true;
             }
-            catch (FailedToParseNumberException)
-            {
-            }
-            catch (UnknownTerritoryException)
-            {
-            }
+            catch (FailedToParseNumberException) { }
+            catch (UnknownTerritoryException) { }
+            catch (UnknownRegionException) { }
             number = null;
             return false;
         }
