@@ -47,13 +47,13 @@
             set { Context.DbText = value; }
         }
 
-        public string DefaultTerritoryName
+        public static string DefaultTerritoryName
         {
             get { return Context.DefaultTerritoryName; }
             set { Context.DefaultTerritoryName = value; }
         }
 
-        public Database Db
+        public static Database Db
         {
             get { return Context.Db; }
         }
