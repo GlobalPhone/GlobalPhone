@@ -1,4 +1,4 @@
-# GlobalPhone [![Build Status](https://travis-ci.org/GlobalPhone/GlobalPhone.png?branch=master)](https://travis-ci.org/GlobalPhone/GlobalPhone) [![Build status](https://ci.appveyor.com/api/projects/status/q1g4004mt0bw9los/branch/master?svg=true)](https://ci.appveyor.com/project/wallymathieu/globalphone/branch/master)
+# GlobalPhone [![Build Status](https://travis-ci.org/GlobalPhone/GlobalPhone.png?branch=master)](https://travis-ci.org/GlobalPhone/GlobalPhone) [![Build status](https://ci.appveyor.com/api/projects/status/qulay38neeeqpdbp/branch/master?svg=true)](https://ci.appveyor.com/project/wallymathieu/globalphone-d4koy/branch/master)
 
 GlobalPhone parses, validates, and formats local and international phone numbers according to the [E.164 standard](http://en.wikipedia.org/wiki/E.164).
 
