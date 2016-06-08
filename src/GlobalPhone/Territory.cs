@@ -10,6 +10,7 @@ namespace GlobalPhone
         private readonly Regex _possiblePattern;
         private readonly Regex _nationalPattern;
         public readonly string NationalPrefixFormattingRule;
+        public readonly bool NationalPrefixOptionalWhenFormatting;
 
         public Territory(object data, Region region)
             : base(data)
@@ -19,15 +20,7 @@ namespace GlobalPhone
             _possiblePattern = Field<string, Regex>(1, column: "possibleNumber", block: p => new Regex("^" + p + "$"));
             _nationalPattern = Field<string, Regex>(2, column: "nationalNumber", block: p => new Regex("^" + p + "$"));
             NationalPrefixFormattingRule = Field<string>(3, column: "formattingRule");
-        }
-
-        public string CountryCode
-        {
-            get { return _region.CountryCode; }
-        }
-        public string NationalPrefix
-        {
-            get { return _region.NationalPrefix; }
+            NationalPrefixOptionalWhenFormatting = Field<bool>(4, column: "nationalPrefixOptionalWhenFormatting");
         }
 
         public Region Region
@@ -68,18 +61,9 @@ namespace GlobalPhone
             string stringWithoutPrefix = null;
             if (_region.TryStripNationalPrefix(str, out stringWithoutPrefix))
             {
-
+                return Possible(stringWithoutPrefix) ? stringWithoutPrefix : str;
             }
-            else if (StartsWithNationalPrefix(str))
-            {
-                stringWithoutPrefix = str.Substring(NationalPrefix.Length);
-            }
-            return Possible(stringWithoutPrefix) ? stringWithoutPrefix : str;
-        }
-
-        protected bool StartsWithNationalPrefix(string str)
-        {
-            return NationalPrefix != null && str.StartsWith(NationalPrefix);
+            return str;
         }
 
         public override bool Equals(object obj)

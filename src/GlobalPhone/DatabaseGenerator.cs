@@ -142,13 +142,18 @@ namespace GlobalPhone
         {
             var possibleNumberPattern = Pattern(node, "generalDesc possibleNumberPattern");
             var nationalNumberPattern = Pattern(node, "generalDesc nationalNumberPattern");
-            return new Dictionary<string, object>
+            var d = new Dictionary<string, object>
             {
                 {"name",TerritoryName(node)},
                 {"possibleNumber",possibleNumberPattern.FirstOrDefault()},
                 {"nationalNumber",nationalNumberPattern.FirstOrDefault()},
-                {"formattingRule",Squish(node["nationalPrefixFormattingRule"])}
+                {"formattingRule",Squish(node["nationalPrefixFormattingRule"])},
             };
+            if ("true".Equals(Squish(node["nationalPrefixOptionalWhenFormatting"])))
+            {
+                d.Add("nationalPrefixOptionalWhenFormatting", true);
+            }
+            return d;
         }
 
         private IEnumerable<IDictionary> CompileFormats(IEnumerable<Nokogiri.Node> territoryNodes)

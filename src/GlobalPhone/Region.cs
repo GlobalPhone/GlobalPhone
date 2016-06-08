@@ -7,6 +7,10 @@ namespace GlobalPhone
 {
     public class Region : Record
     {
+        /// <summary>
+        /// Gets the country code.
+        /// For instance for a swedish number you will get 46, for a US number you will get 1.
+        /// </summary>
         public string CountryCode;
         private readonly object[] _formatRecordData;
         private readonly object[] _territoryRecordData;
@@ -69,9 +73,20 @@ namespace GlobalPhone
                 stringWithoutPrefix = _nationalPrefixForParsing.Replace(str, transformRule, 1);
                 return true;
             }
+            else if (StartsWithNationalPrefix(str))
+            {
+                stringWithoutPrefix = str.Substring(NationalPrefix.Length);
+                return true;
+            }
             stringWithoutPrefix = null;
             return false;
         }
+
+        private bool StartsWithNationalPrefix(string str)
+        {
+            return NationalPrefix != null && str.StartsWith(NationalPrefix);
+        }
+
 
         private bool StartsWithCountryCode(string s)
         {

@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 
@@ -11,18 +9,14 @@ namespace GlobalPhone
         public Territory Territory { get; private set; }
 
         public string NationalString { get; private set; }
-        private string NationalPrefix
-        {
-            get { return Territory.NationalPrefix; }
-        }
         /// <summary>
-        /// Gets the country code.
+        /// Gets the country for the code.
         /// For instance for a swedish number you will get 46, for a US number you will get 1.
         /// </summary>
         /// <value>The country code.</value>
         public string CountryCode
         {
-            get { return Territory.CountryCode; }
+            get { return Territory.Region.CountryCode; }
         }
         public Region Region
         {
@@ -58,7 +52,7 @@ namespace GlobalPhone
             Match match;
             if (!string.IsNullOrEmpty(prefix) && (match = SplitFirstGroup.Match(result ?? String.Empty)).Success)
             {
-                prefix = prefix.Replace("$NP", NationalPrefix);
+                prefix = prefix.Replace("$NP", Territory.Region.NationalPrefix);
                 prefix = prefix.Replace("$FG", match.Groups[1].Value);
                 result = prefix + " " + match.Groups[2].Value;
                 return result;
@@ -164,7 +158,7 @@ namespace GlobalPhone
                 if (NationalPrefixFormattingRule != null)
                 {
                     var areaCodeSuffix = SplitFirstGroup.Match(FormattedNationalString).Groups[1].Value;
-                    var formattedNationalPrefix = NationalPrefixFormattingRule.Replace("$NP", NationalPrefix).Replace("$FG", areaCodeSuffix);
+                    var formattedNationalPrefix = NationalPrefixFormattingRule.Replace("$NP", Territory.Region.NationalPrefix).Replace("$FG", areaCodeSuffix);
                     return notSlashD.Replace(formattedNationalPrefix, "");
                 }
                 return Format.FirstInPattern(NationalString);
