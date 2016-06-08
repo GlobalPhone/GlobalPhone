@@ -2,6 +2,9 @@ using System.Web.Script.Serialization;
 
 namespace GlobalPhone
 {
+    /// <summary>
+    /// Using JavaScriptSerializer to deserialize the internal data.
+    /// </summary>
     public class DefaultDeserializer : IDeserializer
     {
         JavaScriptSerializer implementation = new JavaScriptSerializer();

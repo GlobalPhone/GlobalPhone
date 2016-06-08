@@ -4,6 +4,9 @@ using System.Linq;
 
 namespace GlobalPhone
 {
+    /// <summary>
+    /// Parse part for the Database.
+    /// </summary>
     public abstract class Parsing
     {
         public Number Parse(string str, string territoryName)

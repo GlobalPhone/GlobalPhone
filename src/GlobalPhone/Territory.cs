@@ -3,6 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
+    /// <summary>
+    /// Territory part of data
+    /// </summary>
     public class Territory : Record
     {
         private readonly Region _region;

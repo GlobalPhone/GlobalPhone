@@ -3,7 +3,7 @@
   <metadata>
     <id>GlobalPhone</id>
     <title>GlobalPhone</title>
-    <version>4.0.0</version>
+    <version>4.0.1</version>
     <authors>Oskar Gewalli, Sam Stephenson</authors>
     <owners>Oskar Gewalli, Sam Stephenson</owners>
     <licenseUrl>http://opensource.org/licenses/MIT</licenseUrl>
@@ -15,6 +15,6 @@
     <references>
       <reference file="GlobalPhone.dll" />
     </references>
-    <releaseNotes>Change of format. Does not handle array based format anymore.</releaseNotes>
+    <releaseNotes>Added xml comments.</releaseNotes>
   </metadata>
 </package>

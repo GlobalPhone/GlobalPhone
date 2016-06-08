@@ -6,8 +6,13 @@ namespace GlobalPhone
 {
     public class Number
     {
+        /// <summary>
+        /// Get the territory for this instance.
+        /// </summary>
         public Territory Territory { get; private set; }
-
+        /// <summary>
+        /// For instance 3125551212 of "(312) 555-1212" or 771793336 of "+46 771 793 336"
+        /// </summary>
         public string NationalString { get; private set; }
         /// <summary>
         /// Gets the country for the code.
@@ -18,13 +23,16 @@ namespace GlobalPhone
         {
             get { return Territory.Region.CountryCode; }
         }
+        /// <summary>
+        /// Get the region for the this instances territory.
+        /// </summary>
         public Region Region
         {
             get { return Territory.Region; }
         }
         /// <summary>
-        /// For instance for the number 312-555-1212 (us)
-        /// you get (312) 555-1212 
+        /// For instance (312) 555-1212 for the number 312-555-1212 (us)
+        /// or "0771 79 33 36" for the number +46771793336
         /// </summary>
         /// <value>The national format.</value>
         public string NationalFormat
@@ -52,10 +60,10 @@ namespace GlobalPhone
             Match match;
             if (!string.IsNullOrEmpty(prefix) && (match = SplitFirstGroup.Match(result ?? String.Empty)).Success)
             {
-                result = prefix
+                result = string.Concat( prefix
                     .Replace("$NP", Territory.Region.NationalPrefix)
-                    .Replace("$FG", match.Groups[1].Value) 
-                    + " " + match.Groups[2].Value;
+                    .Replace("$FG", match.Groups[1].Value),
+                    " ", match.Groups[2].Value);
                 return result;
             }
             return result;
@@ -74,7 +82,7 @@ namespace GlobalPhone
             get { return _format ?? (_format = FindFormatFor(NationalString)); }
         }
         /// <summary>
-        /// Gets the international format. For instance "+1 312-555-1212"
+        /// Gets the international format. For instance "+1 312-555-1212" or "+46 771 79 33 36".
         /// </summary>
         /// <value>The international format.</value>
         public string InternationalFormat
@@ -86,19 +94,19 @@ namespace GlobalPhone
                                 {
                                     string formattedNumber;
                                     if (Format != null &&
-                                        (formattedNumber =
-                                        Format.Apply(NationalString, "international")) != null)
+                                        (formattedNumber = Format.Apply(NationalString, "international")) != null)
                                     {
-                                        return "+" + CountryCode + " " + formattedNumber;
+                                        return string.Concat("+", CountryCode, " ", formattedNumber);
                                     }
-                                    return "+" + CountryCode + " " + NationalString;
+                                    return string.Concat("+", CountryCode, " ", NationalString);
                                 }));
             }
         }
 
         private string _internationalString;
+
         /// <summary>
-        /// Gets the international string. For instance "+13125551212".
+        /// Gets the international string. For instance "+13125551212" or "+46771793336".
         /// </summary>
         public string InternationalString
         {
@@ -132,24 +140,22 @@ namespace GlobalPhone
         protected internal static string Normalize(string str, Territory territory)
         {
             str = str ?? String.Empty;
-            return (territory!=null && E161.UsedBy(territory) 
-                    ? E161.Normalize(str) 
+            return (territory != null && E161.UsedBy(territory)
+                    ? E161.Normalize(str)
                     : str)
-                    .Yield(s=>LeadingPlusChars.Replace(s, "+"))
-                    .Yield(s=>NonDialableChars.Replace(s, ""));
+                    .Yield(s => LeadingPlusChars.Replace(s, "+"))
+                    .Yield(s => NonDialableChars.Replace(s, ""));
         }
         /// <summary>
-        /// Returns the InternationalString for the current <see cref="GlobalPhone.Number"/>.
+        /// Returns the InternationalString for this instance.
         /// </summary>
-        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GlobalPhone.Number"/>.</returns>
         public override string ToString()
         {
             return InternationalString;
         }
-        private static readonly Regex notSlashD = new Regex(@"[^\d]"); 
+        private static readonly Regex notSlashD = new Regex(@"[^\d]");
         /// <summary>
-        /// Gets the area code.
-        /// For instance the "702" part of "+1 702-389-1234".
+        /// Gets the area code. For instance the "702" part of "+1 702-389-1234".
         /// </summary>
         /// <value>The area code.</value>
         public string AreaCode
@@ -167,7 +173,10 @@ namespace GlobalPhone
                 return Format.FirstInPattern(NationalString);
             }
         }
-
+        /// <summary>
+        /// For instance "771-79 33 36" of "+46 771 793 336"
+        /// or "(650) 253-0000" of "+1 650-253-0000"
+        /// </summary>
         public string FormattedNationalString
         {
             get
@@ -175,7 +184,9 @@ namespace GlobalPhone
                 return Format.Apply(NationalString, "national");
             }
         }
-
+        /// <summary>
+        /// Should return 0771793336 of +46 771 793 336 and 3125551212 of the US number (312) 555-1212
+        /// </summary>
         public string NationalNumber
         {
             get
@@ -191,10 +202,8 @@ namespace GlobalPhone
 
         /// <summary>
         /// Gets the local number.
-        /// For instance 
-        /// Assert.AreEqual("9876 0010", GlobalPhone.Parse("+61 3 9876 0010").LocalNumber);
-        /// or 
-        /// Assert.AreEqual("79 33 36", GlobalPhone.Parse("+46 771 793 336").LocalNumber);
+        /// For instance the "9876 0010" part of "+61 3 9876 0010"
+        /// or the "79 33 36" part of "+46 771 793 336"
         /// </summary>
         /// <value>The local number.</value>
         public string LocalNumber

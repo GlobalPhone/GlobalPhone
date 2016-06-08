@@ -5,6 +5,9 @@ using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
+    /// <summary>
+    /// Region part of data
+    /// </summary>
     public class Region : Record
     {
         /// <summary>

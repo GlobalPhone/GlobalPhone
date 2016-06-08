@@ -56,17 +56,21 @@ namespace GlobalPhone.Tests
             Assert.That(number.Territory, Is.EqualTo(Db.TryGetTerritory("gb")));
         }
 
-        [Test]
-        public void national_string()
+        [Test,
+            TestCase("(312) 555-1212", "3125551212"),
+            TestCase("+46 771 793 336", "771793336")
+        ]
+        public void national_string(string raw, string expected)
         {
-            var number = Context.Parse("(312) 555-1212");
-            Assert.That(number.NationalString, Is.EqualTo("3125551212"));
+            Assert.That(Context.Parse(raw).NationalString, Is.EqualTo(expected));
         }
-        [Test]
-        public void national_format()
+        [Test,
+            TestCase("(312) 555-1212", "312-555-1212"),
+            TestCase("0771 79 33 36", "+46 771 793 336")
+        ]
+        public void national_format(string expected, string raw)
         {
-            var number = Context.Parse("312-555-1212");
-            Assert.That(number.NationalFormat, Is.EqualTo("(312) 555-1212"));
+            Assert.That(Context.Parse(raw).NationalFormat, Is.EqualTo(expected));
         }
 
         [Test]
@@ -76,18 +80,23 @@ namespace GlobalPhone.Tests
             Assert.That(number.NationalFormat, Is.EqualTo("07411 111111"), "for data "+_forData);
         }
 
-        [Test]
-        public void international_string()
+        [Test,
+            TestCase("+13125551212", "(312) 555-1212"),
+            TestCase("+46771793336", "+46 771 793 336")
+        ]
+        public void international_string(string expected, string raw)
         {
-            var number = Context.Parse("(312) 555-1212");
-            Assert.That(number.InternationalString, Is.EqualTo("+13125551212"));
+            var number = Context.Parse(raw);
+            Assert.That(number.InternationalString, Is.EqualTo(expected));
             Assert.That(number.ToString(), Is.EqualTo(number.InternationalString));
         }
-        [Test]
-        public void international_format()
+        [Test,
+            TestCase("+1 312-555-1212", "(312) 555-1212"),
+            TestCase("+46 771 79 33 36", "+46771793336")
+        ]
+        public void international_format(string expected, string number)
         {
-            var number = Context.Parse("(312) 555-1212");
-            Assert.That(number.InternationalFormat, Is.EqualTo("+1 312-555-1212"));
+            Assert.That(Context.Parse(number).InternationalFormat, Is.EqualTo(expected));
         }
 
         [Test, 
@@ -115,10 +124,23 @@ namespace GlobalPhone.Tests
         }
 
         [Test,
+           TestCase("+61 3 9876 0010", "3 9876 0010"),
+           TestCase("+44 (0) 20-7031-3000", "20 7031 3000"),
+           TestCase("+852 2699 2838", "2699 2838"),
+           TestCase("+46 771 793 336", "771-79 33 36"),
+           TestCase("+1 650-253-0000", "(650) 253-0000")
+       ]
+        public void formatted_national_string(string rawNumber, string expected)
+        {
+            var number = Context.Parse(rawNumber);
+            Assert.AreEqual(expected, number.FormattedNationalString);
+        }
+
+        [Test,
             TestCase("US_NUMBER", "+16502530000", "(650) 253-0000", "+1 650-253-0000"),
             TestCase("US_TOLLFREE", "+18002530000", "(800) 253-0000", "+1 800-253-0000"),
             TestCase("US_PREMIUM", "+19002530000", "(900) 253-0000", "+1 900-253-0000"),
-            ]
+        ]
         public void testFormatUSNumber(string name, string number,
             string nationalFormat, string internNationalFormat)
         {
