@@ -7,6 +7,9 @@ using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
+    /// <summary>
+    /// Database generator.
+    /// </summary>
     public class DatabaseGenerator
     {
         private Nokogiri.XmlDoc Doc { get; set; }
@@ -15,17 +18,25 @@ namespace GlobalPhone
         {
             Doc = doc;
         }
-
+        /// <summary>
+        /// Load the specified text as xml.
+        /// </summary>
         public static DatabaseGenerator Load(string text)
         {
             return new DatabaseGenerator(Nokogiri.Xml(text));
         }
+        /// <summary>
+        /// Loads the file as a file containing xml.
+        /// </summary>
         public static DatabaseGenerator LoadFile(string filename)
         {
             return Load(File.ReadAllText(filename));
         }
 
         private IDictionary[] record_data_hash;
+        /// <summary>
+        /// The records in the data.
+        /// </summary>
         public IDictionary[] RecordData()
         {
             return record_data_hash ?? (record_data_hash = TerritoryNodesByRegion().Select(kv =>
@@ -40,6 +51,9 @@ namespace GlobalPhone
         }
 
         private string[][] _testCases;
+        /// <summary>
+        /// Return example numbers for territories.
+        /// </summary>
         public string[][] TestCases()
         {
             return _testCases ?? (_testCases = TerritoryNodes().Select(ExampleNumbersForTerritoryNode)

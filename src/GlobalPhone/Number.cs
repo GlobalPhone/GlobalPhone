@@ -66,6 +66,9 @@ namespace GlobalPhone
             return result;
         }
 
+        /// <summary>
+        /// If this instance is a valid number for it's territory.
+        /// </summary>
         public bool IsValid
         {
             get { return Format != null && Territory.NationalPatternMatch(NationalString); }
@@ -75,7 +78,10 @@ namespace GlobalPhone
         {
             get { return _format ?? (_format = FindFormatFor(NationalString)); }
         }
-
+        /// <summary>
+        /// Gets the international format. For instance "+1 312-555-1212"
+        /// </summary>
+        /// <value>The international format.</value>
         public string InternationalFormat
         {
             get
@@ -96,7 +102,9 @@ namespace GlobalPhone
         }
 
         private string _internationalString;
-
+        /// <summary>
+        /// Gets the international string. For instance "+13125551212".
+        /// </summary>
         public string InternationalString
         {
             get { return _internationalString ?? (_internationalString = NonDialableChars.Replace(InternationalFormat, "")); }
@@ -115,18 +123,30 @@ namespace GlobalPhone
         private string _internationalFormat;
         private string _nationalFormat;
 
-        public Number(Territory territory, string nationalString)
+        internal Number(Territory territory, string nationalString)
         {
             Territory = territory;
             NationalString = nationalString;
         }
-
-        protected internal static string Normalize(string str)
+        /// <summary>
+        /// Normalize the specified str based on territory.
+        /// if null is sent in as territory, assumes that E161 is not used.
+        /// </summary>
+        /// <param name="str">a number</param>
+        /// <param name="territory">Territory to identify if you should use E161.</param>
+        protected internal static string Normalize(string str, Territory territory)
         {
-            return (str ?? String.Empty)
+            str = str ?? String.Empty;
+            return (territory!=null && E161.UsedBy(territory) 
+                    ? E161.Normalize(str) 
+                    : str)
                     .Yield(s=>LeadingPlusChars.Replace(s, "+"))
                     .Yield(s=>NonDialableChars.Replace(s, ""));
         }
+        /// <summary>
+        /// Returns the InternationalString for the current <see cref="GlobalPhone.Number"/>.
+        /// </summary>
+        /// <returns>A <see cref="System.String"/> that represents the current <see cref="GlobalPhone.Number"/>.</returns>
         public override string ToString()
         {
             return InternationalString;
@@ -151,7 +171,7 @@ namespace GlobalPhone
             }
         }
 
-        private string FormattedNationalString
+        public string FormattedNationalString
         {
             get
             {

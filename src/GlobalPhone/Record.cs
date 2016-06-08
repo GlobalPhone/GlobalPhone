@@ -4,16 +4,23 @@ using System.Collections;
 
 namespace GlobalPhone
 {
+    /// <summary>
+    /// Base class for different classes that reads the json data
+    /// </summary>
     public class Record
     {
         private readonly object[] _data;
         private readonly IDictionary _hash;
-
+        /// <summary>
+        /// Determines whether this instance is an array or array like.
+        /// </summary>
         protected bool IsArray(object value)
         {
             return value is IEnumerable && !(value is IDictionary) && !(value is string);
         }
-
+        /// <summary>
+        /// If the value is an array, returns an array of objects 
+        /// </summary>
         protected object[] AsArray(object value)
         {
             if (!IsArray(value))
@@ -30,7 +37,9 @@ namespace GlobalPhone
                 throw new Exception("Unknown type: " + value.GetType().Name);
             }
         }
-
+        /// <summary>
+        /// If the value is a dictionary returns a dictionary.
+        /// </summary>
         protected IDictionary AsHash(object value)
         {
             IDictionary dictionary;
@@ -43,9 +52,9 @@ namespace GlobalPhone
                 throw new Exception("Unknown type: " + value.GetType().Name);
             }
         }
-
-        public Record(object data)
+        internal Record(object data)
         {
+            // the data is either an array or a hash
             if (IsArray(data))
             {
                 _data = AsArray(data);
@@ -55,10 +64,16 @@ namespace GlobalPhone
                 _hash = AsHash(data);
             }
         }
+        /// <summary>
+        /// Get field value as array.
+        /// </summary>
         protected object[] FieldAsArray(int index, string column)
         {
             return AsArray(_data != null ? _data[index] : _hash[column]);
         }
+        /// <summary>
+        /// Get field value as maybe an array.
+        /// </summary>
         protected TRet[] FieldMaybeAsArray<T, TRet>(int index, string column, Func<T, TRet> block)
         {
             if (_data != null)
@@ -99,7 +114,9 @@ namespace GlobalPhone
                 return new[] { block(((T)val)) };
             }
         }
-
+        /// <summary>
+        /// Get field value.
+        /// </summary>
         protected T Field<T>(int index, string column, T fallback = default(T))
         {
             if (_data != null)
@@ -129,7 +146,9 @@ namespace GlobalPhone
                 throw new Exception("Column: " + column, e);
             }
         }
-
+        /// <summary>
+        /// Get field value.
+        /// </summary>
         protected TRet Field<T, TRet>(int index, string column, Func<T, TRet> block)
         {
             if (_data != null)

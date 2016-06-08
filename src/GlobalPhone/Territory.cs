@@ -50,12 +50,12 @@ namespace GlobalPhone
 
         public string Normalize(string str)
         {
-            return Number.Normalize( (E161.UsedBy(this)) ? E161.Normalize(str) : str );
+            return Number.Normalize(str, this);
         }
 
         private string ToNationalNumber(string str)
         {
-            return StripNationalPrefix(Number.Normalize(str));
+            return StripNationalPrefix(Number.Normalize(str, this));
         }
 
         internal bool NationalPatternMatch(string nationalString)

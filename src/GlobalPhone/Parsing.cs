@@ -25,7 +25,7 @@ namespace GlobalPhone
 
         private Number ParseInternationalString(string @string)
         {
-            @string = Number.Normalize(@string);
+            @string = Number.Normalize(@string, null);
             if (StartsWithPlus(@string))
             {
                 @string = StripLeadingPlus(@string);

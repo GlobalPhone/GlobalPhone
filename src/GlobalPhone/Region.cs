@@ -42,7 +42,7 @@ namespace GlobalPhone
 
         public Number ParseNationalString(string @string)
         {
-            @string = Number.Normalize(@string);
+            @string = Number.Normalize(@string, null);
             if (StartsWithCountryCode(@string))
             {
                 @string = StripCountryCode(@string);

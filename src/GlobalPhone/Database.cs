@@ -6,6 +6,9 @@ using System.Collections.Generic;
 
 namespace GlobalPhone
 {
+    /// <summary>
+    /// Database of phone number information.
+    /// </summary>
     public class Database : Parsing
     {
         public readonly Region[] Regions;
