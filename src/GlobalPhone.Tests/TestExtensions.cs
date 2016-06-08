@@ -17,9 +17,5 @@ namespace GlobalPhone.Tests
             return deflt;
         }
 
-		internal static IEnumerable<TRet> Map<T, TRet>(this IEnumerable<T> self, Func<T, TRet> map)
-		{
-			return self.Select(map);
-		}
     }
 }

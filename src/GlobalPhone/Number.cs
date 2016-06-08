@@ -11,10 +11,15 @@ namespace GlobalPhone
         public Territory Territory { get; private set; }
 
         public string NationalString { get; private set; }
-        public string NationalPrefix
+        private string NationalPrefix
         {
             get { return Territory.NationalPrefix; }
         }
+        /// <summary>
+        /// Gets the country code.
+        /// For instance for a swedish number you will get 46, for a US number you will get 1.
+        /// </summary>
+        /// <value>The country code.</value>
         public string CountryCode
         {
             get { return Territory.CountryCode; }
@@ -23,7 +28,11 @@ namespace GlobalPhone
         {
             get { return Territory.Region; }
         }
-
+        /// <summary>
+        /// For instance for the number 312-555-1212 (us)
+        /// you get (312) 555-1212 
+        /// </summary>
+        /// <value>The national format.</value>
         public string NationalFormat
         {
             get
@@ -123,6 +132,11 @@ namespace GlobalPhone
             return InternationalString;
         }
         private static readonly Regex notSlashD = new Regex(@"[^\d]"); 
+        /// <summary>
+        /// Gets the area code.
+        /// For instance the "702" part of "+1 702-389-1234".
+        /// </summary>
+        /// <value>The area code.</value>
         public string AreaCode
         {
             get
@@ -144,7 +158,14 @@ namespace GlobalPhone
                 return Format.Apply(NationalString, "national");
             }
         }
-
+        /// <summary>
+        /// Gets the local number.
+        /// For instance 
+        /// Assert.AreEqual("9876 0010", GlobalPhone.Parse("+61 3 9876 0010").LocalNumber);
+        /// or 
+        /// Assert.AreEqual("79 33 36", GlobalPhone.Parse("+46 771 793 336").LocalNumber);
+        /// </summary>
+        /// <value>The local number.</value>
         public string LocalNumber
         {
             get

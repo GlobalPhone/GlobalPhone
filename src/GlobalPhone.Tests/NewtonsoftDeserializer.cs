@@ -13,9 +13,8 @@ namespace GlobalPhone.Tests
 
 		public object[] Deserialize (string text)
 		{
-			return JArray.Parse(text).Map(r1 => jsonConvert.Deserialize(r1)).ToArray();
+            return jsonConvert.Deserialize<object[]> (text);
 		}
-
 	}
 }
 

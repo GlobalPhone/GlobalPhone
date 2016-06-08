@@ -102,17 +102,16 @@ namespace GlobalPhone.Tests
             var number = Context.Parse(rawNumber);
             Assert.AreEqual(areaCode, number.AreaCode);
         }
-        [Test]
-        public void local_number()
+        [Test, 
+            TestCase("+61 3 9876 0010", "9876 0010"),
+            TestCase("+44 (0) 20-7031-3000", "7031 3000"),
+            TestCase("+852 2699 2838", "2699 2838"),
+            TestCase("+46 771 793 336", "79 33 36"),
+        ]
+        public void local_number(string rawNumber, string localNumber)
         {
-            var number = Context.Parse("+61 3 9876 0010");
-            Assert.AreEqual("9876 0010", number.LocalNumber);
-
-            number = Context.Parse("+44 (0) 20-7031-3000");
-            Assert.AreEqual("7031 3000", number.LocalNumber);
-
-            number = Context.Parse("+852 2699 2838");
-            Assert.AreEqual("2699 2838", number.LocalNumber);
+            var number = Context.Parse(rawNumber);
+            Assert.AreEqual(localNumber, number.LocalNumber);
         }
 
         [Test,
