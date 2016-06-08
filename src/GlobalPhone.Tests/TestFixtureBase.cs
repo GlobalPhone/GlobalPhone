@@ -31,17 +31,37 @@ namespace GlobalPhone.Tests
             }
         }
 
-        private string GetRecordDataPath()
+        private string GetRecordDataFixtureName()
         {
             switch (_forData)
             {
-                case ForData.UseArray:
-                    return FixturePath("record_data.json");
                 case ForData.UseHash:
-                    return FixturePath("record_data_hash.json");
+                    return "record_data_hash";
                 case ForData.None:// use latest
                 case ForData.UseHashV2:
-                    return FixturePath("record_data_hash_v2.json");
+                    return "record_data_hash_v2";
+                case ForData.UseHashV3:
+                    return "record_data_hash_v3";
+                default:
+                    throw new Exception(_forData.ToString());
+            }
+        }
+
+        private string GetRecordDataPath()
+        {
+            return FixturePath(GetRecordDataFixtureName() + ".json");
+        }
+
+        private string GetExampleNumbersFixtureName()
+        {
+            switch (_forData)
+            {
+                case ForData.UseHash:
+                    return "example_numbers";
+                case ForData.None:// use latest
+                case ForData.UseHashV2:
+                case ForData.UseHashV3:
+                    return "example_numbers_v2";
                 default:
                     throw new Exception(_forData.ToString());
             }
@@ -66,16 +86,14 @@ namespace GlobalPhone.Tests
 
         public object[] RecordData
         {
-            get { return _recordData ?? (_recordData = JsonFixture("record_data")); }
+            get { return _recordData ?? (_recordData = JsonFixture(GetRecordDataFixtureName())); }
         }
+
         public object[] ExampleNumbers
         {
             get
             {
-                return _exampleNumbers ?? (_exampleNumbers = JsonFixture(
-                                                                _forData == ForData.UseHashV2
-                                                                  ? "example_numbers_v2"
-                                                                  : "example_numbers"));
+                return _exampleNumbers ?? (_exampleNumbers = JsonFixture(GetExampleNumbersFixtureName()));
             }
         }
         public object[] ExampleInvalidNumbers

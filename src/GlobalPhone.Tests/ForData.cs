@@ -3,8 +3,8 @@
     public enum ForData
     {
         None = 0,
-        UseArray = 1,
-        UseHash=2,
-        UseHashV2=3,
+        UseHash = 1,
+        UseHashV2 = 2,
+        UseHashV3 = 3,
     }
 }

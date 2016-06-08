@@ -3,9 +3,8 @@
 namespace GlobalPhone.Tests
 {
     [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
-    [TestFixture(typeof(DefaultDeserializer), ForData.UseHashV2)]
-    [TestFixture(typeof(DefaultDeserializer), ForData.UseArray)]
-    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseArray)]
+    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV2)]
+    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV3)]
     public class ContextTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
     {
         public ContextTest(ForData forData)

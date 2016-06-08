@@ -52,9 +52,10 @@ namespace GlobalPhone
             Match match;
             if (!string.IsNullOrEmpty(prefix) && (match = SplitFirstGroup.Match(result ?? String.Empty)).Success)
             {
-                prefix = prefix.Replace("$NP", Territory.Region.NationalPrefix);
-                prefix = prefix.Replace("$FG", match.Groups[1].Value);
-                result = prefix + " " + match.Groups[2].Value;
+                result = prefix
+                    .Replace("$NP", Territory.Region.NationalPrefix)
+                    .Replace("$FG", match.Groups[1].Value) 
+                    + " " + match.Groups[2].Value;
                 return result;
             }
             return result;
@@ -158,7 +159,9 @@ namespace GlobalPhone
                 if (NationalPrefixFormattingRule != null)
                 {
                     var areaCodeSuffix = SplitFirstGroup.Match(FormattedNationalString).Groups[1].Value;
-                    var formattedNationalPrefix = NationalPrefixFormattingRule.Replace("$NP", Territory.Region.NationalPrefix).Replace("$FG", areaCodeSuffix);
+                    var formattedNationalPrefix = NationalPrefixFormattingRule
+                        .Replace("$NP", Territory.Region.NationalPrefix)
+                        .Replace("$FG", areaCodeSuffix);
                     return notSlashD.Replace(formattedNationalPrefix, "");
                 }
                 return Format.FirstInPattern(NationalString);
@@ -172,6 +175,20 @@ namespace GlobalPhone
                 return Format.Apply(NationalString, "national");
             }
         }
+
+        public string NationalNumber
+        {
+            get
+            {
+                // I don't know if this is correct
+                if (Territory.NationalPrefixFormattingRule != null)
+                {
+                    return Territory.NationalPrefix + NationalString;
+                }
+                return NationalString;
+            }
+        }
+
         /// <summary>
         /// Gets the local number.
         /// For instance 

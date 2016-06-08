@@ -11,16 +11,18 @@ namespace GlobalPhone
         private readonly Regex _nationalPattern;
         public readonly string NationalPrefixFormattingRule;
         public readonly bool NationalPrefixOptionalWhenFormatting;
+        public readonly string NationalPrefix;
 
         public Territory(object data, Region region)
             : base(data)
         {
             _region = region;
-            Name = Field<string>(0, column: "name");
-            _possiblePattern = Field<string, Regex>(1, column: "possibleNumber", block: p => new Regex("^" + p + "$"));
-            _nationalPattern = Field<string, Regex>(2, column: "nationalNumber", block: p => new Regex("^" + p + "$"));
-            NationalPrefixFormattingRule = Field<string>(3, column: "formattingRule");
-            NationalPrefixOptionalWhenFormatting = Field<bool>(4, column: "nationalPrefixOptionalWhenFormatting");
+            Name = Field<string>(column: "name");
+            _possiblePattern = Field<string, Regex>(column: "possibleNumber", block: p => new Regex("^" + p + "$"));
+            _nationalPattern = Field<string, Regex>(column: "nationalNumber", block: p => new Regex("^" + p + "$"));
+            NationalPrefixFormattingRule = Field<string>(column: "formattingRule");
+            NationalPrefix = Field<string>(column: "nationalPrefix");
+            NationalPrefixOptionalWhenFormatting = Field<bool>(column: "nationalPrefixOptionalWhenFormatting");
         }
 
         public Region Region

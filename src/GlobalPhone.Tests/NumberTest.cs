@@ -4,6 +4,7 @@ namespace GlobalPhone.Tests
 {
     [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV2)]
     [TestFixture(typeof(DefaultDeserializer), ForData.UseHashV2)]
+    [TestFixture(typeof(DefaultDeserializer), ForData.UseHashV3)]
     public class NumberTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
     {
         public NumberTest(ForData forData)
@@ -28,14 +29,13 @@ namespace GlobalPhone.Tests
             var number = Context.Parse("555-1212");
             Assert.That(!number.IsValid);
         }
-        [Test]
-        public void country_code()
+        [Test,
+            TestCase("1", "(312) 555-1212"),
+            TestCase("44", "+44 (0) 20-7031-3000"),
+            ]
+        public void country_code(string expected, string number)
         {
-            var number = Context.Parse("(312) 555-1212");
-            Assert.That(number.CountryCode, Is.EqualTo("1"));
-
-            number = Context.Parse("+44 (0) 20-7031-3000");
-            Assert.That(number.CountryCode, Is.EqualTo("44"));
+            Assert.That(Context.Parse(number).CountryCode, Is.EqualTo(expected));
         }
         [Test]
         public void region()

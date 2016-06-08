@@ -9,7 +9,6 @@ namespace GlobalPhone
     /// </summary>
     public class Record
     {
-        private readonly object[] _data;
         private readonly IDictionary _hash;
         /// <summary>
         /// Determines whether this instance is an array or array like.
@@ -30,7 +29,7 @@ namespace GlobalPhone
             IEnumerable enumerable;
             if ((enumerable = value as IEnumerable) != null)
             {
-                return enumerable.Cast<Object>().ToArray();
+                return enumerable.Cast<object>().ToArray();
             }
             else
             {
@@ -54,42 +53,20 @@ namespace GlobalPhone
         }
         internal Record(object data)
         {
-            // the data is either an array or a hash
-            if (IsArray(data))
-            {
-                _data = AsArray(data);
-            }
-            else
-            {
-                _hash = AsHash(data);
-            }
+            _hash = AsHash(data);
         }
         /// <summary>
         /// Get field value as array.
         /// </summary>
-        protected object[] FieldAsArray(int index, string column)
+        protected object[] FieldAsArray(string column)
         {
-            return AsArray(_data != null ? _data[index] : _hash[column]);
+            return AsArray(_hash[column]);
         }
         /// <summary>
         /// Get field value as maybe an array.
         /// </summary>
-        protected TRet[] FieldMaybeAsArray<T, TRet>(int index, string column, Func<T, TRet> block)
+        protected TRet[] FieldMaybeAsArray<T, TRet>(string column, Func<T, TRet> block)
         {
-            if (_data != null)
-            {
-                try
-                {
-                    if (_data.Length <= index)
-                        return new TRet[0];
-                    var val = _data[index];
-                    return MaybeMapAsArray(block, val);
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("Index: " + index, e);
-                }
-            }
             try
             {
                 if (!_hash.Contains(column) || _hash[column] == null)
@@ -117,26 +94,11 @@ namespace GlobalPhone
         /// <summary>
         /// Get field value.
         /// </summary>
-        protected T Field<T>(int index, string column, T fallback = default(T))
+        protected T Field<T>(string column, T fallback = default(T))
         {
-            if (_data != null)
-            {
-                try
-                {
-                    if (_data.Length <= index)
-                        return fallback;
-                    var data = (T)_data[index];
-                    return data;
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("Index: " + index, e);
-                }
-            }
-
             try
             {
-                if (!_hash.Contains(column)|| _hash[column]==null)
+                if (!_hash.Contains(column) || _hash[column] == null)
                     return fallback;
                 var data = (T)_hash[column];
                 return data;
@@ -149,25 +111,11 @@ namespace GlobalPhone
         /// <summary>
         /// Get field value.
         /// </summary>
-        protected TRet Field<T, TRet>(int index, string column, Func<T, TRet> block)
+        protected TRet Field<T, TRet>(string column, Func<T, TRet> block)
         {
-            if (_data != null)
-            {
-                try
-                {
-                    if (_data.Length <= index)
-                        return default(TRet);
-                    var data = ((T)_data[index]);
-                    return block(data);
-                }
-                catch (Exception e)
-                {
-                    throw new Exception("Index: " + index, e);
-                }
-            }
             try
             {
-                if (!_hash.Contains(column) || _hash[column]==null)
+                if (!_hash.Contains(column) || _hash[column] == null)
                     return default(TRet);
                 var data = (T)_hash[column];
                 return block(data);

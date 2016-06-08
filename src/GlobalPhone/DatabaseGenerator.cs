@@ -148,6 +148,7 @@ namespace GlobalPhone
                 {"possibleNumber",possibleNumberPattern.FirstOrDefault()},
                 {"nationalNumber",nationalNumberPattern.FirstOrDefault()},
                 {"formattingRule",Squish(node["nationalPrefixFormattingRule"])},
+                {"nationalPrefix",Squish(node["nationalPrefix"])},
             };
             if ("true".Equals(Squish(node["nationalPrefixOptionalWhenFormatting"])))
             {

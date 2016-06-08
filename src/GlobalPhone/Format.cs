@@ -15,11 +15,11 @@ namespace GlobalPhone
         public Format(object data)
             : base(data)
         {
-            _pattern = Field<string, Regex>(0, block: p => new Regex("^" + p + "$"), column: "pattern");
-            _nationalFormatRule = Field<string>(1, column: "format");
-            _leadingDigits = FieldMaybeAsArray<string, Regex>(2, block: p => new Regex("^" + p + ""), column: "leadingDigits");
-            NationalPrefixFormattingRule = Field<string>(3, column: "formatRule");
-            _internationalFormatRule = Field(4, fallback: _nationalFormatRule, column: "intlFormat");
+            _pattern = Field<string, Regex>(block: p => new Regex("^" + p + "$"), column: "pattern");
+            _nationalFormatRule = Field<string>(column: "format");
+            _leadingDigits = FieldMaybeAsArray<string, Regex>(block: p => new Regex("^" + p + ""), column: "leadingDigits");
+            NationalPrefixFormattingRule = Field<string>(column: "formatRule");
+            _internationalFormatRule = Field(fallback: _nationalFormatRule, column: "intlFormat");
         }
 
         public bool Match(string nationalString, bool? matchLeadingDigits = null)

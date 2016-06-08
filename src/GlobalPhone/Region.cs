@@ -22,13 +22,13 @@ namespace GlobalPhone
         public Region(object data)
             : base(data)
         {
-            CountryCode = Field<string>(0, column: "countryCode");
-            _formatRecordData = FieldAsArray(1, column: "formats");
-            _territoryRecordData = FieldAsArray(2, column: "territories");
-            _internationalPrefix = Field<string, Regex>(3, column: "interPrefix", block: p => new Regex("^(?:" + p + ")"));
-            NationalPrefix = Field<string>(4, column: "prefix");
-            _nationalPrefixForParsing = Field<string, Regex>(5, column: "prefixParse", block: p => new Regex("^(?:" + p + ")$"));
-            NationalPrefixTransformRule = Field<string>(6, column: "prefixTRule");
+            CountryCode = Field<string>(column: "countryCode");
+            _formatRecordData = FieldAsArray(column: "formats");
+            _territoryRecordData = FieldAsArray(column: "territories");
+            _internationalPrefix = Field<string, Regex>(column: "interPrefix", block: p => new Regex("^(?:" + p + ")"));
+            NationalPrefix = Field<string>(column: "prefix");
+            _nationalPrefixForParsing = Field<string, Regex>(column: "prefixParse", block: p => new Regex("^(?:" + p + ")$"));
+            NationalPrefixTransformRule = Field<string>(column: "prefixTRule");
         }
 
         private IEnumerable<Territory> _territories;
