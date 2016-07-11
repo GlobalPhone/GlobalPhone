@@ -127,15 +127,15 @@ namespace GlobalPhone
             return _internationalPrefix.Replace(@string, "");
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object obj)
         {
-            return Equals(other as Region);
+            return Equals(obj as Region);
         }
-        public bool Equals(Region other)
+        public bool Equals(Region obj)
         {
-            if (ReferenceEquals(null, other)){ return false; }
-            if (ReferenceEquals(this, other)){ return true; }
-            return CountryCode.Equals(other.CountryCode);
+            if (ReferenceEquals(null, obj)){ return false; }
+            if (ReferenceEquals(this, obj)){ return true; }
+            return CountryCode.Equals(obj.CountryCode);
         }
         public override int GetHashCode()
         {

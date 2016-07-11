@@ -214,16 +214,16 @@ namespace GlobalPhone
             }
         }
 
-        public override bool Equals(object other)
+        public override bool Equals(object obj)
         {
-            return Equals(other as Number);
+            return Equals(obj as Number);
         }
 
-        public bool Equals(Number other)
+        public bool Equals(Number obj)
         {
-            if (ReferenceEquals(null, other)){ return false; }
-            return Territory.Equals(other.Territory)
-                && NationalString.Equals(other.NationalString);
+            if (ReferenceEquals(null, obj)){ return false; }
+            return Territory.Equals(obj.Territory)
+                && NationalString.Equals(obj.NationalString);
         }
         public override int GetHashCode()
         {
