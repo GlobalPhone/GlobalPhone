@@ -8,7 +8,7 @@ namespace GlobalPhone
     /// <summary>
     /// Region part of data
     /// </summary>
-    public class Region : Record
+    public class Region : Record, IEquatable<Region>
     {
         /// <summary>
         /// Gets the country code.
@@ -125,6 +125,31 @@ namespace GlobalPhone
         private string StripInternationalPrefix(string @string)
         {
             return _internationalPrefix.Replace(@string, "");
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as Region);
+        }
+        public bool Equals(Region other)
+        {
+            if (ReferenceEquals(null, other)){ return false; }
+            if (ReferenceEquals(this, other)){ return true; }
+            return CountryCode.Equals(other.CountryCode);
+        }
+        public override int GetHashCode()
+        {
+            return CountryCode.GetHashCode();
+        }
+        public static bool operator ==(Region a, Region b)
+        {
+            if (ReferenceEquals(null, a)) return ReferenceEquals(null, b);
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Region a, Region b)
+        {
+            return !(a == b);
         }
     }
 }

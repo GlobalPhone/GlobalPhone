@@ -4,7 +4,7 @@ using System.Text.RegularExpressions;
 
 namespace GlobalPhone
 {
-    public class Number
+    public class Number: IEquatable<Number>
     {
         /// <summary>
         /// Get the territory for this instance.
@@ -212,6 +212,39 @@ namespace GlobalPhone
             {
                 return AreaCode != null ? SplitFirstGroup.Match(FormattedNationalString).Groups[2].Value : NationalFormat;
             }
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as Number);
+        }
+
+        public bool Equals(Number other)
+        {
+            if (ReferenceEquals(null, other)){ return false; }
+            return Territory.Equals(other.Territory)
+                && NationalString.Equals(other.NationalString);
+        }
+        public override int GetHashCode()
+        {
+            unchecked // Overflow is fine, just wrap
+            {
+                int hash = 17;
+                // Suitable nullity checks etc, of course :)
+                hash = hash * 23 + Territory.GetHashCode();
+                hash = hash * 23 + NationalString.GetHashCode();
+                return hash;
+            }
+        }
+        public static bool operator ==(Number a, Number b)
+        {
+            if (ReferenceEquals(null, a)) return ReferenceEquals(null, b);
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Number a, Number b)
+        {
+            return !(a == b);
         }
     }
 }

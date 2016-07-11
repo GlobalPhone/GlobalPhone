@@ -6,7 +6,7 @@ namespace GlobalPhone
     /// <summary>
     /// Territory part of data
     /// </summary>
-    public class Territory : Record
+    public class Territory : Record, IEquatable<Territory>
     {
         private readonly Region _region;
         public readonly string Name;
@@ -93,6 +93,17 @@ namespace GlobalPhone
         public override string ToString()
         {
             return Name;
+        }
+
+        public static bool operator ==(Territory a, Territory b)
+        {
+            if (ReferenceEquals(null, a)) return ReferenceEquals(null, b);
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(Territory a, Territory b)
+        {
+            return !(a == b);
         }
     }
 }

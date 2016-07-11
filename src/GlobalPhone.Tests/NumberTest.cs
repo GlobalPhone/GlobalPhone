@@ -24,10 +24,34 @@ namespace GlobalPhone.Tests
             Assert.That(number.IsValid);
         }
         [Test]
+        public void equality_of_valid_number()
+        {
+            const string raw = "(312) 555-1212";
+            var number = Context.Parse(raw);
+            Assert.That(number == Context.Parse(raw), "==");
+            Assert.That(number, Is.EqualTo( Context.Parse(raw)) ,"EqualTo");
+        }
+        [Test]
         public void invalid_number()
         {
             var number = Context.Parse("555-1212");
             Assert.That(!number.IsValid);
+        }
+        [Test]
+        public void equality_of_invalid_number()
+        {
+            const string raw = "555-1212";
+            var number = Context.Parse(raw);
+            Assert.That(number == Context.Parse(raw), "==");
+            Assert.That(number, Is.EqualTo( Context.Parse(raw)) ,"EqualTo");
+        }
+        [Test]
+        public void inequality_of_numbers_from_different_territory()
+        {
+            const string raw = "(312) 555-1212";
+            var number = Context.Parse(raw, "us");
+            Assert.That(number != Context.Parse(raw, "se"), "==");
+            Assert.That(number, Is.Not.EqualTo( Context.Parse(raw, "se")) ,"EqualTo");
         }
         [Test,
             TestCase("1", "(312) 555-1212"),
@@ -99,7 +123,7 @@ namespace GlobalPhone.Tests
             Assert.That(Context.Parse(number).InternationalFormat, Is.EqualTo(expected));
         }
 
-        [Test, 
+        [Test,
             TestCase("+61 3 9876 0010", "03"),
             TestCase("+44 (0) 20-7031-3000", "020"),
             TestCase("+852 2699 2838", null),// Hong Kong has no area code
@@ -111,7 +135,7 @@ namespace GlobalPhone.Tests
             var number = Context.Parse(rawNumber);
             Assert.AreEqual(areaCode, number.AreaCode);
         }
-        [Test, 
+        [Test,
             TestCase("+61 3 9876 0010", "9876 0010"),
             TestCase("+44 (0) 20-7031-3000", "7031 3000"),
             TestCase("+852 2699 2838", "2699 2838"),
