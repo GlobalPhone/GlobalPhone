@@ -6,7 +6,6 @@ namespace GlobalPhone
     /// <summary>
     /// Failed to parse number exception.
     /// </summary>
-    [Serializable]
     public class FailedToParseNumberException : Exception
     {
         /// <summary>
@@ -22,13 +21,6 @@ namespace GlobalPhone
         /// <summary>
         /// </summary>
         public FailedToParseNumberException(string message, Exception inner) : base(message, inner)
-        {
-        }
-        /// <summary>
-        /// </summary>
-        protected FailedToParseNumberException(
-            SerializationInfo info,
-            StreamingContext context) : base(info, context)
         {
         }
     }

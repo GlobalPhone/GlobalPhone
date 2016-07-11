@@ -15,7 +15,7 @@ namespace GlobalPhone
 
         public Database(object[] recordData)
         {
-            _territoriesByName = new Dictionary<string, Territory>(StringComparer.InvariantCultureIgnoreCase);
+            _territoriesByName = new Dictionary<string, Territory>(StringComparer.OrdinalIgnoreCase);
             Regions = recordData.Select(data => new Region(data)).ToArray();
         }
 

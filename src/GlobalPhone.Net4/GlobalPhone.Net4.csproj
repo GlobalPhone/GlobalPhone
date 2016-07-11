@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{34C587CD-441B-49CC-9355-33404300A88B}</ProjectGuid>
+    <ProjectGuid>{A5F42400-F471-45F1-9D74-CB12FC751421}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GlobalPhone</RootNamespace>
@@ -40,27 +40,67 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Begin.cs" />
-    <Compile Include="DatabaseGenerator.cs" />
-    <Compile Include="E161.cs" />
-    <Compile Include="FailedToParseNumberException.cs" />
-    <Compile Include="Format.cs" />
-    <Compile Include="GlobalPhone.cs" />
-    <Compile Include="Nanp.cs" />
-    <Compile Include="Nokogiri.cs" />
-    <Compile Include="NokogiriExtensions.cs" />
-    <Compile Include="Context.cs" />
-    <Compile Include="Database.cs" />
-    <Compile Include="NoDatabaseException.cs" />
-    <Compile Include="Number.cs" />
-    <Compile Include="Parsing.cs" />
+    <Compile Include="..\GlobalPhone\Begin.cs">
+      <Link>Begin.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Context.cs">
+      <Link>Context.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Database.cs">
+      <Link>Database.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\DatabaseGenerator.cs">
+      <Link>DatabaseGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\E161.cs">
+      <Link>E161.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\FailedToParseNumberException.cs">
+      <Link>FailedToParseNumberException.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Format.cs">
+      <Link>Format.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\GlobalPhone.cs">
+      <Link>GlobalPhone.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\InternalExtensions.cs">
+      <Link>InternalExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Nanp.cs">
+      <Link>Nanp.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\NoDatabaseException.cs">
+      <Link>NoDatabaseException.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Nokogiri.cs">
+      <Link>Nokogiri.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\NokogiriExtensions.cs">
+      <Link>NokogiriExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Number.cs">
+      <Link>Number.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Parsing.cs">
+      <Link>Parsing.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Record.cs">
+      <Link>Record.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Region.cs">
+      <Link>Region.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\Territory.cs">
+      <Link>Territory.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\UnknownRegionException.cs">
+      <Link>UnknownRegionException.cs</Link>
+    </Compile>
+    <Compile Include="..\GlobalPhone\UnknownTerritoryException.cs">
+      <Link>UnknownTerritoryException.cs</Link>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Record.cs" />
-    <Compile Include="Region.cs" />
-    <Compile Include="Territory.cs" />
-    <Compile Include="UnknownRegionException.cs" />
-    <Compile Include="UnknownTerritoryException.cs" />
-    <Compile Include="InternalExtensions.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

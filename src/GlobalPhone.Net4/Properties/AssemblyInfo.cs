@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("GlobalPhone")]
+[assembly: AssemblyTitle("GlobalPhone.Net4")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("GlobalPhone")]
+[assembly: AssemblyProduct("GlobalPhone.Net4")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ad984863-d427-4076-af9f-117bf9231463")]
+[assembly: Guid("a5f42400-f471-45f1-9d74-cb12fc751421")]
 
 // Version information for an assembly consists of the following four values:
 //

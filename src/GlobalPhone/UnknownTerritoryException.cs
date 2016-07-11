@@ -5,7 +5,6 @@ namespace GlobalPhone
     /// <summary>
     /// Unknown territory exception.
     /// </summary>
-    [Serializable]
     public class UnknownTerritoryException : Exception
     {
         /// <summary>

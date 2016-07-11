@@ -5,7 +5,6 @@ namespace GlobalPhone
     /// <summary>
     /// Unknown region exception.
     /// </summary>
-    [Serializable]
     public class UnknownRegionException : Exception
     {
         /// <summary>

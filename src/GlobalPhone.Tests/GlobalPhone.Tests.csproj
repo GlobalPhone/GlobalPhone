@@ -68,12 +68,6 @@
     <Compile Include="FlattenTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GlobalPhone\GlobalPhone.csproj">
-      <Project>{34C587CD-441B-49CC-9355-33404300A88B}</Project>
-      <Name>GlobalPhone</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="fixtures\example_numbers.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -104,6 +98,12 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GlobalPhone.Net4\GlobalPhone.Net4.csproj">
+      <Project>{a5f42400-f471-45f1-9d74-cb12fc751421}</Project>
+      <Name>GlobalPhone.Net4</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

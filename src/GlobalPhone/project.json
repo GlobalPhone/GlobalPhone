@@ -1,0 +1,22 @@
+﻿{
+  "title": "GlobalPhone",
+  "version": "1.0.0-*",
+  "dependencies": {
+    "Makrill": "1.0.0"
+  },
+  "frameworks": {
+    "netstandard1.6": {
+      "imports": "dnxcore50",
+      "dependencies": {
+        "System.Xml.XmlDocument": "4.0.1",
+        "system.xml.xpath.xmldocument": "4.0.0"
+      }
+    },
+    "net45": {
+      "frameworkAssemblies": { "System.Xml": "4.0.0.0" }
+    }
+  },
+  "buildOptions": {
+    "define": [ "NEXT" ]
+  }
+}

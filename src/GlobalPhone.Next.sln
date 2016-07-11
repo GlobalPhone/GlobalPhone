@@ -1,0 +1,92 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{F62470A6-7361-4DCF-85F6-74E523A904F2}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone.Tests", "GlobalPhone.Tests\GlobalPhone.Tests.csproj", "{80733888-5582-4584-8339-D3B886D4B46D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1C262BF2-3B14-406A-83B9-5EC214DD39B0}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuget\GlobalPhone.nuspec = ..\nuget\GlobalPhone.nuspec
+		..\nuget_tool\GlobalPhoneDbgen.nuspec = ..\nuget_tool\GlobalPhoneDbgen.nuspec
+		..\README.md = ..\README.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhoneDbgen", "GlobalPhoneDbgen\GlobalPhoneDbgen.csproj", "{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}"
+EndProject
+Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "GlobalPhone", "GlobalPhone\GlobalPhone.xproj", "{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GlobalPhone.Net4", "GlobalPhone.Net4\GlobalPhone.Net4.csproj", "{A5F42400-F471-45F1-9D74-CB12FC751421}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|x86 = Debug|x86
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80733888-5582-4584-8339-D3B886D4B46D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Debug|x86.Build.0 = Debug|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Release|x86.ActiveCfg = Release|Any CPU
+		{80733888-5582-4584-8339-D3B886D4B46D}.Release|x86.Build.0 = Release|Any CPU
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Debug|Any CPU.Build.0 = Debug|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Debug|x86.ActiveCfg = Debug|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Debug|x86.Build.0 = Debug|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|Any CPU.ActiveCfg = Release|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|Any CPU.Build.0 = Release|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|Mixed Platforms.Build.0 = Release|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|x86.ActiveCfg = Release|x86
+		{BE514DCE-3F9E-4322-BFB5-9EE21D205A42}.Release|x86.Build.0 = Release|x86
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Debug|x86.Build.0 = Debug|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Release|x86.ActiveCfg = Release|Any CPU
+		{6960EF0A-FBA6-42C1-BB8C-DFE75C301514}.Release|x86.Build.0 = Release|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Debug|x86.Build.0 = Debug|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Release|x86.ActiveCfg = Release|Any CPU
+		{A5F42400-F471-45F1-9D74-CB12FC751421}.Release|x86.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = GlobalPhone\GlobalPhone.csproj
+	EndGlobalSection
+EndGlobal

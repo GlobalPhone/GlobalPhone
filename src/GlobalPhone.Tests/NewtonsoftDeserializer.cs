@@ -1,10 +1,7 @@
-﻿using System;
-using Makrill;
-using Newtonsoft.Json.Linq;
-using System.Linq;
+﻿using Makrill;
 namespace GlobalPhone.Tests
 {
-	public class NewtonsoftDeserializer:IDeserializer
+    public class NewtonsoftDeserializer:IDeserializer
 	{
 		private static readonly JsonConvert jsonConvert = new JsonConvert();
 		public NewtonsoftDeserializer ()
