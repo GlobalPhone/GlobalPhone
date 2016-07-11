@@ -1,6 +1,6 @@
 ﻿{
   "title": "GlobalPhone",
-  "version": "5.0.0-*",
+  "version": "5.0.1-*",
   "dependencies": {
     "Makrill": "1.0.0"
   },
