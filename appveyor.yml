@@ -1,8 +1,8 @@
 version: 1.0.{build}
 before_build:
   - cd src
-  - nuget restore GlobalPhone.sln
+  - nuget restore GlobalPhone.Next.sln
   - cd ..
 build:
-  project: src\GlobalPhone.sln
+  project: src\GlobalPhone.Next.sln
   verbosity: minimal
