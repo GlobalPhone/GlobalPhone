@@ -1,71 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{80733888-5582-4584-8339-D3B886D4B46D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>GlobalPhone.Tests</RootNamespace>
-    <AssemblyName>GlobalPhone.Tests</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\GlobalPhone\</SolutionDir>
-    <PackagesConfig>$(ProjectDir)/packages.config</PackagesConfig>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>True</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>False</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <TargetFrameworks>netcoreapp2.1;net45</TargetFrameworks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Makrill, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Makrill.0.5.0\lib\net40\Makrill.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Web.Extensions" />
-    <Reference Include="System.Xml" />
-    <Reference Include="nunit.framework">
-      <HintPath>..\packages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="CanGenerateExpectedTests.cs" />
-    <Compile Include="ContextTest.cs" />
-    <Compile Include="DatabaseGeneratorTests.cs" />
-    <Compile Include="DatabaseTest.cs" />
-    <Compile Include="EdgeTest.cs" />
-    <Compile Include="Json.cs" />
-    <Compile Include="LeadingDigitsTests.cs" />
-    <Compile Include="NationalNumberTests.cs" />
-    <Compile Include="NumberTest.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ReflectionHelper.cs" />
-    <Compile Include="SmokeTest.cs" />
-    <Compile Include="TestExtensions.cs" />
-    <Compile Include="TestFixtureBase.cs" />
-    <Compile Include="NewtonsoftDeserializer.cs" />
-    <Compile Include="ForData.cs" />
-    <Compile Include="FlattenTests.cs" />
+    <PackageReference Include="Makrill" Version="1.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="9.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.5.0" />
+    <PackageReference Include="NUnit" Version="3.9.0" />
+    <PackageReference Include="NUnit3TestAdapter" Version="3.9.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fixtures\example_numbers.json">
@@ -94,23 +36,8 @@
     <Content Include="fixtures\record_data_hash_v3.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <ProjectReference Include="..\GlobalPhone\GlobalPhone.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GlobalPhone.Net4\GlobalPhone.Net4.csproj">
-      <Project>{a5f42400-f471-45f1-9d74-cb12fc751421}</Project>
-      <Name>GlobalPhone.Net4</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

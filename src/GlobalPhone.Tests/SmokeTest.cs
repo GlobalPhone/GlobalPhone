@@ -14,7 +14,7 @@ namespace GlobalPhone.Tests
         {
         }
 
-        [TestFixtureSetUp]
+        [OneTimeSetUp]
         public void TestFixtureSetup()
         {
             _deserializer = new Deserializer();

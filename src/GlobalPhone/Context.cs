@@ -1,8 +1,4 @@
-#if !NEXT
-using System.Web.Script.Serialization;
-#else
 using Makrill;
-#endif
 namespace GlobalPhone
 {
     /// <summary>
@@ -10,19 +6,11 @@ namespace GlobalPhone
     /// </summary>
     public class DefaultDeserializer : IDeserializer
     {
-#if !NEXT
-        JavaScriptSerializer implementation = new JavaScriptSerializer();
-        public object[] Deserialize(string text)
-        {
-            return implementation.Deserialize<object[]>(text);
-        }
-#else
         private static readonly JsonConvert jsonConvert = new JsonConvert();
         public object[] Deserialize (string text)
         {
             return jsonConvert.Deserialize<object[]> (text);
         }
-#endif
     }
 
     public interface IDeserializer

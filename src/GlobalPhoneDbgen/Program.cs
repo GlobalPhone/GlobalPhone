@@ -2,11 +2,7 @@
 using System.Text.RegularExpressions;
 using GlobalPhone;
 using System.IO;
-#if NEWTONSOFT
 using Newtonsoft.Json;
-#else
-using System.Web.Script.Serialization;
-#endif
 namespace GlobalPhoneDbgen
 {
     class Program
@@ -25,11 +21,7 @@ namespace GlobalPhoneDbgen
 
         static void Help()
         {
-#if NEWTONSOFT
             var showCompat = true;
-#else
-            var showCompat = false;
-#endif
             Warn(@" Generates a database for the Ruby GlobalNumber library in JSON format
     and writes it to standard output.
 
@@ -52,20 +44,16 @@ Options:" + (showCompat ? @"
             const string nameOfProgram = "GlobalPhoneDbgen.exe";
             var path = RemoteUrl;
             var method = "record_data";
-#if NEWTONSOFT
             var compact = false;
-#endif
             foreach (var arg in args)
             {
 
                 switch (arg)
                 {
-#if NEWTONSOFT
                     case "-c":
                     case "--compact":
                         compact = true;
                         break;
-#endif
                     case "-t":
                     case "--test":
                         method = "test_cases";
@@ -93,12 +81,7 @@ Options:" + (showCompat ? @"
                 : new System.Net.WebClient().DownloadString(path);
             var generator = DatabaseGenerator.Load(dl);
             var result = Send(generator, method);
-            Console.WriteLine(
-#if NEWTONSOFT
-wJsonConvert.SerializeObject(result, compact ? Formatting.None : Formatting.Indented)
-#else
-new JavaScriptSerializer().Serialize(result)
-#endif
+            Console.WriteLine(JsonConvert.SerializeObject(result, compact ? Formatting.None : Formatting.Indented)
 );
 
         }
