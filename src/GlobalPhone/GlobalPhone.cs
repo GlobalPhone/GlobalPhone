@@ -15,7 +15,7 @@ namespace GlobalPhone
         {
             return Context.Validate(number, territoryName);
         }
-        public static PhoneNumber Parse(string number, string territoryName = null)
+        public static Number Parse(string number, string territoryName = null)
         {
             return Context.Parse(number, territoryName);
         }
@@ -24,7 +24,7 @@ namespace GlobalPhone
             return Context.Normalize(number, territoryName);
         }
 
-        public static bool TryParse(string str, out PhoneNumber number, string territoryName = null)
+        public static bool TryParse(string str, out Number number, string territoryName = null)
         {
             return Context.TryParse(str, out number, territoryName);
         }

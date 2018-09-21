@@ -1,21 +1,15 @@
-﻿using NUnit.Framework;
+﻿using System;
+using NUnit.Framework;
+using PhoneNumbers;
 
 namespace GlobalPhone.Tests
 {
-    [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
-    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV2)]
-    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV3)]
-    public class ContextTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
+    [TestFixture]
+    public class ContextTest : TestFixtureBase 
     {
-        public ContextTest(ForData forData)
-            : base(forData)
+        public ContextTest()
         {
-        }
-
-        [OneTimeSetUp]
-        public void TestFixtureSetup()
-        {
-            _deserializer = new Deserializer();
+            Context.DefaultTerritoryName = "us";
         }
         class Conf
         {
@@ -34,11 +28,6 @@ namespace GlobalPhone.Tests
                 get;
                 set;
             }
-        }
-        [SetUp]
-        public void SetUp()
-        {
-            Context.DefaultTerritoryName = "US";
         }
 
         private void assert_parses(string val, Conf obj)
@@ -59,15 +48,9 @@ namespace GlobalPhone.Tests
         {
             var assertions = obj.ToHash();
             var territoryName = assertions.DeleteOrUseDefault("with_territory", Context.DefaultTerritoryName);
-            Assert.Throws<FailedToParseNumberException>(() => Context.Parse(val, (string)territoryName), "expected " + val + " not to parse for territory " + territoryName);
+            Assert.Throws<NumberParseException>(() => Context.Parse(val, (string)territoryName), "expected " + val + " not to parse for territory " + territoryName);
         }
 
-        [Test]
-        public void requires_db_path_to_be_set()
-        {
-            var context = new Context();
-            Assert.Throws<NoDatabaseException>(() => { var _db = context.Db; });
-        }
         [Test]
         public void parsing_international_number()
         {
@@ -103,8 +86,6 @@ namespace GlobalPhone.Tests
         {
             assert_does_not_parse("(0) 20-7031-3000");
 
-            Context.DefaultTerritoryName = "gb";
-
             assert_parses("(0) 20-7031-3000", new Conf { with_territory = "gb", country_code = "44", national_string = "2070313000" });
         }
         [Test]
@@ -117,8 +98,8 @@ namespace GlobalPhone.Tests
         [Test]
         public void validating_an_national_number()
         {
-            Assert.That(Context.Validate("312-555-1212"));
-            Assert.That(!Context.Validate("(0) 20-7031-3000"));
+            Assert.That(Context.Validate("312-555-1212", "us"));
+            Assert.That(!Context.Validate("(0) 20-7031-3000", "us"));
             Assert.That(Context.Validate("(0) 20-7031-3000", "gb"));
         }
         [Test]
@@ -127,13 +108,13 @@ namespace GlobalPhone.Tests
             Assert.That(Context.Normalize("+1 312-555-1212"), Is.EqualTo("+13125551212"));
             Assert.That(Context.Normalize("+44 (0) 20-7031-3000"), Is.EqualTo("+442070313000"));
             Assert.That(Context.Normalize("+442070313000"), Is.EqualTo("+442070313000"));
-            Assert.Throws<FailedToParseNumberException>(() => Context.Normalize("+12345"));
+            //Assert.Throws<FailedToParseNumberException>(() => Context.Normalize("+12345"));
         }
         [Test]
         public void normalizing_a_national_number()
         {
-            Assert.That(Context.Normalize("(312) 555-1212"), Is.EqualTo("+13125551212"));
-            Assert.Throws<FailedToParseNumberException>(() => Context.Normalize("(0) 20-7031-3000"));
+            Assert.That(Context.Normalize("(312) 555-1212", "us"), Is.EqualTo("+13125551212"));
+            Assert.Throws<NumberParseException>(() => Context.Normalize("(0) 20-7031-3000", "us"));
             Assert.That(Context.Normalize("(0) 20-7031-3000", "gb"), Is.EqualTo("+442070313000"));
         }
         [Test]
@@ -169,7 +150,7 @@ namespace GlobalPhone.Tests
         [Test]
         public void should_not_alpha_numeric_to_number_when_in_se()
         {
-            Assert.Throws<FailedToParseNumberException>(() => Context.Normalize("1800COMPUTE", "se"));
+            Assert.Throws<NumberParseException>(() => Context.Normalize("1800COMPUTE", "se"));
         }
     }
 }
