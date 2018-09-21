@@ -1,104 +1,50 @@
 using Makrill;
+using PhoneNumbers;
+
 namespace GlobalPhone
 {
-    /// <summary>
-    /// Using JavaScriptSerializer to deserialize the internal data.
-    /// </summary>
-    public class DefaultDeserializer : IDeserializer
-    {
-        private static readonly JsonConvert jsonConvert = new JsonConvert();
-        public object[] Deserialize (string text)
-        {
-            return jsonConvert.Deserialize<object[]> (text);
-        }
-    }
-
-    public interface IDeserializer
-    {
-        object[] Deserialize(string text);
-    }
-
     public class Context
     {
-        public Context(IDeserializer serializer = null)
-        {
-            DefaultTerritoryName = "US";
-            _serializer = serializer ?? new DefaultDeserializer();
-        }
-        private Database _db;
-        private readonly IDeserializer _serializer;
+        private PhoneNumberUtil _util;
 
-        public string DbPath { get; set; }
-        public string DbText { get; set; }
-        public virtual Database Db
+        public Context()
         {
-            get
-            {
-                return _db ?? (_db = !string.IsNullOrEmpty(DbText)
-                    ? Database.Load(DbText, _serializer)
-                    : Database.LoadFile(DbPath.ThrowIfNullOrEmpty(new NoDatabaseException("set `DbPath=' first")), _serializer));
-            }
+            _util = PhoneNumberUtil.GetInstance();
         }
 
-        public string DefaultTerritoryName { get; set; }
-        public Number Parse(string str, string territoryName = null)
+        public PhoneNumber Parse(string str, string territoryName = null)
         {
-            return Db.Parse(str, territoryName ?? DefaultTerritoryName);
+            var num = _util.Parse(str, territoryName);
+            return num;
         }
 
-        public bool TryParse(string str, out Number number, string territoryName = null)
+        public bool TryParse(string str, out PhoneNumber number, string territoryName = null)
         {
-            try
-            {
-                number = Parse(str, territoryName);
-                return true;
-            }
-            catch (FailedToParseNumberException) { }
-            catch (UnknownTerritoryException) { }
-            catch (UnknownRegionException) { }
-            number = null;
-            return false;
+            number = _util.Parse(str, territoryName);
+
+            var verify = _util.Verify(PhoneNumberUtil.Leniency.VALID, number, str, _util);
+            if (!verify) number = null;
+            return verify;
         }
 
         public string Normalize(string str, string territoryName = null)
         {
-            var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
-            return number != null ? number.InternationalString : null;
+            var number = _util.Parse(str, territoryName);
+            return _util.Format(number, PhoneNumberFormat.INTERNATIONAL);
         }
 
         public bool TryNormalize(string str, out string number, string territoryName = null)
         {
-            try
-            {
-                number = Normalize(str, territoryName);
-                return true;
-            }
-            catch (FailedToParseNumberException)
-            {
-            }
-            catch (UnknownTerritoryException)
-            {
-            }
-            number = null;
-            return false;
+            var num = _util.Parse(str, territoryName);
+            number = _util.Format(num, PhoneNumberFormat.INTERNATIONAL);
+            return true;
         }
 
         public bool Validate(string str, string territoryName = null)
         {
-            try
-            {
-                var number = Db.Parse(str, territoryName ?? DefaultTerritoryName);
-                return number != null && number.IsValid;
-            }
-            catch (FailedToParseNumberException)
-            {
-                return false;
-            }
-            catch (UnknownTerritoryException)
-            {
-                return false;
-            }
+            var num = _util.Parse(str, territoryName);
+            var verify = _util.Verify(PhoneNumberUtil.Leniency.VALID, num, str, _util);
+            return verify;
         }
-
     }
 }

@@ -7,7 +7,6 @@
     <DefineConstants>$(DefineConstants);NEXT</DefineConstants>
     <AssemblyName>GlobalPhone</AssemblyName>
     <PackageId>GlobalPhone</PackageId>
-    <PackageTargetFallback Condition=" '$(TargetFramework)' == 'netstandard1.6' ">$(PackageTargetFallback);dnxcore50</PackageTargetFallback>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
@@ -20,7 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="Makrill" Version="1.0.0" />
-    <PackageReference Include="libphonenumber-csharp" Version="8.*" />
+    <PackageReference Include="libphonenumber-csharp" Version="8.9.*" />
   </ItemGroup>
 
   <ItemGroup Condition=" '$(TargetFramework)' == 'netstandard1.6' ">
