@@ -3,6 +3,8 @@ before_build:
   - cd src
   - dotnet restore GlobalPhone.sln
   - cd ..
-build:
-  project: src\GlobalPhone.sln
-  verbosity: minimal
+build_script:
+  - cmd: dotnet build src\GlobalPhone.sln
+  - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework netcoreapp2.1
+  - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework net45
+test: off
