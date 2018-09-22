@@ -7,3 +7,6 @@ install:
 
 script: 
   - dotnet test ./src/GlobalPhone.Tests/GlobalPhone.Tests.csproj --framework netcoreapp2.1
+branches:
+  only:
+    - master

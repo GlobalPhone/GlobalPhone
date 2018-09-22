@@ -8,3 +8,6 @@ build_script:
   - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework netcoreapp2.1
   - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework net45
 test: off
+branches:
+  only:
+    - master
