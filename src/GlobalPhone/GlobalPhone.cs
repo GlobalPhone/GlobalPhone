@@ -1,6 +1,4 @@
-﻿using PhoneNumbers;
-
-namespace GlobalPhone
+﻿namespace GlobalPhone
 {
     /// <summary>
     /// Static class that holds a single Context

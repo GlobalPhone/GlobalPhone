@@ -4,7 +4,7 @@ GlobalPhone parses, validates, and formats local and international phone numbers
 
 **Store and display phone numbers in your app.** Accept phone number input in national or international format. Convert phone numbers to international strings (`+13125551212`) for storage and retrieval. Present numbers in national format (`(312) 555-1212`) in your UI.
 
-**Designed with the future in mind.** GlobalPhone uses format specifications from Google's open-source [libphonenumber](http://code.google.com/p/libphonenumber/) database. No need to upgrade the library when a new phone format is introduced—just generate a new copy of the database and check it into your app.
+**Designed with the future in mind.** GlobalPhone uses the c# implementation based on Google's open-source [libphonenumber](http://code.google.com/p/libphonenumber/) database.
 
 ## Installation
 
@@ -12,21 +12,8 @@ GlobalPhone parses, validates, and formats local and international phone numbers
 
         PM> Install-Package GlobalPhone
 
-2. Use `GlobalPhoneDbgen` to convert Google's libphonenumber `PhoneNumberMetaData.xml` file into a JSON database for GlobalPhone. You can either install it using nuget in some project:
-
-        PM> Install-Package GlobalPhoneDbgen
-
 Or you can add it as a solution level package.
 
-However you have installed it, you can then use the command prompt to execute the exe: 
-
-        CMD> .\packages\GlobalPhoneDbgen\tools\GlobalPhoneDbgen.exe > db/global_phone.json
-
-3. Tell GlobalPhone where to find the database:
-
-    ```
-    GlobalPhone.DbPath = "db/global_phone.json";
-    ```
 
 ## Examples
 
@@ -34,14 +21,14 @@ Parse an international number string into a `GlobalPhone::Number` object:
 
 ```
 var number = GlobalPhone.Parse("+1-312-555-1212");
-# => #<GlobalPhone::Number Territory=#<GlobalPhone::Territory CountryCode=1 Name=US> NationalString="3125551212">
+# => #{GlobalPhone::Number +13125551212}
 ```
 
 Query the country code and likely territory name of the number:
 
 ```
 number.CountryCode
-# => "1"
+# => 1
 
 number.Territory.Name
 # => "US"
@@ -75,14 +62,14 @@ Parse a number in national format for a given territory:
 
 ```
 number = GlobalPhone.Parse("(0) 20-7031-3000", "gb");
-# => #<GlobalPhone::Number Territory=#<GlobalPhone::Territory CountryCode=44 Name=GB> NationalString="2070313000">
+# => #{GlobalPhone::Number +442070313000}
 ```
 
 Parse an international number using a territory's international dialing prefix:
 
 ```
 number = GlobalPhone.Parse("00 1 3125551212", "gb");
-# => #<GlobalPhone::Number Territory=#<GlobalPhone::Territory CountryCode=1 Name=US> NationalString="3125551212">
+# => #{GlobalPhone::Number +13125551212}
 ```
 
 Set the default territory to Great Britain (territory names are [ISO 3166-1 Alpha-2](http://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) codes):
@@ -92,7 +79,7 @@ GlobalPhone.DefaultTerritoryName = "gb";
 # => "gb"
 
 GlobalPhone.Parse("(0) 20-7031-3000");
-# => #<GlobalPhone::Number Territory=#<GlobalPhone::Territory CountryCode=44 Name=GB> NationalString="2070313000">
+# => #{GlobalPhone::Number +442070313000}
 ```
 
 Shortcuts for validating a phone number:
@@ -125,7 +112,7 @@ GlobalPhone.TryNormalize("(0) 20-7031-3000", out normalized);
 # => false
 
 GlobalPhone.Normalize("(0) 20-7031-3000");
-# => #<GlobalPhone::FailedToParseNumberException>
+# => #{PhoneNumbers::NumberParseException}
 
 GlobalPhone.Normalize("(0) 20-7031-3000", "gb");
 # => "+442070313000"

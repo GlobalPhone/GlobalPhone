@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using PhoneNumbers;
 
@@ -10,8 +10,6 @@ namespace GlobalPhone
         private readonly PhoneNumber _num;
         private readonly PhoneNumberUtil _util;
 
-
-        private static readonly Regex LeadingPlusChars = new Regex("^\\++", RegexOptions.Compiled);
         private static readonly Regex NonDialableChars = new Regex("[^,#+\\*\\d]", RegexOptions.Compiled);
         private string _nationalFormat;
         private string _internationalFormat;
@@ -33,10 +31,21 @@ namespace GlobalPhone
             get
             {
                 var areaCodeLength = _util.GetLengthOfGeographicalAreaCode(_num);
+                var region = _util.GetRegionCodeForNumber(_num);
+                var metadata = _util.GetMetadataForRegion(region);
                 
-                return areaCodeLength > 0
-                    ? _util.GetNationalSignificantNumber(_num).Substring(0, areaCodeLength)
-                    : "";
+                if (areaCodeLength > 0)
+                {
+                    var values = new List<string>();
+                    if (metadata.HasNationalPrefix && !_util.IsNANPACountry(region))
+                    {
+                        values.Add(metadata.NationalPrefix);
+                    }
+                    
+                    values.Add(_util.GetNationalSignificantNumber(_num).Substring(0, areaCodeLength));
+                    return string.Concat(values);
+                }
+                return "";
             }
         }
         /// <summary>
@@ -49,8 +58,9 @@ namespace GlobalPhone
         {
             get
             {
-                int areaCodeLength = _util.GetLengthOfGeographicalAreaCode(_num);
+                var areaCodeLength = _util.GetLengthOfGeographicalAreaCode(_num);
                 var nationalSignificantNumber = _util.GetNationalSignificantNumber(_num);
+                
                 return areaCodeLength > 0
                     ? nationalSignificantNumber.Substring(areaCodeLength)
                     : nationalSignificantNumber;
@@ -58,7 +68,7 @@ namespace GlobalPhone
         }
 
         /// <summary>
-        /// For instance "771-79 33 36" of "+46 771 793 336"
+        /// For instance "0771-79 33 36" of "+46 771 793 336"
         /// or "(650) 253-0000" of "+1 650-253-0000"
         /// </summary>
         public string FormattedNationalString => _util.Format(_num, PhoneNumberFormat.NATIONAL);
@@ -94,36 +104,16 @@ namespace GlobalPhone
         public string InternationalString => _internationalString ??
                                              (_internationalString = NonDialableChars.Replace(InternationalFormat, ""));
         
-        public override bool Equals(object obj)
-        {
-            return Equals(obj as Number);
-        }
+        public override bool Equals(object obj) => Equals(obj as Number);
 
-        public bool Equals(Number obj)
-        {
-            if (ReferenceEquals(null, obj)){ return false; }
-            return _num.Equals(obj._num);
-        }
-        public override int GetHashCode()
-        {
-            unchecked // Overflow is fine, just wrap
-            {
-                int hash = 17;
-                // Suitable nullity checks etc, of course :)
-                hash = hash * 23 + _num.GetHashCode();
-                return hash;
-            }
-        }
-        
-        public static bool operator ==(Number a, Number b)
-        {
-            if (ReferenceEquals(null, a)) return ReferenceEquals(null, b);
-            return a.Equals(b);
-        }
+        public bool Equals(Number obj) => !ReferenceEquals(null, obj) && _num.Equals(obj._num);
 
-        public static bool operator !=(Number a, Number b)
-        {
-            return !(a == b);
-        }
+        public override int GetHashCode() => _num.GetHashCode();
+
+        public override string ToString() => InternationalString;
+
+        public static bool operator ==(Number a, Number b) => a?.Equals(b) ?? ReferenceEquals(null, b);
+
+        public static bool operator !=(Number a, Number b) => !(a == b);
     }
 }

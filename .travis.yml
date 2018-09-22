@@ -1,8 +1,9 @@
 language: csharp 
+sudo: false
+dotnet: 2.1.401
 solution: ./src/GlobalPhone.sln
 install:
-  - nuget restore ./src/GlobalPhone.sln
-  - bundle install 
+  - dotnet restore ./src/GlobalPhone.sln
 
 script: 
-  - rake test
+  - dotnet test ./src/GlobalPhone.Tests/GlobalPhone.Tests.csproj --framework netcoreapp2.1
