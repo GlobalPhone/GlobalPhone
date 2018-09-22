@@ -109,7 +109,11 @@ namespace GlobalPhone
         public string InternationalFormat => _internationalFormat ??
                                              (_internationalFormat =
                                                  _util.Format(PhoneNumber, PhoneNumberFormat.INTERNATIONAL));
-
+        /// <summary>
+        /// Gets the country for the code.
+        /// For instance for a swedish number you will get 46, for a US number you will get 1.
+        /// </summary>
+        /// <value>The country code.</value>
         public int CountryCode => PhoneNumber.CountryCode;
 
         public bool IsValid => _util.IsValidNumber(PhoneNumber);
