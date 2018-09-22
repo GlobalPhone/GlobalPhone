@@ -30,7 +30,7 @@ Query the country code and likely territory name of the number:
 number.CountryCode
 # => 1
 
-number.Territory.Name
+number.RegionCode
 # => "US"
 ```
 
