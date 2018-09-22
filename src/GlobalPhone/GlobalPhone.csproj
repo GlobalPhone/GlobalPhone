@@ -7,6 +7,7 @@
     <DefineConstants>$(DefineConstants);NEXT</DefineConstants>
     <AssemblyName>GlobalPhone</AssemblyName>
     <PackageId>GlobalPhone</PackageId>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
     <GenerateAssemblyConfigurationAttribute>false</GenerateAssemblyConfigurationAttribute>
