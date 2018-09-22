@@ -1,13 +1,11 @@
 version: 1.0.{build}
 before_build:
-  - cd src
-  - dotnet restore GlobalPhone.sln
-  - cd ..
+  - cmd: dotnet restore src\GlobalPhone.sln
 build_script:
   - cmd: dotnet build src\GlobalPhone.sln
+test_script:
   - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework netcoreapp2.1
   - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework net45
-test: off
 branches:
   only:
     - master
