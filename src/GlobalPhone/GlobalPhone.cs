@@ -7,10 +7,7 @@
     {
         private static Context _context;
 
-        private static Context Context
-        {
-            get { return _context ?? (_context = new Context()); }
-        }
+        private static Context Context => _context ?? (_context = new Context());
 
         public static bool Validate(string number, string territoryName = null)
         {
@@ -33,29 +30,6 @@
         public static bool TryNormalize(string str, out string number, string territoryName = null)
         {
             return Context.TryNormalize(str, out number, territoryName);
-        }
-
-        public static string DbPath
-        {
-            get { return Context.DbPath; }
-            set { Context.DbPath = value; }
-        }
-
-        public static string DbText
-        {
-            get { return Context.DbText; }
-            set { Context.DbText = value; }
-        }
-
-        public static string DefaultTerritoryName
-        {
-            get { return Context.DefaultTerritoryName; }
-            set { Context.DefaultTerritoryName = value; }
-        }
-
-        public static Database Db
-        {
-            get { return Context.Db; }
         }
     }
 }

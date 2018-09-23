@@ -1,8 +1,11 @@
 version: 1.0.{build}
 before_build:
-  - cd src
-  - nuget restore GlobalPhone.Next.sln
-  - cd ..
-build:
-  project: src\GlobalPhone.Next.sln
-  verbosity: minimal
+  - cmd: dotnet restore src\GlobalPhone.sln
+build_script:
+  - cmd: dotnet build src\GlobalPhone.sln
+test_script:
+  - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework netcoreapp2.1
+  - cmd: dotnet test src\GlobalPhone.Tests\GlobalPhone.Tests.csproj --framework net45
+branches:
+  only:
+    - master

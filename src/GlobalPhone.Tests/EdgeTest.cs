@@ -2,21 +2,9 @@ using NUnit.Framework;
 
 namespace GlobalPhone.Tests
 {
-    [TestFixture(typeof(DefaultDeserializer), ForData.UseHash)]
-    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV2)]
-    [TestFixture(typeof(NewtonsoftDeserializer), ForData.UseHashV3)]
-    public class EdgeTest<Deserializer> : TestFixtureBase where Deserializer : IDeserializer, new()
+    [TestFixture]
+    public class EdgeTest : TestFixtureBase
     {
-        public EdgeTest(ForData forData)
-            : base(forData)
-        {
-        }
-
-        [TestFixtureSetUp]
-        public void TestFixtureSetup()
-        {
-            _deserializer = new Deserializer();
-        }
         [Test]
         public void formatting_numbers_that_match_a_pattern_but_not_leading_digits()
         {
@@ -34,7 +22,7 @@ namespace GlobalPhone.Tests
           # back to the closest match.
              */
             var number = Context.Parse("1520123456", "IE");
-            Assert.That(number.NationalFormat, Is.EqualTo("1520 123 456"));
+            Assert.That(number.NationalNumber, Is.EqualTo(1520_123_456));
         }
 
     }

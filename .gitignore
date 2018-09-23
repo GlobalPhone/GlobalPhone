@@ -123,6 +123,7 @@ nuget_core/lib/
 nuget_core/*.nupkg
 
 .vs
+.idea
 
 #.NET Core
 project.lock.json
