@@ -127,3 +127,5 @@ nuget_core/*.nupkg
 
 #.NET Core
 project.lock.json
+
+.ionide/
